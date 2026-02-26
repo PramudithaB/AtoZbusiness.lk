@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LTBio - Lakshitha Thennakoon</title>
-  <link rel="icon" type="image/jpeg" href="{{ asset('images/logo1.jpeg') }}" />
+  <title>AtoZ - Lasindu Senarath</title>
+  <link rel="icon" type="image/jpeg" href="{{ asset('images/logo.jpeg') }}" />
   <link rel="preconnect" href="https://fonts.bunny.net">
   <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700" rel="stylesheet" />
 
@@ -17,9 +17,9 @@
       --surface: rgba(255,255,255,0.7);
       --glass: rgba(255,255,255,0.55);
       --text: #0f1720;
-      --muted: #6b6f75;
+      --muted: #4169E1;
 
-      --accent-primary: #F53003;     /* red - brand */
+      --accent-primary: #4169E1;     /* red - brand */
       --accent-secondary: #17A2B8;   /* teal - bio vibe */
 
       --shadow-sm: 0 6px 18px rgba(11,12,16,0.06);
@@ -120,7 +120,7 @@
 
     .hero-actions{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
     .btn{display:inline-flex; align-items:center; gap:10px; padding:12px 16px; border-radius:12px; font-weight:800; cursor:pointer; box-shadow:var(--shadow-md)}
-    .btn-primary{background:linear-gradient(90deg,var(--accent-primary), #c21402); color:white; border: none}
+    .btn-primary{background:linear-gradient(90deg,var(--accent-primary), #4169E1); color:white; border: none}
     .btn-ghost{background:linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.68)); border:1px solid rgba(11,12,16,0.06); color:var(--text)}
 
     /* Right stage */
@@ -162,7 +162,7 @@
     }
     .stats-badge .icon{
       width:64px; height:64px; border-radius:50%; display:flex; align-items:center; justify-content:center;
-      background:linear-gradient(180deg,var(--accent-primary), #b51a01); color:white; font-weight:900; box-shadow:0 18px 46px rgba(245,48,3,0.16);
+      background:linear-gradient(180deg,var(--accent-primary), #4169E1); color:white; font-weight:900; box-shadow:0 18px 46px rgba(245,48,3,0.16);
     }
     .stats-badge p{color:white; margin-top:8px; font-weight:700}
 
@@ -184,7 +184,7 @@
     .institute-image{height:160px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:52px; color:var(--accent-primary); background: linear-gradient(135deg, rgba(245,48,3,0.03), rgba(23,162,184,0.02))}
 
     /* results banner */
-    .results-banner{background: linear-gradient(135deg,var(--accent-primary), #b71a01); color:white; padding:28px; border-radius:14px; box-shadow:0 28px 80px rgba(245,48,3,0.12); text-align:center; margin-bottom:18px}
+    .results-banner{background: linear-gradient(135deg,var(--accent-primary), #4169E1); color:white; padding:28px; border-radius:14px; box-shadow:0 28px 80px rgba(245,48,3,0.12); text-align:center; margin-bottom:18px}
     .results-stats{display:grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap:18px}
     .stat-card{background:white; padding:20px; border-radius:12px; text-align:center; box-shadow:var(--shadow-sm); transform: translateZ(20px)}
 
@@ -250,8 +250,8 @@
   <nav>
     <div class="container">
       <a class="logo" href="#">
-        <img src="{{ asset('images/logo1.jpeg') }}" alt="LTBio.lk Logo" />
-        <span>LTbio.lk</span>
+        <img src="{{ asset('images/logo.jpeg') }}" alt="AtoZbusiness" />
+        <span>AtoZbusiness.lk</span>
       </a>
 
       <!-- Mobile toggle (visible on small screens) -->
@@ -275,15 +275,19 @@
     <div class="hero-inner">
       <!-- Left: content -->
       <div class="card-hero">
-        <div class="hero-subtitle">ADVANCED LEVEL Biology</div>
+        <div class="hero-subtitle">ADVANCED LEVEL BS</div>
 
-        <h1 class="hero-title">Lakshitha</h1>
-        <h2 class="hero-name">Thennakoon</h2>
-        <p class="hero-description">BSc (UG) Biochemistry & Molecular Biology — University Of Colombo</p>
+        <h1 class="hero-title">Lasindu   Kavinda</h1>
+        <h2 class="hero-name">Senarath</h2>
+        <p class="hero-description">BBA(Hons)Specialized in Marketing Management (SLIIT)<br>
+Reading Master Of Business Administration 
+</p>
 
         <div class="badges" aria-hidden="true">
-          <div class="badge">Online පන්තිය</div>
-          
+          <div class="badge">ශිල්ප-හොරණ</div>
+                    <div class="badge">රොටරි-නුගේගොඩ</div>
+          <div class="badge">Online - ලංකාවටම</div>
+
         </div>
 
         <div class="hero-actions" style="margin-top:8px;">
@@ -324,7 +328,7 @@
         <div class="hero-image-wrap">
           <div class="hero-image" id="heroImageCard">
             <div class="hero-bg-number">837</div>
-            <img src="{{ asset('images/profile1.jpeg') }}" alt="Lakshitha Thennakoon" />
+            <img src="{{ asset('images/lasindu1.jpeg') }}" alt="Lasindu Senarath" />
           </div>
 
           <div class="stats-badge" role="status" aria-live="polite">
@@ -339,25 +343,27 @@
   <!-- ABOUT -->
   <section id="about">
     <div class="section-subtitle">WHO WE ARE</div>
-    <h2 class="section-title">About Lakshitha Thennakoon</h2>
+    <h2 class="section-title">About Lasindu Senarath</h2>
 
     <div class="about-content" style="margin-top:18px;">
       <div class="about-text fadeInUp">
-        <p>කැකිරාව මධ්‍ය විද්‍යාලයෙන් සිප් සතර හදාරා අ.පො.ස. උසස් පෙළ විශිෂ්ට ප්‍රතිඵල ලබා ගනිමින් කොළඹ විශ්වවිද්‍යාලයට ඇතුළත් වීමට වරම් ලැබූ ලක්ෂිත තෙන්නකෝන්, ජීව රසායනය හා අනුක ජීව විද්‍යාව පිළිබඳ උපාධිය හදාරමින් සිටි අතර වසර දෙකක් පුරා ගුරු භූමිකාවට පණ පොවූ විට, කට්ටපාඩම් සංස්කෘතියෙන් බැහැර වූ නවීන හා කෙටි ක්‍රම මගින් සාම්ප්‍රදායික ජීව විද්‍යා ගුරුවරුන්ට ඉහළ අභියෝගයක් වෙමිනි.</p>
         <br>
-        <p>සිය ගුරු භූමිකාව තුළ තමන්ගේ දරු පරම්පරාව වෙත ලබා දිය හැකි දැනුම හුදු පන්ති කාමරයට පමණක් සීමා නොකර
-          ඔවුන්ගේ ජීවිත සාර්ථක කිරීමට අවශ්‍ය මගපෙන්වීම ද සිදු කරන්නේ සාම්ප්‍රදායික අධ්‍යාපන රටාවට අභියෝග
-          කරමින් ය.</p>
+        <p>Ada Derana Education නාලිකාවේ දේශකවරයෙකි.
+ශ්‍රි ලංකා තොරතුරු තාක්ෂණ විශ්වවිද්‍යාලයෙන් ව්‍යාපාර පරිපාලනවේදී (ගෞරව)අලෙවි කළමනාකරණ(විශේෂ)උපාධිය සම්පූර්ණ කර ඇත.
+ශ්‍රී ජයවර්ධනපුර විශ්ව විද්‍යාලයේ පශ්චාත් උපාධි අධ්‍යයන ආයතනයේ ව්‍යාපාර පරිපාලන පශ්චාත් උපාධිය හදාරමින් සිටී.
+අලෙවිකරණය,ආයෝජනය සහ ව්‍යාපාර කළමනාකරණය දේශීය මෙන්ම ජාත්‍යන්තරවද අත්දැකීම් ඇති Lakro Global Holdings (Pvt)Ltd ආයතනයේ නිර්මාතෘවරයා ය.
+ඒ හැමදේටම වඩා Commerce සහ Business Studies ඉගැන්වීමට වසර ගණනාවක පළපුරුද්ද සහිත කෙටි කාලයක් තුල සිසුන් 500කට A/B සාමාර්ථ සඳහා මඟපෙන්වූ තරුණ ගුරුවරයෙකි.</p>
       </div>
 
       <div style="display:flex; flex-direction:column; gap:12px;">
         <div class="feature-card fadeInUp">
           <h3 style="margin-bottom:6px">විශිෂ්ට අධ්‍යාපන</h3>
-          <p style="font-weight:700; color:var(--muted)">BSc (UG)Biochemistry & Molecular Biology — University Of Colombo</p>
+          <p style="font-weight:700; color:var(--muted)">BBA(Hons)Specialized in Marketing Management (SLIIT)<br>
+Reading Master Of Business Administration </p>
         </div>
         <div class="feature-card fadeInUp">
           <h3 style="margin-bottom:6px">වසර ගනනාවක පළපුරුද්ද</h3>
-          <p style="font-weight:700; color:var(--muted)">2022 සිට ගණන් A සාමාර්ථයන් නිෂ්පාදනය</p>
+          <p style="font-weight:700; color:var(--muted)">2020 සිට ගණන් A සාමාර්ථයන් නිෂ්පාදනය</p>
         </div>
         <div class="feature-card fadeInUp">
           <h3 style="margin-bottom:6px">නවීන පහසුකම්</h3>
@@ -377,17 +383,17 @@
 
       <div style="display:flex; gap:12px; align-items:center;">
         <!-- Telegram card examples (links preserved) -->
-        <a href="https://t.me/LTbio26" target="_blank" rel="noopener noreferrer" style="text-decoration:none">
+        <a href="" target="_blank" rel="noopener noreferrer" style="text-decoration:none">
           <div style="display:flex; align-items:center; gap:12px; padding:12px 16px; background:linear-gradient(90deg, rgba(245,48,3,0.06), rgba(23,162,184,0.04)); border-radius:12px; box-shadow:var(--shadow-sm)">
             <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" width="34" alt="tg" />
-            <div style="font-weight:900; color:var(--accent-primary)">2026 Biology Revision</div>
+            <div style="font-weight:900; color:var(--accent-primary)">2026  Revision</div>
           </div>
         </a>
 
-        <a href="https://t.me/LTbio26" target="_blank" rel="noopener noreferrer" style="text-decoration:none">
+        <a href="" target="_blank" rel="noopener noreferrer" style="text-decoration:none">
           <div style="display:flex; align-items:center; gap:12px; padding:12px 16px; background:linear-gradient(90deg, rgba(245,48,3,0.06), rgba(23,162,184,0.04)); border-radius:12px; box-shadow:var(--shadow-sm)">
             <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" width="34" alt="tg" />
-            <div style="font-weight:900; color:var(--accent-primary)">2027 Theory Biology</div>
+            <div style="font-weight:900; color:var(--accent-primary)">2027  Theory</div>
           </div>
         </a>
       </div>
@@ -423,7 +429,7 @@
                       style="padding:12px; border:1px solid #ddd; border-radius:6px; font-size:15px; width:100%; height:130px; box-sizing:border-box; grid-column:span 2; resize:none;"></textarea>
 
             <button type="submit" onclick="return validateFeedbackForm()"
-                    style="padding:12px; background:#ff0000; color:white; border:none; border-radius:6px; font-size:16px; cursor:pointer; grid-column:span 2;">
+                    style="padding:12px; background:#0051ff; color:white; border:none; border-radius:6px; font-size:16px; cursor:pointer; grid-column:span 2;">
                 Submit
             </button>
         </div>
@@ -447,10 +453,10 @@
     <!-- horizontal scrolling gallery -->
     <div style="margin-top:18px;">
       <div id="scrollBox" style="display:flex; gap:14px; overflow-x:auto; padding:10px; scroll-snap-type:x mandatory;">
-        <img src="{{ asset('images/feed1.jpeg') }}" style="width:330px; height:350px; object-fit:cover; border-radius:12px; scroll-snap-align:start; flex:0 0 auto;">
-        <img src="{{ asset('images/feed2.jpeg') }}" style="width:330px; height:350px; object-fit:cover; border-radius:12px; scroll-snap-align:start; flex:0 0 auto;">
-        <img src="{{ asset('images/feed3.jpeg') }}" style="width:330px; height:350px; object-fit:cover; border-radius:12px; scroll-snap-align:start; flex:0 0 auto;">
-        <img src="{{ asset('images/feed4.jpeg') }}" style="width:330px; height:350px; object-fit:cover; border-radius:12px; scroll-snap-align:start; flex:0 0 auto;">
+        <img src="{{ asset('images/feedback1.jpeg') }}" style="width:330px; height:350px; object-fit:cover; border-radius:12px; scroll-snap-align:start; flex:0 0 auto;">
+        <img src="{{ asset('images/feedback2.jpeg') }}" style="width:330px; height:350px; object-fit:cover; border-radius:12px; scroll-snap-align:start; flex:0 0 auto;">
+        <img src="{{ asset('images/feedback3.jpeg') }}" style="width:330px; height:350px; object-fit:cover; border-radius:12px; scroll-snap-align:start; flex:0 0 auto;">
+        <img src="{{ asset('images/feedback4.jpeg') }}" style="width:330px; height:350px; object-fit:cover; border-radius:12px; scroll-snap-align:start; flex:0 0 auto;">
       </div>
     </div>
 
@@ -516,8 +522,9 @@
   <footer>
     <div class="footer-content">
       <div class="footer-section">
-        <h3>Lakshitha Thennakoon</h3>
-        <p>BSc (UG)Biochemistry & Molecular Biology — University Of Colombo</p>
+        <h3>Lasindu Senarath</h3>
+        <p>BBA(Hons)Specialized in Marketing Management (SLIIT)<br>
+Reading Master Of Business Administration </p>
       
       </div>
 
@@ -531,9 +538,9 @@
 
       <div class="footer-section">
         <h3>Contact Us</h3>
-        <p>📞 +94 74 287 7640</p>
-        <p>✉️ info@ltbio.edu.lk</p>
-        <p>🌐 www.ltbio.edu.lk</p>
+        <p>📞 +94 70 487 0565</p>
+        <p>✉️ info@atozbusiness.lk</p>
+        <p>🌐 www.atozbusiness.lk</p>
       </div>
 
       <div class="footer-section">
@@ -547,11 +554,11 @@
 
     <div class="footer-bottom" style="margin-top:18px;">
   <p>
-    &copy; 2025 ltbio.edu.lk - All Rights Reserved | Designed with 
-    <a href="https://www.facebook.com/share/1DdkZfRCep/?mibextid=wwXIfr" 
+    &copy; 2025 atozbusiness.lk - All Rights Reserved | Designed with 
+    <a href="" 
        target="_blank" 
        style="color: inherit; text-decoration: underline;">
-       Pixelwave IT Solutions
+       Pramuditha Bandara
     </a>
   </p>
 </div>

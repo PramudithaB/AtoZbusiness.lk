@@ -23,6 +23,7 @@ return array(
     'App\\Http\\Middleware\\Admin' => $baseDir . '/app/Http/Middleware/Admin.php',
     'App\\Http\\Requests\\Auth\\LoginRequest' => $baseDir . '/app/Http/Requests/Auth/LoginRequest.php',
     'App\\Http\\Requests\\ProfileUpdateRequest' => $baseDir . '/app/Http/Requests/ProfileUpdateRequest.php',
+    'App\\Mail\\OtpMail' => $baseDir . '/app/Mail/OtpMail.php',
     'App\\Models\\Checkout' => $baseDir . '/app/Models/Checkout.php',
     'App\\Models\\ClassModel' => $baseDir . '/app/Models/ClassModel.php',
     'App\\Models\\Feedback' => $baseDir . '/app/Models/Feedback.php',

@@ -3,189 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Login UI</title>
-    <!-- Load Tailwind CSS -->
+    <title>AtoZ Business School | Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Custom Tailwind Configuration for the specific purple color -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        // Using a richer, vibrant purple that is the core of the UI
-                        'primary-purple': '#ff0000', 
-                        'dark-purple': '#ff0000', // Darker shade for hover/background
-                        'form-border': '#ff0000', 
+                        // Royal Blue Palette
+                        'royal-600': '#2563eb', // Primary
+                        'royal-700': '#1d4ed8', // Hover
+                        'royal-900': '#1e3a8a', // Text/Dark
                     },
                 }
             }
         }
     </script>
     <style>
-        /* Custom font import */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f9fafb; /* Very light background for contrast */
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: radial-gradient(circle at top right, #dbeafe, #f8fafc);
         }
 
-        /* Input field styling to match the image: full height, slight shadow, rounded */
-        .form-input-styled {
-            height: 52px; 
-            transition: all 0.2s;
-            border-color: #ff0000;
-            box-shadow: 0 1px 2px 0 rgba(255, 0, 0, 0.05); 
-            /* Ensure it is rounded like the image */
-            border-radius: 0.5rem; 
-            padding-left: 1rem;
-            padding-right: 1rem;
-        }
-        .form-input-styled:focus {
-            border-color: #8b5cf6; 
-            box-shadow: 0 0 0 1px #8b5cf6;
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
         }
 
-        /* Left panel graphic simulation */
-        .left-panel-bg {
-            /* Using a purple placeholder image to match the visual theme */
-            background-image: url();
-            background-size: cover;
-            background-position: center;
+        .input-focus-effect:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased min-h-screen flex items-center justify-center p-4">
 
-<div class="min-h-screen flex">
+    <div class="fixed top-0 left-0 w-96 h-96 bg-royal-600/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="fixed bottom-0 right-0 w-80 h-80 bg-blue-400/10 rounded-full translate-x-1/3 translate-y-1/3 blur-3xl"></div>
 
-    <!-- LEFT PANEL: Illustration/Branding (Matches the screenshot's left side) -->
-    <div class="hidden lg:flex lg:w-1/2 relative items-center justify-center rounded-r-3xl overflow-hidden shadow-2xl left-panel-bg">
-        <!-- Semi-transparent purple overlay to enhance the graphic look -->
-        <div class="absolute inset-0 bg-primary-purple opacity-90 mix-blend-multiply"></div>
+    <div class="w-full max-w-[1100px] grid lg:grid-cols-2 gap-0 overflow-hidden rounded-3xl shadow-2xl bg-white">
         
-        <!-- Everest Branding Text (Simulated) -->
-        <div class="relative z-10 p-10 text-left text-white">
-            <h1 class="text-6xl font-extrabold tracking-tighter">
-               LTBio.lk
-            </h1>
-            <p class="text-3xl font-light mt-1">
-                ONLINE EDUCATION
-            </p>
-             <p class="text-3xl font-light mt-1">
+        <div class="hidden lg:flex flex-col justify-between p-12 bg-royal-900 text-white relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 30px 30px;"></div>
+            
+            <div class="relative z-10">
+                <div class="flex items-center gap-3 mb-12">
+                    <div class="w-10 h-10 bg-royal-600 rounded-lg flex items-center justify-center font-bold text-xl">A</div>
+                    <span class="text-xl font-bold tracking-tight">AtoZ Business School</span>
+                </div>
                 
-            </p>
-            <div class="mt-8">
-                <!-- Placeholder for the monitor screen graphic shown in the image -->
-                <div class="w-96 h-64 bg-white/20 rounded-xl border border-white/50 backdrop-blur-sm flex items-center justify-center p-20">
-                    <img src="{{ asset('images/logo1.jpeg') }}" class="rounded-lg shadow-lg" alt="Monitor Placeholder">
+                <h2 class="text-5xl font-extrabold leading-tight mb-6">
+                    Master the Art of <br/>
+                    <span class="text-blue-400">Modern Business.</span>
+                </h2>
+                <p class="text-blue-100/70 text-lg max-w-md">
+                    Access your courses, track your progress, and connect with global mentors in one seamless environment.
+                </p>
+            </div>
+
+            <div class="relative z-10 mt-auto">
+                <div class="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+                    <p class="italic text-blue-200">"Education is the most powerful weapon which you can use to change the world."</p>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- RIGHT PANEL: Login Form -->
-    <div class="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12">
-        <div class="w-full max-w-md bg-white py-12 px-8 sm:px-10 rounded-xl shadow-lg border border-gray-100">
-            
-            <div class="text-left mb-10">
-                <h2 class="text-5xl font-extrabold text-gray-900 tracking-tight">Sign in</h2>
-                <p class="text-gray-600 text-lg mt-1">Please login to continue to your account</p>
+        <div class="p-8 sm:p-16 flex flex-col justify-center">
+            <div class="mb-10 text-center lg:text-left">
+                <h1 class="text-3xl font-extrabold text-gray-900 mb-2">Welcome Back</h1>
+                <p class="text-gray-500">Sign in to your student portal</p>
             </div>
-            
-            <!-- Replicating the original structure with custom Tailwind styles -->
-            <form method="POST" action="{{ route('login') }}">
-                <!-- @csrf remains untouched -->
+
+            <form method="POST" action="{{ route('login') }}" class="space-y-6">
                 @csrf
 
-                <!-- Email Address (Original Field) -->
-                <div class="mb-6">
-                    <!-- Label text restored to match original Blade input -->
-                    <label for="email" class="block text-base font-medium text-gray-700 mb-2">Email Address</label>
-                    <input id="email" 
-                           class="form-input-styled block w-full" 
-                           type="email" 
-                           name="email"  
-                           value="{{ old('email') }}" 
-                           required 
-                           autofocus 
-                           autocomplete="username" 
-                           placeholder="Enter your email address"
-                    />
-                    <!-- Input Error component not included in raw HTML, but placeholder kept -->
-                    <!-- <x-input-error :messages="$errors->get('email')" class="mt-2" /> -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1.5 ml-1">Email Address</label>
+                    <input type="email" name="email" required 
+                        class="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-gray-50/50 input-focus-effect transition-all" 
+                        placeholder="name@company.com"
+                        value="{{ old('email') }}">
                 </div>
 
-                <!-- Password (Original Field) -->
-                <div class="mt-4 mb-4">
-                    <div class="flex justify-between items-center mb-2">
-                        <!-- Label text restored to match original Blade input -->
-                        <label for="password" class="block text-base font-medium text-gray-700">Password</label>
-
-                        <!-- Forgot Password Link (Original Placement) -->
+                <div>
+                    <div class="flex justify-between mb-1.5 ml-1">
+                        <label class="block text-sm font-semibold text-gray-700">Password</label>
                         @if (Route::has('password.request'))
-                            <a class="text-sm font-medium text-primary-purple hover:text-dark-purple transition duration-150" href="{{ route('password.request') }}">
-                                {{ __('Forgot your password?') }}
-                            </a>
+                            <a href="{{ route('password.request') }}" class="text-sm font-bold text-royal-600 hover:text-royal-700">Forgot?</a>
                         @endif
                     </div>
-
-                    <input id="password" 
-                           class="form-input-styled block w-full"
-                           type="password"
-                           name="password"
-                           required 
-                           autocomplete="current-password"
-                           placeholder="Enter your password"
-                    />
-                    <!-- <x-input-error :messages="$errors->get('password')" class="mt-2" /> -->
+                    <input type="password" name="password" required 
+                        class="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-gray-50/50 input-focus-effect transition-all" 
+                        placeholder="••••••••">
                 </div>
 
-                <!-- Remember Me (Original Placement - styled to look clean) -->
-                <div class="block mt-4 mb-10">
-                    <label for="remember_me" class="inline-flex items-center">
-                        <input id="remember_me" type="checkbox" class="rounded-sm border-gray-300 text-primary-purple shadow-sm focus:ring-primary-purple" name="remember">
-                        <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                    </label>
-                </div>
-                
-                <!-- Log in Button (Restored text to original 'Log in') -->
-                <div class="flex items-center justify-center">
-                    <!-- Button class changed to look like the screenshot's 'Sign in' button -->
-                    <button type="submit" class="w-full h-14 py-3 bg-primary-purple text-white font-semibold rounded-lg shadow-xl shadow-primary-purple/30 hover:bg-dark-purple transition duration-200 focus:outline-none focus:ring-2 focus:ring-dark-purple focus:ring-offset-2 text-lg uppercase tracking-wider">
-                        {{ __('Log in') }}
-                    </button>
+                <div class="flex items-center">
+                    <input id="remember_me" type="checkbox" name="remember" class="w-4 h-4 text-royal-600 border-gray-300 rounded focus:ring-royal-600">
+                    <label for="remember_me" class="ml-2 text-sm text-gray-600 font-medium">Keep me logged in</label>
                 </div>
 
-                <!-- Separator and Create Account Link (from image design) -->
-                <div class="mt-10 text-center">
-                    <div class="relative">
-                        <div class="absolute inset-0 flex items-center">
-                            <div class="w-full border-t border-gray-200"></div>
-                        </div>
-                        <div class="relative flex justify-center text-sm">
-                            <span class="px-2 bg-white text-gray-500 font-medium">
-                                or
-                            </span>
-                        </div>
-                    </div>
-                    <p class="mt-6 text-sm text-gray-600">
-                        Need an account? 
-                        <a href="{{route('register')}}" class="font-bold text-primary-purple hover:text-dark-purple transition duration-150">
-                            Create one
-                        </a>
-                    </p>
-                    <div class="mt-4 text-xs text-gray-400">
-                        <a href="#" class="hover:text-gray-600 mr-4">Privacy Policy</a> |
-                        <a href="#" class="hover:text-gray-600 ml-4">Terms & Conditions</a>
-                    </div>
-                </div>
+                <button type="submit" 
+                    class="w-full py-4 bg-royal-600 hover:bg-royal-700 text-white font-bold rounded-xl shadow-lg shadow-blue-200 transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                    Sign In
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+
+                <p class="text-center text-gray-600 text-sm mt-8">
+                    Don't have an account? 
+                    <a href="{{ route('register') }}" class="text-royal-600 font-bold hover:underline">Create Account</a>
+                </p>
             </form>
-            <!-- END OF FORM CONTENT -->
-
         </div>
     </div>
 
-</div>
+    <div class="fixed bottom-6 flex gap-6 text-xs text-gray-400 font-medium">
+        <a href="#" class="hover:text-royal-600 uppercase tracking-widest">Support</a>
+        <a href="#" class="hover:text-royal-600 uppercase tracking-widest">Privacy</a>
+        <a href="#" class="hover:text-royal-600 uppercase tracking-widest">Legal</a>
+    </div>
 
 </body>
 </html>

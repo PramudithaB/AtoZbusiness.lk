@@ -3,236 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Registration UI</title>
-    <!-- Load Tailwind CSS -->
+    <title>LTBio.lk | Create Account</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Custom Tailwind Configuration for the specific purple color -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        // Using the same rich purple palette
-                        'primary-purple': '#ff0000', 
-                        'dark-purple': '#ff0000', // Darker shade for hover/background
-                        'form-border': '#ff0000', 
+                        'royal-600': '#2563eb',
+                        'royal-700': '#1d4ed8',
+                        'royal-900': '#1e3a8a',
                     },
                 }
             }
         }
     </script>
     <style>
-        /* Custom font import */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f9fafb;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: radial-gradient(circle at top right, #dbeafe, #f8fafc);
         }
 
-        /* Input field styling */
-        .form-input-styled {
-            height: 60px; /* increased height for larger feel */
-            font-size: 1.01rem; /* slightly larger text */
-            transition: all 0.2s;
-            border-color: #e5e7eb;
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); 
-            border-radius: 0.5rem; 
-            padding-left: 1rem;
-            padding-right: 1rem;
-        }
-        .form-input-styled:focus {
-            border-color: #8b5cf6; 
-            box-shadow: 0 0 0 1px #8b5cf6;
+        .input-focus-effect:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
         }
 
-        /* Left panel graphic simulation */
-        .left-panel-bg {
-            background-image: url('');
-            background-size: cover;
-            background-position: center;
+        /* Custom scrollbar for the form area if needed */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #e2e8f0;
+            border-radius: 10px;
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased min-h-screen flex items-center justify-center p-4 lg:p-8">
 
-<div class="min-h-screen flex">
+    <div class="fixed top-0 right-0 w-96 h-96 bg-royal-600/10 rounded-full blur-3xl -z-10"></div>
+    <div class="fixed bottom-0 left-0 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl -z-10"></div>
 
-    <!-- LEFT PANEL: Illustration/Branding (Identical to login page for consistency) -->
-    <div class="hidden lg:flex lg:w-1/2 relative items-center justify-center rounded-r-3xl overflow-hidden shadow-2xl left-panel-bg">
-        <!-- Semi-transparent purple overlay to enhance the graphic look -->
-        <div class="absolute inset-0 bg-primary-purple opacity-90 mix-blend-multiply"></div>
+    <div class="w-full max-w-[1200px] grid lg:grid-cols-12 overflow-hidden rounded-[2.5rem] shadow-2xl bg-white min-h-[85vh]">
         
-        <!-- Everest Branding Text (Simulated) -->
-        <div class="relative z-10 p-10 text-left text-white">
-            <h1 class="text-6xl font-extrabold tracking-tighter">
-                LTBio.lk
-            </h1>
-            <p class="text-3xl font-light mt-1">
-                ONLINE EDUCATION
-            </p>
-            <div class="mt-8">
-                <!-- Placeholder for the monitor screen graphic shown in the image -->
-                <div class="w-96 h-64 bg-white/20 rounded-xl border border-white/50 backdrop-blur-sm flex items-center justify-center p-20">
-                    <img src="{{ asset('images/logo1.jpeg') }}" class="rounded-lg shadow-lg" alt="Monitor Placeholder">
+        <div class="hidden lg:flex lg:col-span-5 flex-col justify-between p-12 bg-royal-900 text-white relative">
+            <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 30px 30px;"></div>
+            
+            <div class="relative z-10">
+                <div class="flex items-center gap-3 mb-16">
+                    <div class="w-12 h-12 bg-royal-600 rounded-xl flex items-center justify-center font-bold text-2xl shadow-lg shadow-blue-500/20">L</div>
+                    <span class="text-2xl font-extrabold tracking-tight">AtoZ Business School</span>
                 </div>
+                
+                <h2 class="text-5xl font-extrabold leading-tight mb-6">
+                    Start Your <br/>
+                    <span class="text-blue-400">Success Story.</span>
+                </h2>
+                <p class="text-blue-100/70 text-lg leading-relaxed">
+                    Join thousands of students excelling in their exams with our structured online learning paths.
+                </p>
+            </div>
+
+            <div class="relative z-10">
+                <div class="w-full aspect-video bg-white/5 rounded-3xl border border-white/10 backdrop-blur-md flex items-center justify-center overflow-hidden">
+                     <img src="{{ asset('images/logo.jpeg') }}" class="w-32 h-32 rounded-2xl shadow-2xl object-cover" alt="Logo">
+                </div>
+                <p class="mt-6 text-sm text-blue-300/60 text-center font-medium uppercase tracking-widest">Official Education Partner</p>
             </div>
         </div>
-    </div>
 
-    <!-- RIGHT PANEL: Registration Form -->
-    <div class="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12">
-        <!-- increased max width and padding for a larger form -->
-        <div class="w-full max-w-2xl bg-white py-16 px-10 sm:px-12 rounded-xl shadow-lg border border-gray-100">
+        <div class="lg:col-span-7 p-8 sm:p-12 lg:p-16 flex flex-col justify-center bg-white overflow-y-auto custom-scrollbar">
             
-            <div class="text-left mb-10">
-                <h2 class="text-6xl font-extrabold text-gray-900 tracking-tight">Sign Up</h2>
-                <p class="text-gray-600 text-lg mt-1">Create an account to get started</p>
+            <div class="mb-10">
+                <h1 class="text-4xl font-extrabold text-gray-900 mb-2">Create Account</h1>
+                <p class="text-gray-500">Please fill in your details to register.</p>
             </div>
-            
-            <!-- START OF USER'S FORM STRUCTURE, STYLED -->
-            <form method="POST" action="{{ route('register') }}">
+
+            <form method="POST" action="{{ route('register') }}" class="space-y-5">
                 @csrf
 
-                <!-- Grid: 2 columns on sm+, 1 column on xs -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <!-- Name -->
-                    <div class="mb-0">
-                        <label for="name" class="block text-base font-medium text-gray-700 mb-2">{{ __('Name') }}</label>
-                        <input id="name"
-                               class="form-input-styled block w-full"
-                               type="text"
-                               name="name"
-                               value="{{ old('name') }}"
-                               required
-                               autofocus
-                               autocomplete="name"
-                               placeholder="Enter your full name"
-                        />
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="md:col-span-1">
+                        <label class="block text-sm font-semibold text-gray-700 mb-1.5 ml-1">Full Name</label>
+                        <input type="text" name="name" value="{{ old('name') }}" required 
+                            class="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-gray-50/50 input-focus-effect transition-all" 
+                            placeholder="John Doe">
                     </div>
 
-                    <!-- Email -->
-                    <div class="mb-0">
-                        <label for="email" class="block text-base font-medium text-gray-700 mb-2">{{ __('Email') }}</label>
-                        <input id="email"
-                               class="form-input-styled block w-full"
-                               type="email"
-                               name="email"
-                               value="{{ old('email') }}"
-                               required
-                               autocomplete="username"
-                               placeholder="Enter your email address"
-                        />
+                    <div class="md:col-span-1">
+                        <label class="block text-sm font-semibold text-gray-700 mb-1.5 ml-1">Email Address</label>
+                        <input type="email" name="email" value="{{ old('email') }}" required 
+                            class="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-gray-50/50 input-focus-effect transition-all" 
+                            placeholder="name@example.com">
                     </div>
 
-                    <!-- WhatsApp -->
-                    <div class="mb-0">
-                        <label for="whatsapp_number" class="block text-base font-medium text-gray-700 mb-2">WhatsApp Number</label>
-                        <input id="whatsapp_number"
-                               class="form-input-styled block w-full"
-                               type="text"
-                               name="whatsapp_number"
-                               value="{{ old('whatsapp_number') }}"
-                               placeholder="e.g. +94712345678"
-                               required
-                               aria-required="true"
-                        />
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1.5 ml-1">WhatsApp Number</label>
+                        <input type="text" name="whatsapp_number" value="{{ old('whatsapp_number') }}" required 
+                            class="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-gray-50/50 input-focus-effect transition-all" 
+                            placeholder="+94 71 234 5678">
                     </div>
 
-                    <!-- ID Number -->
-                    <div class="mb-0">
-                        <label for="id_number" class="block text-base font-medium text-gray-700 mb-2">ID Number</label>
-                        <input id="id_number"
-                               class="form-input-styled block w-full"
-                               type="text"
-                               name="id_number"
-                               value="{{ old('id_number') }}"
-                               placeholder="National/Student ID"
-                               required
-                               aria-required="true"
-                        />
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1.5 ml-1">ID Number</label>
+                        <input type="text" name="id_number" value="{{ old('id_number') }}" required 
+                            class="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-gray-50/50 input-focus-effect transition-all" 
+                            placeholder="NIC or Student ID">
                     </div>
 
-                    <!-- Address (full width) -->
-                    <div class="sm:col-span-2 mb-0">
-                        <label for="address" class="block text-base font-medium text-gray-700 mb-2">Address</label>
-                        <textarea id="address"
-                                  class="form-input-styled block w-full h-auto py-2"
-                                  name="address"
-                                  placeholder="Your address"
-                                  rows="2"
-                                  required
-                                  aria-required="true">{{ old('address') }}</textarea>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-semibold text-gray-700 mb-1.5 ml-1">Home Address</label>
+                        <input type="text" name="address" value="{{ old('address') }}" required 
+                            class="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-gray-50/50 input-focus-effect transition-all" 
+                            placeholder="Your permanent address">
                     </div>
 
-                    <!-- Exam Year -->
-                    <div class="mb-0">
-                        <label for="exam_year" class="block text-base font-medium text-gray-700 mb-2">Exam Year</label>
-                        <input id="exam_year"
-                               class="form-input-styled block w-full"
-                               type="number"
-                               name="exam_year"
-                               value="{{ old('exam_year') }}"
-                               placeholder="e.g. 2026" min="1900" max="2100"
-                               required
-                               aria-required="true"
-                        />
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-semibold text-gray-700 mb-1.5 ml-1">Expected Exam Year</label>
+                        <input type="number" name="exam_year" value="{{ old('exam_year') }}" min="2024" max="2030" required 
+                            class="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-gray-50/50 input-focus-effect transition-all" 
+                            placeholder="2026">
                     </div>
 
-                    <!-- Password -->
-                    <div class="mb-0">
-                        <label for="password" class="block text-base font-medium text-gray-700 mb-2">{{ __('Password') }}</label>
-                        <input id="password"
-                               class="form-input-styled block w-full"
-                               type="password"
-                               name="password"
-                               required
-                               autocomplete="new-password"
-                               placeholder="Create a password"
-                               pattern="(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,}"
-                               title="Minimum 8 characters, at least one uppercase letter, one number and one symbol"
-                        />
-                        <p class="text-xs text-gray-400 mt-2">Password must be at least 8 characters and include one uppercase letter, one number and one symbol.</p>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1.5 ml-1">Password</label>
+                        <input type="password" name="password" required 
+                            class="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-gray-50/50 input-focus-effect transition-all" 
+                            placeholder="••••••••">
                     </div>
 
-                    <!-- Confirm Password -->
-                    <div class="mb-0">
-                        <label for="password_confirmation" class="block text-base font-medium text-gray-700 mb-2">{{ __('Confirm Password') }}</label>
-                        <input id="password_confirmation"
-                               class="form-input-styled block w-full"
-                               type="password"
-                               name="password_confirmation"
-                               required
-                               autocomplete="new-password"
-                               placeholder="Confirm your password"
-                        />
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1.5 ml-1">Confirm Password</label>
+                        <input type="password" name="password_confirmation" required 
+                            class="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-gray-50/50 input-focus-effect transition-all" 
+                            placeholder="••••••••">
                     </div>
                 </div>
-                 
 
-                 <div class="flex items-center justify-end mt-4">
-                    <!-- Already Registered Link -->
-                    <a class="text-sm font-medium text-gray-600 hover:text-gray-900 transition duration-150" href="{{ route('login') }}">
-                        {{ __('Already registered?') }}
-                    </a>
-
-                    <!-- Register Button (Styled like the Sign In button) -->
-                    <button type="submit" class="ms-4 h-16 px-10 bg-primary-purple text-white font-semibold rounded-lg shadow-xl shadow-primary-purple/30 hover:bg-dark-purple transition duration-200 focus:outline-none focus:ring-2 focus:ring-dark-purple focus:ring-offset-2 text-lg uppercase tracking-wider">
-                        {{ __('Register') }}
+                <div class="pt-4">
+                    <button type="submit" 
+                        class="w-full py-4 bg-royal-600 hover:bg-royal-700 text-white font-bold rounded-2xl shadow-xl shadow-blue-200 transition-all active:scale-[0.98] flex items-center justify-center gap-2 text-lg">
+                        Create My Account
                     </button>
                 </div>
 
-                <!-- Privacy/Terms Footer -->
-                <div class="mt-10 text-center text-xs text-gray-400">
-                    <a href="#" class="hover:text-gray-600 mr-4">Privacy Policy</a> |
-                    <a href="#" class="hover:text-gray-600 ml-4">Terms & Conditions</a>
-                </div>
+                <p class="text-center text-gray-500 text-sm mt-6">
+                    Already have an account? 
+                    <a href="{{ route('login') }}" class="text-royal-600 font-bold hover:underline">Sign In</a>
+                </p>
             </form>
-            <!-- END OF USER'S FORM STRUCTURE, STYLED -->
-
         </div>
     </div>
 
-</div>
+    <div class="fixed bottom-4 flex gap-6 text-[10px] text-gray-400 font-bold uppercase tracking-[0.2em]">
+        <a href="#" class="hover:text-royal-600">Privacy</a>
+        <a href="#" class="hover:text-royal-600">Terms</a>
+        <a href="#" class="hover:text-royal-600">Help</a>
+    </div>
 
 </body>
 </html>

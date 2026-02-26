@@ -3,241 +3,202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Dashboard</title>
-    <!-- Load Tailwind CSS -->
+    <title>Student Dashboard | AtoZ Business School</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load Lucide Icons for professional icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
-    <!-- Custom Tailwind Configuration -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        // Colors are now using your specified red values
-                        'primary-purple': '#ff0000', 
-                        'dark-purple': '#cc0000', // Adjusted dark shade for contrast/hover
-                        'light-purple': '#f0c0c0', 
-                        'accent-yellow': '#facc15',
+                        'royal-600': '#2563eb',
+                        'royal-700': '#1d4ed8',
+                        'royal-900': '#1e3a8a',
+                        'soft-bg': '#f8fafc',
                     },
                 }
             }
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
         }
-
-        /* Styling for the main content section - Now single column on all sizes */
-        .dashboard-grid {
-            display: grid;
-            gap: 1.5rem;
-            grid-template-columns: 1fr;
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
         }
-
-        @media (min-width: 1024px) {
-            .dashboard-grid {
-                /* Single column layout as requested (removed 2fr 1fr split) */
-                grid-template-columns: 1fr;
-            }
+        .accordion-active .accordion-content {
+            max-height: 2000px; /* Large enough for class grid */
+        }
+        .accordion-active .rotate-icon {
+            transform: rotate(180deg);
         }
     </style>
-</head><div class="container mt-4">
-
-
-
-</div>
+</head>
 
 <body class="antialiased">
 
-    <!-- Top Navigation Bar (responsive) -->
-    <nav class="bg-white shadow-md fixed top-0 left-0 right-0 z-50" role="navigation" aria-label="Main navigation">
+    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-100 fixed top-0 left-0 right-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <!-- Branding -->
+            <div class="flex justify-between items-center h-20">
                 <div class="flex items-center gap-3">
-                    <span class="text-2xl font-extrabold text-primary-purple tracking-tighter">LTbio</span>
-                    <span class="text-xs font-light text-gray-600 hidden sm:block">Online Education</span>
+                    <div class="w-10 h-10 bg-royal-600 rounded-xl flex items-center justify-center text-white font-bold shadow-lg shadow-blue-200">A</div>
+                    <span class="text-xl font-extrabold text-royal-900 tracking-tight">AtoZ Business School</span>
                 </div>
 
-                <!-- Desktop Menu -->
-                <div class="hidden sm:flex sm:items-center sm:space-x-4 text-gray-600 font-medium">
-                    <a href="#home" class="hover:text-primary-purple transition duration-150 flex items-center"><i data-lucide="layout-dashboard" class="w-5 h-5 mr-1"></i> Dashboard</a>
-                    <a href="{{ route('buyclass') }}" class="hover:text-primary-purple transition duration-150 flex items-center"><i data-lucide="book-open-text" class="w-5 h-5 mr-1"></i> Buy Class</a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-royal-600 font-bold flex items-center gap-2">
+                        <i data-lucide="layout-grid" class="w-5 h-5"></i> Dashboard
+                    </a>
+                    <a href="{{ route('buyclass') }}" class="text-gray-500 hover:text-royal-600 font-medium transition flex items-center gap-2">
+                        <i data-lucide="shopping-cart" class="w-5 h-5"></i> Enroll Now
+                    </a>
                 </div>
 
-                <!-- Right: profile / mobile toggle -->
-                <div class="flex items-center gap-3">
-                    <button class="text-gray-400 hover:text-primary-purple transition duration-150 mr-1">
+                <div class="flex items-center gap-4">
+                    <button class="relative p-2 text-gray-400 hover:bg-gray-100 rounded-full transition">
                         <i data-lucide="bell" class="w-6 h-6"></i>
+                        <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
                     </button>
 
-                    <div class="hidden sm:block relative">
-                        <button id="profile-menu-button" class="flex items-center space-x-2 border-l pl-4 focus:outline-none transition duration-150 hover:bg-gray-50 p-2 -my-2 rounded-lg">
-                            <span class="font-medium text-sm text-gray-700">{{ Auth::user()->name }}</span>
-                            <div class="w-10 h-10 rounded-full bg-primary-purple flex items-center justify-center text-white font-bold">JD</div>
+                    <div class="relative group">
+                        <button id="profile-menu-button" class="flex items-center gap-3 p-1.5 hover:bg-gray-50 rounded-2xl transition border border-transparent hover:border-gray-200">
+                            <div class="w-10 h-10 rounded-xl bg-royal-900 flex items-center justify-center text-white font-bold text-sm">
+                                {{ substr(Auth::user()->name, 0, 2) }}
+                            </div>
+                            <div class="hidden sm:block text-left">
+                                <p class="text-xs font-bold text-royal-900 leading-none">{{ Auth::user()->name }}</p>
+                                <p class="text-[10px] text-gray-500 mt-1">Student Account</p>
+                            </div>
                             <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400"></i>
                         </button>
-                        <div id="profile-dropdown" class="absolute right-0 mt-3 w-48 bg-white border border-gray-200 rounded-lg shadow-xl py-1 z-30 hidden origin-top-right">
-                            <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
-                            <form method="POST" action="{{ route('logout') }}">@csrf
-                                <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50">Log Out</a>
+                        <div id="profile-dropdown" class="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 hidden">
+                            <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">
+                                <i data-lucide="user" class="w-4 h-4"></i> My Profile
+                            </a>
+                            <div class="border-t border-gray-100 my-1"></div>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50">
+                                    <i data-lucide="log-out" class="w-4 h-4"></i> Log Out
+                                </button>
                             </form>
                         </div>
                     </div>
-
-                    <!-- Mobile hamburger -->
-                    <div class="sm:hidden">
-                        <button id="mobileMenuButton" aria-label="Toggle menu" aria-expanded="false" class="p-2 rounded-md text-gray-600 hover:text-primary-purple hover:bg-gray-100 focus:outline-none">
-                            <svg id="mobileMenuIconOpen" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-                            <svg id="mobileMenuIconClose" class="h-6 w-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                        </button>
-                    </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Mobile menu -->
-        <div id="mobileMenu" class="hidden sm:hidden absolute left-4 right-4 top-full mt-2 bg-white shadow-md rounded-md p-3 z-40">
-            <div class="flex flex-col gap-2">
-                <a href="#home" class="px-3 py-2 rounded-md font-medium text-gray-700 hover:bg-gray-50">Home</a>
-                <a href="{{ route('buyclass') }}" class="px-3 py-2 rounded-md font-medium text-gray-700 hover:bg-gray-50">Buy Class</a>
-                <a href="{{ route('login') }}" class="px-3 py-2 rounded-md font-medium text-gray-700 hover:bg-gray-50">Login</a>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content Area -->
-    <!-- Add top padding to offset fixed nav (adjust px value if you customize nav height) -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style="padding-top:88px; padding-bottom:32px;">
-
-        <!-- Welcome Banner / Class Advertisement Bar (Biology Enrollment) -->
-        <div class="bg-white p-6 rounded-xl shadow-lg mb-8 border-l-4 border-accent-yellow">
-            <div class="flex flex-col md:flex-row items-start md:items-center justify-between">
-                <div>
-                    <!-- Auth Blade Syntax Maintained -->
-                    <h1 class="text-3xl font-bold text-gray-900">Welcome Back, {{ Auth::user()->name }}</h1>
-                    <p class="text-gray-600 mt-1">Ready for your next lesson?</p>
-                </div>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-12">
+        
+        <div class="relative overflow-hidden bg-royal-900 rounded-[2.5rem] p-8 md:p-12 mb-10 text-white">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-royal-600/20 rounded-full blur-3xl -mr-20 -mt-20"></div>
+            <div class="relative z-10">
+                <h2 class="text-4xl md:text-4xl font-extrabold mb-4">Hello, {{ Auth::user()->name }}! 👋</h2>
+                <p class="text-blue-100/80 text-lg max-w-xl">Keep pushing your boundaries. Your education is the investment that pays the best interest.</p>
                 
-                <!-- Advertisement Bar Content: Biology Class, Enrollment Months, Details -->
-                <div class="mt-4 md:mt-0 bg-primary-purple/10 text-primary-purple p-3 rounded-lg flex items-center space-x-3 text-sm font-semibold border border-primary-purple/30 text-center md:text-left">
-                    <i data-lucide="megaphone" class="w-5 h-5 flex-shrink-0"></i>
-                    <span class="flex-grow">
-                        Notice: <span class="text-dark-purple font-extrabold">LTbio.lk</span> - LTbio new web site launched!
-                        <a href='#' class='underline ml-1 hover:text-dark-purple'>View Details</a>
-                    </span>
+                
+            </div>
+        </div>
+
+        <div class="space-y-6">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-2xl font-extrabold text-royal-900">Your Learning Path</h2>
+                <span class="px-4 py-1.5 bg-royal-100 text-royal-600 rounded-full text-xs font-bold uppercase tracking-wider">Grouped by Month</span>
+            </div>
+
+            @php
+                // Logic to group classes by month for the UI
+                $groupedClasses = $classes->groupBy('month');
+            @endphp
+
+            @foreach($groupedClasses as $month => $monthClasses)
+            <div class="accordion-item bg-white border border-gray-100 rounded-[2rem] shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md">
+                <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between p-6 sm:p-8 text-left focus:outline-none">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-royal-50 rounded-2xl flex items-center justify-center text-royal-600">
+                            <i data-lucide="calendar" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900">{{ $month }}</h3>
+                            <p class="text-sm text-gray-500">{{ count($monthClasses) }} Course{{ count($monthClasses) > 1 ? 's' : '' }} available</p>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center transition-transform duration-300 rotate-icon">
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-gray-400"></i>
+                    </div>
+                </button>
+
+                <div class="accordion-content">
+                    <div class="p-6 sm:p-8 pt-0 border-t border-gray-50 bg-gray-50/30">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            @foreach($monthClasses as $class)
+                            <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:border-royal-600 transition-all group">
+                                <div class="flex justify-between items-start mb-4">
+                                    <div class="p-3 bg-royal-600 rounded-2xl text-white shadow-lg shadow-blue-200">
+                                        <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+                                    </div>
+                                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ $class->month }}</span>
+                                </div>
+                                
+                                <h4 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-royal-600 transition">{{ $class->className }}</h4>
+                                <p class="text-gray-500 text-sm mb-6 line-clamp-2 leading-relaxed">{{ $class->description }}</p>
+                                
+                                <div class="space-y-4">
+                                    <div class="flex justify-between text-xs font-bold text-gray-400 mb-1">
+                                        <span>Course Progress</span>
+                                        <span>65%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
+                                        <div class="bg-royal-600 h-full rounded-full" style="width: 65%"></div>
+                                    </div>
+                                    
+                                    <a href="{{ route('classview', $class->id) }}"
+                                       class="w-full flex items-center justify-center py-4 bg-royal-900 text-white text-sm font-bold rounded-2xl hover:bg-royal-600 transition shadow-lg shadow-gray-200 active:scale-[0.98]">
+                                        Enter Classroom
+                                        <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
             </div>
+            @endforeach
         </div>
+    </main>
 
-        <!-- Dashboard Grid Layout (Now single column) -->  
-      <div class="dashboard-grid">
-
-    <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-        <i data-lucide="book-open-text" class="w-6 h-6 mr-2 text-primary-purple"></i>
-        All Classes
-    </h3>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-
-        @foreach($classes as $class)
-        <!-- Class Card -->
-        <div class="bg-white p-6 rounded-xl shadow-lg border-t-8 border-primary-purple hover:shadow-xl transition duration-300">
-            
-            <div class="flex items-center space-x-3 mb-3">
-                <i data-lucide="graduation-cap" class="w-8 h-8 text-primary-purple"></i>
-                <h4 class="text-2xl font-extrabold text-gray-900">{{ $class->className }}</h4>
-            </div>
-
-            <p class="text-gray-600 mb-4 text-sm">{{ $class->description }}</p>
-
-            <div class="w-full bg-gray-200 rounded-full h-2.5 mb-2">
-                <div class="bg-primary-purple h-2.5 rounded-full" style="width: 65%"></div>
-            </div>
-
-            <p class="text-right text-xs font-medium text-gray-500 mb-4">{{ $class->month }}</p>
-
-            <a href="{{ route('classview', $class->id) }}"
-               class="w-full flex items-center justify-center py-3 bg-primary-purple text-white font-semibold rounded-lg hover:bg-dark-purple transition duration-150">
-                <i data-lucide="arrow-right-circle" class="w-5 h-5 mr-2"></i>
-                Go to Class
-            </a>
-        </div>
-        @endforeach
-
-    </div>
-
-</div>
-
-
-
-    <!-- Initialize Lucide Icons and Dropdown Logic -->
     <script>
         lucide.createIcons();
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const button = document.getElementById('profile-menu-button');
-            const dropdown = document.getElementById('profile-dropdown');
-
-            // Toggle dropdown visibility on click
-            button.addEventListener('click', (e) => {
-                e.stopPropagation();
-                dropdown.classList.toggle('hidden');
-            });
-
-            // Close dropdown when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!button.contains(e.target) && !dropdown.contains(e.target)) {
-                    dropdown.classList.add('hidden');
-                }
-            });
+        // Profile Dropdown
+        const profBtn = document.getElementById('profile-menu-button');
+        const profDrop = document.getElementById('profile-dropdown');
+        profBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profDrop.classList.toggle('hidden');
         });
+        window.addEventListener('click', () => profDrop.classList.add('hidden'));
+
+        // Accordion Toggle Logic
+        function toggleAccordion(element) {
+            const parent = element.parentElement;
+            parent.classList.toggle('accordion-active');
+            
+            // Optional: Close others when opening one
+            /*
+            document.querySelectorAll('.accordion-item').forEach(item => {
+                if (item !== parent) item.classList.remove('accordion-active');
+            });
+            */
+        }
     </script>
-
-<!-- Mobile menu toggle -->
-<script>
-  (function(){
-    const mobileBtn = document.getElementById('mobileMenuButton');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const iconOpen = document.getElementById('mobileMenuIconOpen');
-    const iconClose = document.getElementById('mobileMenuIconClose');
-
-    if (!mobileBtn || !mobileMenu) return;
-
-    function setExpanded(open){
-      mobileBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      if(open){
-        mobileMenu.classList.remove('hidden');
-        iconOpen.classList.add('hidden');
-        iconClose.classList.remove('hidden');
-      } else {
-        mobileMenu.classList.add('hidden');
-        iconOpen.classList.remove('hidden');
-        iconClose.classList.add('hidden');
-      }
-    }
-
-    mobileBtn.addEventListener('click', function(e){
-      e.stopPropagation();
-      setExpanded(mobileMenu.classList.contains('hidden'));
-    });
-
-    // close on outside click
-    document.addEventListener('click', function(e){
-      if (!mobileMenu.contains(e.target) && !mobileBtn.contains(e.target)) {
-        setExpanded(false);
-      }
-    });
-
-    // close on link click
-    mobileMenu.querySelectorAll('a, button').forEach(el => el.addEventListener('click', () => setExpanded(false)));
-  })();
-</script>
-
 </body>
 </html>
