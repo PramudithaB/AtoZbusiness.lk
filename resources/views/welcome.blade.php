@@ -364,7 +364,7 @@
         <div style="flex: 1 1 400px; min-width: 320px;">
             <span style="background: #ffffff; color: #4169E1; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">New Release</span>
             
-            <h2 style="font-size: clamp(32px, 5vw, 48px); margin: 20px 0 15px 0; line-height: 1.1;">Experience the <br>Story in 3D</h2>
+            <h2 style="font-size: clamp(32px, 5vw, 48px); margin: 20px 0 15px 0; line-height: 1.1;">Visit our store to purchase books and <br>lesson vise podcasts first time in Sri Lanka🇱🇰</h2>
             
             <p style="font-size: 18px; line-height: 1.6; color: rgba(255,255,255,0.9); margin-bottom: 30px;">
                 Dive into an immersive reading experience. Listen to the first chapter narrated by the author or flip through the digital preview right here.
