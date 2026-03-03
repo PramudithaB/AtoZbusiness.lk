@@ -381,7 +381,7 @@
             </div>
 
             <div style="margin-top: 40px; display: flex; gap: 30px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 30px;">
-                <div>
+                {{-- <div>
                     <div style="font-size: 24px; font-weight: bold;">4.9</div>
                     <div style="font-size: 12px; opacity: 0.7; text-transform: uppercase;">Avg Rating</div>
                 </div>
@@ -392,7 +392,7 @@
                 <div>
                     <div style="font-size: 24px; font-weight: bold;">Free</div>
                     <div style="font-size: 12px; opacity: 0.7; text-transform: uppercase;">Digital Map</div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
