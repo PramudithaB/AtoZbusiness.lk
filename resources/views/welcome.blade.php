@@ -213,7 +213,7 @@
         <li><a href="#home">Home</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#institutes">Feedback</a></li>
-        {{-- <li><a href="{{ route('login') }}" style="background: white; color: #001a4d;">Login</a></li> --}}
+        <li><a href="{{ route('login') }}" style="background: white; color: #001a4d;">Login</a></li>
       </ul>
     </div>
   </nav>
@@ -241,7 +241,7 @@
   </div>
 </div>
         <div class="hero-actions" style="margin-top: 30px;">
-          <a href="" class="btn btn-primary">Student Login →</a>
+          <a href="{{ 'login' }}" class="btn btn-primary">Student Login →</a>
         </div>
       </div>
 
@@ -405,7 +405,24 @@
   <section id="institutes">
     <h2 class="section-title">Student Feedback</h2>
     <div class="feedback-panel fadeInUp">
-        <form action="{{ route('feedbackstore') }}" method="POST">
+        @if(session('success'))
+            <div class="mb-4 p-3 rounded" style="background:#d1fae5;color:#065f46;border:1px solid #10b981;">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if($errors->any())
+            <div class="mb-4 p-3 rounded" style="background:#fee2e2;color:#991b1b;border:1px solid #f87171;">
+                <strong>Please fix the following issues:</strong>
+                <ul style="margin-top:4px; margin-bottom:0; padding-left: 1rem;">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form id="feedbackForm" action="{{ route('feedbackstore') }}" method="POST" novalidate>
             @csrf
             <div class="feedback-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                 <input type="text" name="name" placeholder="Your Name" required>
@@ -429,6 +446,43 @@
         </div>
     </div>
   </section>
+
+  <script>
+    const feedbackForm = document.getElementById('feedbackForm');
+    if (feedbackForm) {
+      feedbackForm.addEventListener('submit', function (e) {
+        const name = this.querySelector('[name="name"]').value.trim();
+        const email = this.querySelector('[name="email"]').value.trim();
+        const phone = this.querySelector('[name="phone_number"]').value.trim();
+        const message = this.querySelector('[name="message"]').value.trim();
+
+        const errors = [];
+
+        if (!name || name.length < 2) {
+          errors.push('Name should be at least 2 characters.');
+        }
+
+        if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+          errors.push('Please enter a valid email address.');
+        }
+
+        if (!phone || !/^[0-9+\-()\s]{8,50}$/.test(phone)) {
+          errors.push('Phone number must contain 8-50 characters and can include digits, spaces, +, -, and parentheses.');
+        }
+
+        if (!message || message.length < 10) {
+          errors.push('Feedback message should be at least 10 characters.');
+        }
+
+        if (errors.length) {
+          e.preventDefault();
+          alert('Validation errors:\n' + errors.join('\n'));
+          return false;
+        }
+      });
+    }
+  </script>
+
 <footer style="background-color: transparent; color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 60px 20px 20px 20px;">
     <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 40px;">
         

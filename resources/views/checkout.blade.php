@@ -161,6 +161,39 @@
         document.getElementById("class_name").value = selectedNames.join(", ");
         document.getElementById("class_name_display").value = selectedNames.join(", ");
         document.getElementById("class_id").value = selectedIds.join(",");
+
+        const checkoutForm = document.querySelector('form[action="{{ route('checkout.submit') }}"]');
+        if (checkoutForm) {
+            checkoutForm.addEventListener('submit', function (event) {
+                const fileInput = this.querySelector('input[name="file"]');
+                const file = fileInput?.files?.[0];
+
+                const className = this.querySelector('input[name="class_name"]').value.trim();
+                const classId = this.querySelector('input[name="class_id"]').value.trim();
+
+                const frontErrors = [];
+
+                if (!className || !classId) {
+                    frontErrors.push('Please select at least one class to checkout from the cart.');
+                }
+                if (!file) {
+                    frontErrors.push('Please attach a payment slip file.');
+                } else {
+                    const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+                    if (!allowedTypes.includes(file.type)) {
+                        frontErrors.push('Payment slip must be JPG, PNG, or PDF.');
+                    }
+                    if (file.size > 2 * 1024 * 1024) {
+                        frontErrors.push('Payment slip must be smaller than 2MB.');
+                    }
+                }
+
+                if (frontErrors.length) {
+                    event.preventDefault();
+                    alert('Checkout validation error(s):\n' + frontErrors.join('\n'));
+                }
+            });
+        }
     </script>
 </body>
 </html>

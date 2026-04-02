@@ -105,15 +105,9 @@ public function checkoutPage()
     return view('checkout');
 }
 
-public function checkoutSubmit(Request $request)
+public function checkoutSubmit(\App\Http\Requests\CheckoutRequest $request)
 {
-    $request->validate([
-        'student_name' => 'required|string|max:255',
-        'class_name'   => 'required|string',
-        'class_id'     => 'required|string',
-        'remark'       => 'nullable|string',
-        'file'         => 'nullable|mimes:jpg,png,pdf|max:2048',
-    ]);
+    $validated = $request->validated();
 
     // File Upload
     $filePath = null;
