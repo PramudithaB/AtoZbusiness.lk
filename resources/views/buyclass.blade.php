@@ -1,6 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buy - AtoZ</title>
+  <link rel="icon" type="image/jpeg" href="{{ asset('images/logo.jpeg') }}" />
+  <style>
+    body { font-family: sans-serif; background: #001a4d; color: #fff; padding: 40px; }
+    .card { max-width:800px; margin: 0 auto; background: rgba(255,255,255,0.03); padding:24px; border-radius:12px; border:1px solid rgba(255,255,255,0.06); }
+    .btn { display:inline-block; margin-top:16px; background:#ffffff; color:#001a4d; padding:10px 14px; border-radius:10px; text-decoration:none; font-weight:800; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    @php
+      $selected = $book ?? null; // controller may pass $book
+      $bookId = $selected['id'] ?? request('book');
+    @endphp
+
+    <h2>Buy Class / Book</h2>
+    @if($bookId)
+      <p>Selected item id: <strong>{{ $bookId }}</strong></p>
+      <p>If this is the correct item, proceed to checkout.</p>
+      <a href="{{ route('checkout.page') }}" class="btn">Proceed to Checkout</a>
+    @else
+      <p>No item selected. Go back to the <a href="{{ route('store') }}">store</a>.</p>
+    @endif
+  </div>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buy Class | LTBio.lk</title>

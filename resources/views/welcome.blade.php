@@ -212,6 +212,7 @@
       <ul id="mainNav">
         <li><a href="#home">Home</a></li>
         <li><a href="#about">About</a></li>
+        <li><a href="{{ route('store') }}">Store</a></li>
         <li><a href="#institutes">Feedback</a></li>
         <li><a href="{{ route('login') }}" style="background: white; color: #001a4d;">Login</a></li>
       </ul>
@@ -227,7 +228,7 @@
   <li>BBA (Hons) Specialized in Marketing Management (Sri Lanka Institute of Information Technology)</li>
   <li>Reading Master of Business Administration (PIM – University of Sri Jayewardenepura)</li>
   <li>Teacher at Ada Derana Education</li>
-  <li>Visiting Lecturer</li>
+  <li>University Visiting Lecturer</li>
 </ul>
      <div style="display:flex; gap:8px;">
   <div style="background:transparent; padding:4px 12px; border-radius:18px; font-size:13px;">
@@ -292,7 +293,7 @@
         
         <div style="flex: 1 1 320px; max-width: 600px;">
             <p style="text-transform: uppercase; font-weight: bold; font-size: 13px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
-                <span style="border: 1px solid #ffffff; padding: 2px 5px; border-radius: 3px;">📖</span> JOIN IN YOUR LIVE COURSE TODAY
+                <span style="border: 1px solid #ffffff; padding: 2px 5px; border-radius: 3px;">📖</span> JOIN IN YOUR LIVE CLASS TODAY
             </p>
             
             <h1 style="font-size: clamp(24px, 5vw, 36px); line-height: 1.2; margin-bottom: 20px;">
@@ -300,7 +301,7 @@
             </h1>
             
             <p style="font-size: 15px; line-height: 1.6; color: #f0f0f0; margin-bottom: 25px;">
-                අපගේ අති නවීන Online අධ්‍යාපනික වේදිකාවත් සමග නිමක් නැති ඉගෙනුම් හැකියාවන් ඔබ වෙත විවෘත කර ඇත. බුද්ධිමය සහ පරිශීලක-හිතකාමී, අපගේ වෙබ් පිටුව අන්තර්ක්‍රියාකාරී බහුමාධ්‍ය සම්පත්.
+                අපගේ අති නවීන Online අධ්‍යාපනික වේදිකාවත් සමග නිමක් නැති ඉගෙනුම් හැකියාවන් ඔබ වෙත විවෘත කර ඇත.
             </p>
             
             <ul style="list-style: none; padding: 0; margin-bottom: 30px; font-size: 14px;">
@@ -308,7 +309,7 @@
                     <span style="background: #ffffff; color: #4169E1; border-radius: 50%; min-width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold;">✓</span> පහසුවෙන් පිවිසීමට ඇති හැකියාව
                 </li>
                 <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px;">
-                    <span style="background: #ffffff; color: #4169E1; border-radius: 50%; min-width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold;">✓</span> ශ්‍රී ලංකාවේ හොඳම දේශකයා
+                    <span style="background: #ffffff; color: #4169E1; border-radius: 50%; min-width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold;">✓</span> ශ්‍රී ලංකාවේ BS හොඳම දේශකයා
                 </li>
                 <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px;">
                     <span style="background: #ffffff; color: #4169E1; border-radius: 50%; min-width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold;">✓</span> ඔබට පහසුම ගාස්තු
@@ -316,7 +317,7 @@
             </ul>
             
             <a href="#" style="background-color: #ffffff; color: #4169E1; text-decoration: none; padding: 12px 25px; border-radius: 5px; font-weight: bold; display: inline-block; transition: 0.3s;">
-                MORE INFO →
+                Join Now 
             </a>
         </div>
 
@@ -366,18 +367,14 @@
             
             <h2 style="font-size: clamp(32px, 5vw, 48px); margin: 20px 0 15px 0; line-height: 1.1;">Visit our store to purchase books and <br>lesson vise podcasts first time in Sri Lanka🇱🇰</h2>
             
-            <p style="font-size: 18px; line-height: 1.6; color: rgba(255,255,255,0.9); margin-bottom: 30px;">
-                Dive into an immersive reading experience. Listen to the first chapter narrated by the author or flip through the digital preview right here.
-            </p>
+           
 
             <div style="display: flex; flex-wrap: wrap; gap: 15px;">
-                <button style="background: #ffffff; color: #4169E1; border: none; padding: 15px 30px; border-radius: 50px; font-weight: bold; display: flex; align-items: center; gap: 10px; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
-                    <span style="font-size: 20px;">▶</span> Listen Preview
-                </button>
+                <a href="{{ route('store') }}" style="background: #ffffff; color: #4169E1; text-decoration: none; padding: 15px 30px; border-radius: 50px; font-weight: bold; display: inline-flex; align-items: center; gap: 10px; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
+                  <span style="font-size: 20px;">▶</span> Visit Store
+                </a>
                 
-                <button style="background: transparent; color: #ffffff; border: 2px solid #ffffff; padding: 15px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; transition: 0.3s;">
-                    📖 Read Sample
-                </button>
+              
             </div>
 
             <div style="margin-top: 40px; display: flex; gap: 30px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 30px;">

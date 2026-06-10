@@ -12,6 +12,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Simple store route showing sample books
+Route::get('/store', function () {
+    $books = [
+        ['id' => 1, 'title' => 'Business Studies Vol.1', 'author' => 'Lasindu Senarath', 'price' => '1200', 'image' => 'images/book1.jpg'],
+        ['id' => 2, 'title' => 'Marketing Essentials', 'author' => 'Lasindu Senarath', 'price' => '900', 'image' => 'images/book2.jpg'],
+        ['id' => 3, 'title' => 'Advanced Accounting', 'author' => 'Lasindu Senarath', 'price' => '1500', 'image' => 'images/book3.jpg'],
+        ['id' => 4, 'title' => 'Exam Prep Guide', 'author' => 'Lasindu Senarath', 'price' => '700', 'image' => 'images/book4.jpg'],
+    ];
+
+    return view('store', compact('books'));
+})->name('store');
+
 
 
 Route::middleware('auth')->group(function () {

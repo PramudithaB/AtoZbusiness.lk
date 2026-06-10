@@ -216,4 +216,8 @@ public function usermanagement()
 {
     $users = User::orderBy('id', 'desc')->get();
     return view('admin.usermanagement', compact('users'));
-}}
+}
+
+
+
+}
