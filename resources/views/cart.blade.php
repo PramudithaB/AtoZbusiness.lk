@@ -3,93 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Cart | LTBio.lk</title>
+    <title>Shopping Cart | Lasindu Senarath LMS</title>
+    <link rel="icon" type="image/jpeg" href="{{ asset('images/logo.jpeg') }}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    
+
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'royal-600': '#2563eb',
-                        'royal-700': '#1d4ed8',
-                        'royal-900': '#1e3a8a',
+                        navy: {
+                            50: '#f0f5fa',
+                            100: '#e1ecf6',
+                            200: '#c5dcee',
+                            300: '#99c3e2',
+                            400: '#64a3d2',
+                            500: '#2c6aa3',
+                            600: '#1e5285',
+                            700: '#163f68',
+                            800: '#0f2b4c',
+                            900: '#0a1d35',
+                            950: '#061325',
+                        },
+                        brand: {
+                            blue: '#1d4ed8',
+                            dark: '#07152b',
+                            accent: '#38bdf8',
+                        }
                     },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
                 }
             }
         }
     </script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #f8fafc;
+            color: #0f172a;
         }
     </style>
 </head>
-<body class="antialiased">
 
-    <nav class="bg-white border-b border-gray-100 py-4">
-        <div class="max-w-5xl mx-auto px-4 flex justify-between items-center">
-            <a href="{{ route('buyclass') }}" class="flex items-center text-royal-600 font-bold text-sm">
-                <i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i> Continue Shopping
+<body class="antialiased min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-slate-200/80 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-20 flex justify-between items-center">
+            <a href="{{ route('buyclass') }}" class="flex items-center text-xs font-bold text-blue-700 hover:text-navy-950 transition gap-1.5">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Courses
             </a>
-            <span class="text-xl font-extrabold text-royal-900">LTBio</span>
+            
+            <div class="flex items-center gap-2">
+                <span class="text-xs font-extrabold text-blue-700 uppercase tracking-widest">AtoZ LMS</span>
+                <span class="text-base font-extrabold text-navy-950 tracking-tight">LASINDU SENARATH</span>
+            </div>
         </div>
     </nav>
 
-    <main class="max-w-5xl mx-auto px-4 py-10">
-        <h1 class="text-3xl font-extrabold text-gray-900 mb-8">Shopping Cart</h1>
+    <!-- Main -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 py-10 flex-1 w-full space-y-8">
+        
+        <div class="border-b border-slate-200 pb-4">
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-navy-950 tracking-tight">Shopping Cart</h1>
+            <p class="text-xs text-slate-500 mt-1">Review your selected courses before proceeding to secure checkout.</p>
+        </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            <div class="lg:col-span-2 space-y-4">
-                <div id="cart-items" class="space-y-4">
+            <!-- Cart Items List -->
+            <div class="lg:col-span-8 space-y-4">
+                <div id="cart-items" class="space-y-4"></div>
+
+                <div id="empty-state" class="hidden text-center py-20 bg-white rounded-3xl border border-dashed border-slate-300 p-8">
+                    <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-400">
+                        <i data-lucide="shopping-bag" class="w-8 h-8"></i>
                     </div>
-                
-                <div id="empty-state" class="hidden text-center py-20 bg-white rounded-[2rem] border border-dashed border-gray-200">
-                    <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i data-lucide="shopping-basket" class="w-8 h-8 text-gray-300"></i>
-                    </div>
-                    <p class="text-gray-500 font-medium">Your cart is empty.</p>
-                    <a href="{{ route('buyclass') }}" class="text-royal-600 font-bold text-sm mt-4 inline-block hover:underline">Explore Classes</a>
+                    <h3 class="text-base font-bold text-navy-950 mb-1">Your cart is currently empty</h3>
+                    <p class="text-xs text-slate-500 mb-6">Select a course module to start your learning journey.</p>
+                    <a href="{{ route('buyclass') }}" class="px-6 py-3 bg-navy-900 text-white font-bold rounded-xl text-xs hover:bg-navy-800 transition inline-flex items-center gap-2">
+                        <i data-lucide="book-open" class="w-4 h-4 text-sky-400"></i> Explore Courses
+                    </a>
                 </div>
             </div>
 
-            <div class="lg:col-span-1">
-                <div class="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-sm sticky top-24">
-                    <h2 class="text-xl font-bold text-gray-900 mb-6">Order Summary</h2>
-                    
-                    <div class="space-y-4 mb-6">
-                        <div class="flex justify-between text-gray-500">
-                            <span>Subtotal</span>
-                            <span id="subtotal" class="font-semibold text-gray-900">Rs. 0</span>
+            <!-- Order Summary Card -->
+            <div class="lg:col-span-4">
+                <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm sticky top-28 space-y-6">
+                    <h2 class="text-lg font-bold text-navy-950 pb-4 border-b border-slate-100">Order Summary</h2>
+
+                    <div class="space-y-3 text-xs">
+                        <div class="flex justify-between text-slate-500">
+                            <span>Courses Subtotal</span>
+                            <span id="subtotal" class="font-bold text-navy-950 text-sm">Rs. 0</span>
                         </div>
-                        <div class="flex justify-between text-gray-500">
-                            <span>Tax</span>
-                            <span class="font-semibold text-gray-900">Rs. 0</span>
-                        </div>
-                        <div class="border-t border-gray-50 pt-4 flex justify-between items-end">
-                            <span class="text-gray-900 font-bold">Total</span>
-                            <span id="total-amount" class="text-2xl font-black text-royal-600 tracking-tight">Rs. 0</span>
+                        <div class="flex justify-between text-slate-500">
+                            <span>Processing & Platform Fee</span>
+                            <span class="font-bold text-emerald-600 text-xs">Free (Rs. 0)</span>
                         </div>
                     </div>
 
-                    <a href="{{ route('checkout.page') }}" id="checkout-btn"
-                       class="w-full py-4 bg-royal-600 text-white rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-royal-900 transition shadow-lg shadow-blue-100 active:scale-95">
-                        Checkout Now
-                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    <div class="border-t border-slate-100 pt-4 flex justify-between items-baseline">
+                        <span class="text-sm font-bold text-navy-950">Total Payable</span>
+                        <span id="total-amount" class="text-2xl font-black text-blue-700">Rs. 0</span>
+                    </div>
+
+                    <a href="{{ route('checkout.page') }}" 
+                       id="checkout-btn"
+                       class="w-full py-4 bg-navy-900 hover:bg-blue-700 text-white font-bold rounded-xl transition shadow-lg shadow-navy-950/15 flex items-center justify-center gap-2 text-sm active:scale-[0.98]">
+                        <span>Proceed to Checkout</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </a>
-                    
-                    <p class="text-[10px] text-gray-400 text-center mt-4 uppercase tracking-widest font-bold">
-                        Secure SSL Checkout
-                    </p>
+
+                    <div class="pt-4 border-t border-slate-100 text-center space-y-1 text-[11px] text-slate-400">
+                        <p class="flex items-center justify-center gap-1.5 font-semibold text-slate-500">
+                            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-500"></i>
+                            Official Bank Slip Verification
+                        </p>
+                        <p>Upload deposit slip on the next step to confirm payment.</p>
+                    </div>
                 </div>
             </div>
 
         </div>
+
     </main>
+
+    <footer class="bg-white border-t border-slate-200/80 py-6 px-4 text-center text-xs text-slate-400">
+        &copy; 2026 Lasindu Senarath LMS • AtoZ Business School
+    </footer>
 
     <script>
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -111,19 +160,19 @@
                 
                 cart.forEach(item => {
                     container.innerHTML += `
-                        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col sm:flex-row justify-between items-center gap-4 transition hover:border-royal-200">
-                            <div class="flex items-center gap-4 text-center sm:text-left">
-                                <div class="w-12 h-12 bg-royal-50 rounded-xl flex items-center justify-center text-royal-600">
-                                    <i data-lucide="book-open" class="w-6 h-6"></i>
+                        <div class="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/90 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 transition hover:border-blue-500">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-navy-50 text-navy-800 flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="book-open" class="w-6 h-6 text-blue-700"></i>
                                 </div>
                                 <div>
-                                    <h2 class="text-base font-bold text-gray-900 leading-tight">${item.name}</h2>
-                                    <p class="text-royal-600 font-bold text-sm">Rs. ${item.price.toLocaleString()}</p>
+                                    <h3 class="text-base font-bold text-navy-950">${item.name}</h3>
+                                    <p class="text-blue-700 font-extrabold text-sm mt-0.5">Rs. ${item.price.toLocaleString()}</p>
                                 </div>
                             </div>
                             <button onclick="removeItem(${item.id})"
-                                class="flex items-center gap-2 text-red-500 text-xs font-bold hover:bg-red-50 px-4 py-2 rounded-xl transition">
-                                <i data-lucide="trash-2" class="w-4 h-4"></i> Remove
+                                    class="text-rose-600 hover:text-rose-800 hover:bg-rose-50 px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 ml-auto sm:ml-0">
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Remove
                             </button>
                         </div>
                     `;

@@ -1,159 +1,126 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - User Management</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        /* minimal copy of admin styles (keeps sidebar look consistent) */
-        body { font-family: 'Inter', sans-serif; margin:0; background:#1f2937; color:#f3f4f6; }
-        #sidebar { width:250px; background:#111827; position:fixed; top:0; left:0; height:100%; padding-top:20px; box-sizing:border-box; }
-        #sidebar a { padding:12px 20px; display:flex; align-items:center; color:#d1d5db; margin-bottom:5px; border-left:3px solid transparent; text-decoration:none; }
-        #sidebar a:hover, #sidebar a.active { background:#374151; color:#fff; border-left-color:#4f46e5; }
-        #main-content { margin-left:250px; padding:24px; box-sizing:border-box; min-height:100vh; }
-        .card { background:#111827; border:1px solid #374151; padding:18px; border-radius:10px; margin-bottom:20px; }
-        .data-table { width:100%; border-collapse:collapse; }
-        .data-table th, .data-table td { padding:10px 12px; border-bottom:1px solid #374151; color:#e5e7eb; text-align:left; font-size:0.95rem; }
-        .data-table th { background:#374151; text-transform:uppercase; font-size:0.8rem; color:#e5e7eb; }
-        .btn { display:inline-block; padding:6px 10px; border-radius:6px; text-decoration:none; color:#fff; }
-        .btn-edit { background:#4f46e5; }
-        .btn-delete { background:#dc2626; }
-        .summary-table { width:320px; border-collapse:collapse; margin-left:12px; }
-        .summary-table th, .summary-table td { padding:8px 10px; border-bottom:1px solid #374151; color:#e5e7eb; }
-        @media (max-width: 900px) {
-            #sidebar { transform:translateX(-100%); position:fixed; }
-            #main-content { margin-left:0; padding:16px; }
-        }
-    </style>
-</head>
-<body>
+@extends('admin.layout')
 
-    <!-- SIDEBAR (same links as admin dashboard) -->
-    <nav id="sidebar" aria-label="Admin sidebar">
-        <div style="text-align:center; padding:10px 0 24px 0;">
-            <h2 style="font-size:1.2rem; color:#4f46e5; margin:0;">Admin Panel</h2>
-            <p style="color:#9ca3af; margin:6px 0 0 0; font-size:0.85rem;">Content Management</p>
-        </div>
+@section('title', 'User Management')
+@section('header_title', 'Registered Students & Users')
+@section('header_subtitle', 'Review enrolled student profiles, WhatsApp contacts, examination batches, and registration history.')
 
-        <a href="{{ route('admindashboard') }}">
-            <i class="fas fa-tachometer-alt" style="width:18px; margin-right:10px;"></i> Dashboard
-        </a>
+@section('content')
 
-        <a href="{{ route('admindashboard') }}">
-            <i class="fas fa-chart-line" style="width:18px; margin-right:10px;"></i> Overview
-        </a>
+    @php
+        $grouped = collect($users)->groupBy(function($u){
+            $y = $u->exam_year ?? 'Unspecified';
+            return $y === '' ? 'Unspecified' : $y;
+        })->sortKeysDesc();
+    @endphp
 
-        <a href="{{ route('classmanage') }}">
-            <i class="fas fa-book-open" style="width:18px; margin-right:10px;"></i> Courses & Lectures
-        </a>
-
-        <a href="{{ route('feedbackmanage') }}">
-            <i class="fas fa-comment" style="width:18px; margin-right:10px;"></i> Feedback
-        </a>
-
-        <a href="{{ route('lesson.lessoncreate') }}">
-            <i class="fas fa-layer-group" style="width:18px; margin-right:10px;"></i> Lessons
-        </a>
-
-        <a href="{{ route('package.create') }}">
-            <i class="fas fa-box" style="width:18px; margin-right:10px;"></i> Packages
-        </a>
-
-        <!-- Active: User Management -->
-        <a href="{{ route('usermanagement') }}" class="active" style="margin-top:6px;">
-            <i class="fas fa-users" style="width:18px; margin-right:10px;"></i> User Management
-        </a>
-
-        <a href="{{ route('paymentmanage') }}">
-            <i class="fas fa-file-invoice-dollar" style="width:18px; margin-right:10px;"></i> Payment Management
-        </a>
-
-        <div style="position:absolute; bottom:20px; width:100%; padding:0 20px; box-sizing:border-box;">
-            <form method="POST" action="{{ route('logout') }}" style="margin:0;">
-                @csrf
-                <button type="submit" style="width:100%; text-align:left; border:none; background:#374151; border-radius:6px; padding:12px 20px; color:#d1d5db;">
-                    <i class="fas fa-sign-out-alt" style="margin-right:10px;"></i> Logout
-                </button>
-            </form>
-        </div>
-    </nav>
-
-    <!-- MAIN CONTENT -->
-    <main id="main-content" role="main">
-        <header style="display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:18px;">
+    <!-- Stats summary -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
-                <h1 style="margin:0; font-size:1.5rem; color:#e6edf3;">User Management</h1>
-                <p style="margin:6px 0 0 0; color:#9ca3af;">Manage registered users and view exam-year summary.</p>
+                <p class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Total Users</p>
+                <h3 class="text-3xl font-extrabold text-navy-950">{{ count($users) }}</h3>
+                <p class="text-[11px] text-blue-600 font-semibold mt-1">Platform accounts</p>
             </div>
-            <div style="display:flex; gap:8px; align-items:center;">
-                <a href="{{ route('register') }}" class="btn btn-edit" style="background:#10b981;">Create User</a>
+            <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-700 flex items-center justify-center">
+                <i data-lucide="users" class="w-6 h-6"></i>
             </div>
-        </header>
+        </div>
 
-        <div style="display:flex; gap:18px; flex-wrap:wrap;">
-            @php
-                // Group users by exam_year; map empty/null to "Unspecified", sort keys desc
-                $grouped = collect($users)
-                    ->groupBy(function($u){
-                        $y = $u->exam_year ?? 'Unspecified';
-                        return $y === '' ? 'Unspecified' : $y;
-                    })->sortKeysDesc();
-            @endphp
+        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+            <div>
+                <p class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Exam Batches</p>
+                <h3 class="text-3xl font-extrabold text-navy-950">{{ $grouped->count() }}</h3>
+                <p class="text-[11px] text-emerald-600 font-semibold mt-1">Year groupings</p>
+            </div>
+            <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
+                <i data-lucide="calendar" class="w-6 h-6"></i>
+            </div>
+        </div>
 
-            <div style="flex:1 1 100%;">
-                @if($grouped->isEmpty())
-                    <div class="card">
-                        <p style="color:#9ca3af;">No users found.</p>
-                    </div>
-                @else
-                    @foreach($grouped as $year => $usersInYear)
-                        <section class="card" style="margin-bottom:18px;">
-                            <h3 style="margin:0 0 10px 0; font-size:1.05rem; color:#fff; font-weight:800;">
-                                {{ $year }} <span style="color:#9ca3af; font-weight:600; margin-left:8px;">({{ $usersInYear->count() }})</span>
+        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+            <div>
+                <p class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">New Registration</p>
+                <a href="{{ route('register') }}" target="_blank" class="text-sm font-bold text-blue-600 hover:underline block mt-2">
+                    Open Register Form →
+                </a>
+            </div>
+            <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-700 flex items-center justify-center">
+                <i data-lucide="user-plus" class="w-6 h-6"></i>
+            </div>
+        </div>
+    </div>
+
+    @if($grouped->isEmpty())
+        <div class="bg-white p-12 text-center rounded-2xl border border-dashed border-slate-300">
+            <i data-lucide="users" class="w-12 h-12 text-slate-300 mx-auto mb-3"></i>
+            <p class="text-slate-500 font-medium text-sm">No registered users found in database.</p>
+        </div>
+    @else
+        <div class="space-y-6">
+            @foreach($grouped as $year => $usersInYear)
+            <section class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+                <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-navy-50 text-navy-900 flex items-center justify-center font-bold text-xs">
+                            {{ $year !== 'Unspecified' ? substr($year, -2) : '?' }}
+                        </div>
+                        <div>
+                            <h3 class="text-base font-extrabold text-navy-950">
+                                Exam Batch: {{ $year }}
                             </h3>
+                            <p class="text-xs text-slate-400">{{ $usersInYear->count() }} Registered Student{{ $usersInYear->count() === 1 ? '' : 's' }}</p>
+                        </div>
+                    </div>
+                </div>
 
-                            <div style="overflow-x:auto; margin-top:8px;">
-                                <table class="data-table" aria-describedby="users-{{ \Illuminate\Support\Str::slug($year) }}">
-                                    <thead>
-                                        <tr>
-                                            <th style="width:48px;">#</th>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>WhatsApp</th>
-                                            <th>ID Number</th>
-                                            <th>Address</th>
-                                            <th>Registered</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($usersInYear as $u)
-                                            <tr>
-                                                <td>{{ $u->id }}</td>
-                                                <td>{{ $u->name }}</td>
-                                                <td>{{ $u->email }}</td>
-                                                <td>{{ $u->whatsapp_number ?? '-' }}</td>
-                                                <td>{{ $u->id_number ?? '-' }}</td>
-                                                <td style="max-width:320px; white-space:normal; color:#d1d5db;">{{ \Illuminate\Support\Str::limit($u->address ?? '-', 120) }}</td>
-                                                <td>{{ optional($u->created_at)->format('Y-m-d') }}</td>
-                                                <td>
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-delete" style="font-size:0.78rem; padding:5px 8px; margin-left:6px;">Delete</button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </section>
-                    @endforeach
-                @endif
-            </div>
-         </div>
-    </main>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50/75 text-slate-500 uppercase tracking-wider text-[10px] font-bold border-b border-slate-100">
+                                <th class="px-5 py-3.5 w-12">#</th>
+                                <th class="px-5 py-3.5">Student Name</th>
+                                <th class="px-5 py-3.5">Email</th>
+                                <th class="px-5 py-3.5">WhatsApp</th>
+                                <th class="px-5 py-3.5">ID / NIC</th>
+                                <th class="px-5 py-3.5">Address</th>
+                                <th class="px-5 py-3.5">Registered</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            @foreach($usersInYear as $u)
+                            <tr class="hover:bg-slate-50/70 transition">
+                                <td class="px-5 py-3.5 text-slate-400 font-semibold">{{ $u->id }}</td>
+                                <td class="px-5 py-3.5 font-bold text-navy-950 text-sm">
+                                    {{ $u->name }}
+                                </td>
+                                <td class="px-5 py-3.5 text-slate-600 font-medium">{{ $u->email }}</td>
+                                <td class="px-5 py-3.5">
+                                    @if($u->whatsapp_number)
+                                        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $u->whatsapp_number) }}" 
+                                           target="_blank" 
+                                           class="text-emerald-700 font-bold hover:underline inline-flex items-center gap-1">
+                                            <i data-lucide="message-circle" class="w-3.5 h-3.5 text-emerald-500"></i>
+                                            {{ $u->whatsapp_number }}
+                                        </a>
+                                    @else
+                                        <span class="text-slate-400">-</span>
+                                    @endif
+                                </td>
+                                <td class="px-5 py-3.5 text-slate-600 font-medium">{{ $u->id_number ?: '-' }}</td>
+                                <td class="px-5 py-3.5 text-slate-500 max-w-xs truncate" title="{{ $u->address }}">
+                                    {{ $u->address ?: '-' }}
+                                </td>
+                                <td class="px-5 py-3.5 text-slate-400 font-medium">
+                                    {{ optional($u->created_at)->format('Y-m-d') ?: '-' }}
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            @endforeach
+        </div>
+    @endif
 
-</body>
-</html>
+@endsection

@@ -1,281 +1,145 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Lesson</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+@extends('admin.layout')
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
+@section('title', 'Edit Lesson - ' . $lesson->name)
+@section('header_title', 'Edit Lesson')
+@section('header_subtitle', 'Update lecture details, replace study tutorial file, or change video streaming URL.')
 
-        .container {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            max-width: 800px;
-            width: 100%;
-            padding: 40px;
-        }
+@section('content')
 
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 2rem;
-        }
-
-        .breadcrumb {
-            margin-bottom: 30px;
-            color: #666;
-        }
-
-        .breadcrumb a {
-            color: #667eea;
-            text-decoration: none;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #333;
-        }
-
-        input[type="text"],
-        input[type="file"],
-        select,
-        textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
-
-        input:focus,
-        select:focus,
-        textarea:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .radio-group {
-            display: flex;
-            gap: 20px;
-            padding: 10px 0;
-        }
-
-        .radio-group label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: normal;
-        }
-
-        .current-file {
-            padding: 10px;
-            background: #f3f4f6;
-            border-radius: 6px;
-            margin-top: 8px;
-            font-size: 14px;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 30px;
-        }
-
-        .btn {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-        }
-
-        .btn-primary {
-            background: #667eea;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background: #5a6268;
-        }
-
-        .alert {
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-        }
-
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .alert-danger {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        .alert-danger ul {
-            margin: 0;
-            padding-left: 20px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="breadcrumb">
-            <a href="{{ route('admindashboard') }}"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
-        </div>
-
-        <h1><i class="fas fa-book-open"></i> Edit Lesson</h1>
-        <p style="color: #666; margin-bottom: 30px;">Update the lesson information below</p>
-
-        @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-        <form action="{{ route('lesson.update', $lesson->id) }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            @method('PUT')
-
-            <div class="form-group">
-                <label for="class_id">
-                    <i class="fas fa-chalkboard"></i> Select Class *
-                </label>
-                <select id="class_id" name="class_id" required>
-                    <option value="">Choose a class...</option>
-                    @foreach($classes as $class)
-                        <option value="{{ $class->id }}" {{ old('class_id', $lesson->class_id) == $class->id ? 'selected' : '' }}>
-                            {{ $class->className }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="name">
-                    <i class="fas fa-heading"></i> Lesson Name *
-                </label>
-                <input type="text" id="name" name="name" value="{{ old('name', $lesson->name) }}" required>
-            </div>
-
-            <div class="form-group">
-                <label for="description">
-                    <i class="fas fa-align-left"></i> Description
-                </label>
-                <textarea id="description" name="description">{{ old('description', $lesson->description) }}</textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="link">
-                    <i class="fas fa-link"></i> Link (URL)
-                </label>
-                <input type="text" id="link" name="link" value="{{ old('link', $lesson->link) }}" placeholder="https://example.com">
-            </div>
-
-            <div class="form-group">
-                <label for="file">
-                    <i class="fas fa-file-upload"></i> Upload File (PDF, JPG, PNG - Max 4MB)
-                </label>
-                <input type="file" id="file" name="file" accept=".pdf,.jpg,.jpeg,.png">
-                @if($lesson->file_path)
-                    <div class="current-file">
-                        <i class="fas fa-file"></i> Current file: 
-                        <a href="{{ route('storage.file', ['encoded' => base64_encode($lesson->file_path)]) }}" target="_blank" style="color: #667eea;">View File</a>
-                        <small style="color: #666;"> (Upload new file to replace)</small>
-                    </div>
-                @endif
-            </div>
-
-            <div class="form-group">
-                <label for="notice">
-                    <i class="fas fa-exclamation-circle"></i> Notice
-                </label>
-                <textarea id="notice" name="notice">{{ old('notice', $lesson->notice) }}</textarea>
-            </div>
-
-            <div class="form-group">
-                <label>
-                    <i class="fas fa-money-bill"></i> Lesson Type *
-                </label>
-                <div class="radio-group">
-                    <label>
-                        <input type="radio" name="is_paid" value="0" {{ old('is_paid', $lesson->is_paid) == 0 ? 'checked' : '' }} required>
-                        <span>Free</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="is_paid" value="1" {{ old('is_paid', $lesson->is_paid) == 1 ? 'checked' : '' }} required>
-                        <span>Paid</span>
-                    </label>
+    <div class="max-w-4xl mx-auto">
+        <div class="bg-white rounded-3xl border border-slate-200/90 shadow-sm p-6 sm:p-10">
+            
+            <div class="flex items-center gap-3 pb-6 border-b border-slate-100 mb-8">
+                <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-700 flex items-center justify-center">
+                    <i data-lucide="edit" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h2 class="text-lg font-bold text-navy-950">Update Lesson</h2>
+                    <p class="text-xs text-slate-400">Editing: {{ $lesson->name }}</p>
                 </div>
             </div>
 
-            <div class="btn-group">
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save"></i> Update Lesson
-                </button>
-                <a href="{{ route('admindashboard') }}" class="btn btn-secondary">
-                    <i class="fas fa-times"></i> Cancel
-                </a>
-            </div>
-        </form>
+            <form action="{{ route('lesson.update', $lesson->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+                @csrf
+                @method('PUT')
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                            Select Parent Course <span class="text-rose-500">*</span>
+                        </label>
+                        <select name="class_id" required 
+                                class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-blue-700 focus:bg-white focus:ring-2 focus:ring-blue-700/10 transition cursor-pointer">
+                            <option value="">Choose a Course</option>
+                            @foreach($classes as $c)
+                                <option value="{{ $c->id }}" {{ old('class_id', $lesson->class_id) == $c->id ? 'selected' : '' }}>
+                                    {{ $c->className }} @if($c->month) ({{ $c->month }}) @endif
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                            Access Level <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="flex items-center gap-6 py-3">
+                            <label class="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-700">
+                                <input type="radio" name="is_paid" value="0" {{ old('is_paid', $lesson->is_paid) == 0 ? 'checked' : '' }} required
+                                       class="text-blue-700 focus:ring-blue-700">
+                                Free Access
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-700">
+                                <input type="radio" name="is_paid" value="1" {{ old('is_paid', $lesson->is_paid) == 1 ? 'checked' : '' }} required
+                                       class="text-blue-700 focus:ring-blue-700">
+                                Paid (Requires Enrollment)
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                            Lesson Name / Title <span class="text-rose-500">*</span>
+                        </label>
+                        <input type="text" 
+                               name="name" 
+                               value="{{ old('name', $lesson->name) }}" 
+                               required
+                               class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-blue-700 focus:bg-white focus:ring-2 focus:ring-blue-700/10 transition">
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                            Video Stream Link
+                        </label>
+                        <div class="relative">
+                            <i data-lucide="link" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                            <input type="text" 
+                                   name="link" 
+                                   value="{{ old('link', $lesson->link) }}"
+                                   placeholder="https://www.youtube.com/..."
+                                   class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-blue-700 focus:bg-white focus:ring-2 focus:ring-blue-700/10 transition">
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                            Description
+                        </label>
+                        <textarea name="description" 
+                                  rows="3"
+                                  class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-blue-700 focus:bg-white focus:ring-2 focus:ring-blue-700/10 transition resize-none">{{ old('description', $lesson->description) }}</textarea>
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                            Study File (PDF, JPG, PNG - Max 4MB)
+                        </label>
+                        <input type="file" 
+                               name="file" 
+                               accept=".pdf,.jpg,.jpeg,.png"
+                               class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-600 text-sm focus:outline-none focus:border-blue-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
+                        @if($lesson->file_path)
+                            <div class="mt-2.5 flex items-center gap-2 p-3 bg-slate-100 rounded-xl text-xs text-slate-700">
+                                <i data-lucide="file-text" class="w-4 h-4 text-blue-700"></i>
+                                <span>Current Attached File:</span>
+                                <a href="{{ route('storage.file', ['encoded' => base64_encode($lesson->file_path)]) }}" 
+                                   target="_blank" 
+                                   class="font-bold text-blue-700 hover:underline">
+                                    View Attached File
+                                </a>
+                                <span class="text-slate-400">(Upload a new file above to replace it)</span>
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                            Notice / Special Instructions
+                        </label>
+                        <textarea name="notice" 
+                                  rows="2"
+                                  class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-blue-700 focus:bg-white focus:ring-2 focus:ring-blue-700/10 transition resize-none">{{ old('notice', $lesson->notice) }}</textarea>
+                    </div>
+
+                </div>
+
+                <div class="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <a href="{{ route('admindashboard') }}" 
+                       class="text-xs font-bold text-slate-500 hover:text-navy-950 transition flex items-center gap-1">
+                        <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i> Back to Dashboard
+                    </a>
+
+                    <button type="submit" 
+                            class="w-full sm:w-auto px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-sm transition shadow-md shadow-blue-600/20 flex items-center justify-center gap-2">
+                        <i data-lucide="save" class="w-4 h-4"></i>
+                        Update Lesson
+                    </button>
+                </div>
+            </form>
+
+        </div>
     </div>
-</body>
-</html>
+
+@endsection

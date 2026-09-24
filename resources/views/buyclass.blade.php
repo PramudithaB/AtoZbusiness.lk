@@ -1,41 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Buy - AtoZ</title>
-  <link rel="icon" type="image/jpeg" href="{{ asset('images/logo.jpeg') }}" />
-  <style>
-    body { font-family: sans-serif; background: #001a4d; color: #fff; padding: 40px; }
-    .card { max-width:800px; margin: 0 auto; background: rgba(255,255,255,0.03); padding:24px; border-radius:12px; border:1px solid rgba(255,255,255,0.06); }
-    .btn { display:inline-block; margin-top:16px; background:#ffffff; color:#001a4d; padding:10px 14px; border-radius:10px; text-decoration:none; font-weight:800; }
-  </style>
-</head>
-<body>
-  <div class="card">
-    @php
-      $selected = $book ?? null; // controller may pass $book
-      $bookId = $selected['id'] ?? request('book');
-    @endphp
-
-    <h2>Buy Class / Book</h2>
-    @if($bookId)
-      <p>Selected item id: <strong>{{ $bookId }}</strong></p>
-      <p>If this is the correct item, proceed to checkout.</p>
-      <a href="{{ route('checkout.page') }}" class="btn">Proceed to Checkout</a>
-    @else
-      <p>No item selected. Go back to the <a href="{{ route('store') }}">store</a>.</p>
-    @endif
-  </div>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buy Class | LTBio.lk</title>
-
+    <title>Course Enrollments | Lasindu Senarath LMS</title>
+    <link rel="icon" type="image/jpeg" href="{{ asset('images/logo.jpeg') }}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -44,9 +16,27 @@
             theme: {
                 extend: {
                     colors: {
-                        'royal-600': '#2563eb',
-                        'royal-700': '#1d4ed8',
-                        'royal-900': '#1e3a8a',
+                        navy: {
+                            50: '#f0f5fa',
+                            100: '#e1ecf6',
+                            200: '#c5dcee',
+                            300: '#99c3e2',
+                            400: '#64a3d2',
+                            500: '#2c6aa3',
+                            600: '#1e5285',
+                            700: '#163f68',
+                            800: '#0f2b4c',
+                            900: '#0a1d35',
+                            950: '#061325',
+                        },
+                        brand: {
+                            blue: '#1d4ed8',
+                            dark: '#07152b',
+                            accent: '#38bdf8',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
                     }
                 }
             }
@@ -54,134 +44,139 @@
     </script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #f8fafc;
+            color: #0f172a;
         }
         .cart-badge-animate {
-            transform: scale(1.25);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: scale(1.3);
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
     </style>
 </head>
 
-<body class="antialiased">
+<body class="antialiased min-h-screen flex flex-col">
 
-    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50">
+    <!-- Top Navigation -->
+    <nav class="bg-white/90 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
+            <div class="flex justify-between items-center h-20">
 
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 bg-royal-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">L</div>
-                    <span class="text-xl font-extrabold text-royal-900 tracking-tight">LTBio</span>
-                </div>
+                <a href="{{ auth()->check() ? route('dashboard') : route('login') }}" class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-navy-900 to-blue-700 p-0.5 shadow-md shadow-blue-900/10">
+                        <div class="w-full h-full bg-white rounded-[10px] flex items-center justify-center overflow-hidden">
+                            <img src="{{ asset('images/logo.jpeg') }}" alt="AtoZ Logo" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                    <div>
+                        <span class="text-[9px] font-extrabold text-blue-700 uppercase tracking-widest block">AtoZ Business School</span>
+                        <span class="text-base font-extrabold text-navy-950 tracking-tight leading-none">LASINDU SENARATH</span>
+                    </div>
+                </a>
 
-                <div class="hidden md:flex items-center space-x-8 text-sm font-bold">
-                    <a href="{{ route('dashboard') }}" class="text-gray-500 hover:text-royal-600 flex items-center gap-2 transition">
-                        <i data-lucide="layout-grid" class="w-4 h-4"></i> Dashboard
-                    </a>
+                <div class="flex items-center space-x-3 sm:space-x-6 text-sm font-semibold">
+                    @auth
+                        <a href="{{ route('dashboard') }}" class="text-slate-600 hover:text-navy-900 flex items-center gap-1.5 transition">
+                            <i data-lucide="layout-dashboard" class="w-4 h-4 text-blue-600"></i>
+                            <span class="hidden sm:inline">Dashboard</span>
+                        </a>
+                    @endauth
 
-                    <a href="{{ route('buyclass') }}" class="text-royal-600 flex items-center gap-2">
-                        <i data-lucide="shopping-bag" class="w-4 h-4"></i> Buy Class
-                    </a>
-
-                    <a href="{{ route('cart.view') }}" class="relative group p-2 bg-gray-50 rounded-full hover:bg-royal-50 transition">
-                        <i data-lucide="shopping-cart" class="w-5 h-5 text-gray-600 group-hover:text-royal-600"></i>
-                        <span id="cart-count" class="absolute -top-1 -right-1 bg-royal-600 text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full shadow-lg shadow-blue-200">
+                    <a href="{{ route('cart.view') }}" class="relative p-2.5 rounded-xl bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-blue-700 transition flex items-center gap-2">
+                        <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                        <span class="hidden sm:inline font-bold text-xs">Cart</span>
+                        <span id="cart-count" class="bg-blue-600 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full shadow-sm">
                             0
                         </span>
                     </a>
-                </div>
-
-                <div class="flex items-center gap-3">
-                    <a href="{{ route('cart.view') }}" class="md:hidden relative p-2 mr-2">
-                        <i data-lucide="shopping-cart" class="w-6 h-6 text-gray-600"></i>
-                        <span id="cart-count-mobile" class="absolute top-0 right-0 bg-royal-600 text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full">0</span>
-                    </a>
-
-                    <div class="relative">
-                        <button id="profile-menu-button" class="flex items-center gap-2 p-1 hover:bg-gray-50 rounded-xl transition">
-                            <div class="w-9 h-9 bg-royal-900 rounded-lg flex items-center justify-center text-white font-bold text-xs uppercase">
-                                {{ substr(Auth::user()->name, 0, 2) }}
-                            </div>
-                            <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400"></i>
-                        </button>
-
-                        <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white border border-gray-100 rounded-2xl shadow-xl py-2 hidden">
-                            <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 font-medium">Profile</a>
-                            <div class="border-t border-gray-50 my-1"></div>
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 font-medium">Log Out</button>
-                            </form>
-                        </div>
-                    </div>
                 </div>
 
             </div>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full space-y-10">
 
-        <header class="mb-10">
-            <h1 class="text-3xl font-extrabold text-gray-900 flex items-center gap-3">
-                <i data-lucide="sparkles" class="w-8 h-8 text-royal-600"></i>
-                Choose Your Course
+        <!-- Header -->
+        <div class="text-center max-w-2xl mx-auto space-y-3">
+            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-wider">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Monthly Enrollments
+            </span>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-navy-950 tracking-tight">
+                Select Your Course Package
             </h1>
-            <p class="text-gray-500 mt-2">Enroll in premium classes and take your learning to the next level.</p>
-        </header>
+            <p class="text-slate-500 text-sm sm:text-base leading-relaxed">
+                Choose your monthly subscription plan to unlock full video lectures, revision modules, and student discussion rooms.
+            </p>
+        </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Notification Toast on adding to cart -->
+        <div id="cart-alert" class="hidden fixed bottom-6 right-6 z-50 bg-navy-950 text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-navy-800 flex items-center gap-3 text-sm animate-bounce">
+            <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400"></i>
+            <span id="cart-alert-msg" class="font-bold">Course added to your cart!</span>
+            <a href="{{ route('cart.view') }}" class="underline font-bold text-sky-400 ml-2">Checkout Now →</a>
+        </div>
 
-            @foreach($packages as $pkg)
-            <div class="group bg-white p-8 rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-2xl hover:border-royal-600/20 transition-all duration-300 flex flex-col">
+        <!-- Packages Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            @forelse($packages as $pkg)
+            <div class="bg-white rounded-3xl p-8 border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-blue-600/30 transition-all duration-300 flex flex-col justify-between group">
                 
-                <div class="mb-6">
-                    <div class="inline-block px-3 py-1 bg-royal-50 text-royal-600 text-[10px] font-bold uppercase tracking-widest rounded-full mb-4">
-                        Monthly Subscription
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="px-3 py-1 bg-navy-50 text-navy-800 text-[10px] font-extrabold uppercase tracking-widest rounded-full">
+                            Monthly Plan
+                        </span>
+                        <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
+                            <i data-lucide="book" class="w-4 h-4"></i>
+                        </div>
                     </div>
-                    <h2 class="text-2xl font-extrabold text-gray-900 leading-tight">
+
+                    <h2 class="text-2xl font-extrabold text-navy-950 leading-tight mb-3 group-hover:text-blue-700 transition">
                         {{ $pkg->package_name }}
                     </h2>
+
+                    <p class="text-slate-500 text-sm leading-relaxed mb-6">
+                        {{ $pkg->description ?: 'Full month access to all live and recorded Business Studies lectures, class handouts, and tutor assistance.' }}
+                    </p>
                 </div>
 
-                <p class="text-gray-500 text-sm mb-8 leading-relaxed flex-grow">
-                    {{ $pkg->description }}
-                </p>
+                <div class="pt-6 border-t border-slate-100">
+                    <div class="flex items-baseline gap-1 mb-6">
+                        <span class="text-3xl font-extrabold text-navy-950">Rs. {{ number_format($pkg->monthly_fee) }}</span>
+                        <span class="text-slate-400 text-xs font-semibold">/ month</span>
+                    </div>
 
-                <div class="mb-8">
-                    <span class="text-4xl font-black text-royal-900">Rs. {{ number_format($pkg->monthly_fee) }}</span>
-                    <span class="text-gray-400 text-sm font-medium">/ month</span>
+                    <button onclick="addToCart({{ $pkg->class_id }}, '{{ addslashes($pkg->package_name) }}', {{ $pkg->monthly_fee }})"
+                            class="w-full py-4 bg-navy-900 hover:bg-blue-700 text-white font-bold rounded-2xl shadow-lg shadow-navy-950/15 active:scale-[0.98] transition flex items-center justify-center gap-2 text-sm">
+                        <i data-lucide="plus-circle" class="w-4 h-4 text-sky-400"></i>
+                        Add to Cart & Enroll
+                    </button>
                 </div>
 
-                <button
-                    onclick="addToCart({{ $pkg->class_id }}, '{{ $pkg->package_name }}', {{ $pkg->monthly_fee }})"
-                    class="w-full bg-royal-600 text-white py-4 rounded-2xl font-bold shadow-lg shadow-blue-100 hover:bg-royal-900 active:scale-95 transition-all flex items-center justify-center gap-2">
-                    <i data-lucide="plus-circle" class="w-5 h-5"></i>
-                    Add to Cart
-                </button>
             </div>
-            @endforeach
-
+            @empty
+            <div class="col-span-full py-16 text-center bg-white rounded-3xl border border-dashed border-slate-300 p-8">
+                <i data-lucide="package" class="w-12 h-12 text-slate-300 mx-auto mb-3"></i>
+                <h3 class="text-base font-bold text-navy-950 mb-1">No course packages available at this time</h3>
+                <p class="text-xs text-slate-500">Please check back soon or contact student support.</p>
+            </div>
+            @endforelse
         </div>
 
     </main>
 
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200/80 py-8 px-4 text-center text-xs text-slate-500">
+        &copy; 2026 Lasindu Senarath LMS • AtoZ Business School. All rights reserved.
+    </footer>
+
     <script>
         lucide.createIcons();
 
-        // Profile Dropdown
-        const profBtn = document.getElementById('profile-menu-button');
-        const profDrop = document.getElementById('profile-dropdown');
-        profBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            profDrop.classList.toggle('hidden');
-        });
-        document.addEventListener('click', () => profDrop.classList.add('hidden'));
-
-        // Cart Logic (Unchanged Backend Logic)
+        // Cart Logic (Preserving backend compatibility)
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
         updateCartBadge();
 
@@ -192,25 +187,23 @@
                 localStorage.setItem("cart", JSON.stringify(cart));
             }
             updateCartBadge();
-            animateCart();
+            
+            // Show toast alert
+            const alertBox = document.getElementById("cart-alert");
+            if (alertBox) {
+                alertBox.classList.remove("hidden");
+                setTimeout(() => alertBox.classList.add("hidden"), 3500);
+            }
         }
 
         function updateCartBadge() {
-            const count = cart.length;
-            const desktop = document.getElementById("cart-count");
-            const mobile = document.getElementById("cart-count-mobile");
-            if (desktop) desktop.textContent = count;
-            if (mobile) mobile.textContent = count;
-        }
-
-        function animateCart() {
-            const badges = [document.getElementById("cart-count"), document.getElementById("cart-count-mobile")].filter(Boolean);
-            badges.forEach(b => b.classList.add("cart-badge-animate"));
-            setTimeout(() => {
-                badges.forEach(b => b.classList.remove("cart-badge-animate"));
-            }, 300);
+            const badge = document.getElementById("cart-count");
+            if (badge) {
+                badge.textContent = cart.length;
+                badge.classList.add("cart-badge-animate");
+                setTimeout(() => badge.classList.remove("cart-badge-animate"), 250);
+            }
         }
     </script>
-
 </body>
 </html>

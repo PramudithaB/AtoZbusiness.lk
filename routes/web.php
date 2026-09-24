@@ -9,8 +9,26 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Response;
 
 Route::get('/', function () {
-    return view('welcome');
+    if (auth()->check()) {
+        if (auth()->user()->usertype === 'admin') {
+            return redirect()->route('admindashboard');
+        }
+        return redirect()->route('dashboard');
+    }
+    return view('auth.login');
 });
+
+Route::get('/about-teacher', function () {
+    return view('about-teacher');
+})->name('about-teacher');
+
+Route::get('/teacher', function () {
+    return redirect()->route('about-teacher');
+});
+
+Route::get('/welcome', function () {
+    return view('welcome');
+})->name('welcome');
 
 // Simple store route showing sample books
 Route::get('/store', function () {

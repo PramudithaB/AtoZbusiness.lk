@@ -309,7 +309,7 @@
                     <span style="background: #ffffff; color: #4169E1; border-radius: 50%; min-width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold;">✓</span> පහසුවෙන් පිවිසීමට ඇති හැකියාව
                 </li>
                 <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px;">
-                    <span style="background: #ffffff; color: #4169E1; border-radius: 50%; min-width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold;">✓</span> ශ්‍රී ලංකාවේ BS හොඳම දේශකයා
+                    <span style="background: #ffffff; color: #4169E1; border-radius: 50%; min-width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold;">✓</span> ශ්‍රී ලංකාවේ හොඳම BS දේශකයා
                 </li>
                 <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px;">
                     <span style="background: #ffffff; color: #4169E1; border-radius: 50%; min-width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold;">✓</span> ඔබට පහසුම ගාස්තු
@@ -408,7 +408,7 @@
             </div>
         @endif
 
-        @if($errors->any())
+        @if(isset($errors) && $errors->any())
             <div class="mb-4 p-3 rounded" style="background:#fee2e2;color:#991b1b;border:1px solid #f87171;">
                 <strong>Please fix the following issues:</strong>
                 <ul style="margin-top:4px; margin-bottom:0; padding-left: 1rem;">
