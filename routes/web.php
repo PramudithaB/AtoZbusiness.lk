@@ -44,6 +44,8 @@ Route::get('/store', function () {
     return view('store', compact('books'));
 })->name('store');
 
+Route::get('/past-papers', [App\Http\Controllers\PastPaperController::class, 'index'])->name('pastpapers.index');
+
 
 
 Route::middleware('auth')->group(function () {

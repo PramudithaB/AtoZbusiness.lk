@@ -186,7 +186,7 @@
                 </form>
 
                 <!-- Create Account Link -->
-                <div class="mt-8 pt-5 border-t border-slate-100 text-center">
+                <div class="mt-6 pt-5 border-t border-slate-100 text-center">
                     <p class="text-xs text-slate-500">
                         Don't have an account? 
                         <a href="{{ route('register') }}" 
@@ -194,6 +194,23 @@
                             Create Account
                         </a>
                     </p>
+                </div>
+
+                <!-- All Past Papers (Free Access / No Login Required) -->
+                <div class="mt-4 pt-4 border-t border-slate-100">
+                    <a href="{{ route('pastpapers.index') }}" 
+                       class="w-full py-3.5 px-4 bg-slate-50 hover:bg-blue-50/80 border border-slate-200/90 hover:border-blue-300 rounded-2xl flex items-center justify-between text-navy-950 transition-all group shadow-sm hover:shadow">
+                        <div class="flex items-center gap-3 text-left">
+                            <div class="w-9 h-9 rounded-xl bg-navy-900 group-hover:bg-blue-700 text-white flex items-center justify-center flex-shrink-0 transition shadow-sm">
+                                <svg class="w-4 h-4 text-sky-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-extrabold text-blue-700 uppercase tracking-wider block">Free Download • නොමිලේ බාගත කරන්න</span>
+                                <span class="text-xs font-bold text-navy-950">A/L &amp; O/L All Past Papers (ප්‍රශ්න පත්‍ර)</span>
+                            </div>
+                        </div>
+                        <svg class="w-4 h-4 text-slate-400 group-hover:text-blue-700 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </a>
                 </div>
 
             </div>
