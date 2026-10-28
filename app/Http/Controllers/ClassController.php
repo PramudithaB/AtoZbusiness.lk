@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\ClassModel;  // ✔️ import new model name
+use App\Models\ClassModel;
 use App\Models\Lesson;
+use App\Models\Package;
+use App\Models\Checkout;
 
 class ClassController extends Controller
 {
@@ -33,8 +35,44 @@ public function classstore(Request $request)
 
 public function dashboard()
 {
-    $classes = ClassModel::all();
-    return view('dashboard', compact('classes'));
+    $classes = ClassModel::where(function($q) {
+        $q->whereNull('month')->orWhere('month', '!=', 'Study Pack');
+    })->get();
+
+    $studyPacks = \App\Models\StudyPack::where('is_published', true)->orderBy('id', 'asc')->get();
+    $studyPackApprovals = [];
+    $studyPackPendings = [];
+
+    if (auth()->check()) {
+        $userId = auth()->id();
+        $userName = auth()->user()->name ?? null;
+        $isAdmin = auth()->user()->usertype === 'admin';
+
+        foreach ($studyPacks as $pack) {
+            $classId = $pack->class_id;
+            $studyPackApprovals[$pack->id] = $isAdmin || Checkout::where('status', 'approved')
+                ->whereRaw("CONCAT(',', REPLACE(class_id, ' ', ''), ',') LIKE ?", ['%,' . $classId . ',%'])
+                ->where(function($q) use ($userId, $userName) {
+                    $q->where('user_id', $userId);
+                    if ($userName) {
+                        $q->orWhere('student_name', $userName);
+                    }
+                })
+                ->exists();
+
+            $studyPackPendings[$pack->id] = Checkout::where('status', 'pending')
+                ->whereRaw("CONCAT(',', REPLACE(class_id, ' ', ''), ',') LIKE ?", ['%,' . $classId . ',%'])
+                ->where(function($q) use ($userId, $userName) {
+                    $q->where('user_id', $userId);
+                    if ($userName) {
+                        $q->orWhere('student_name', $userName);
+                    }
+                })
+                ->exists();
+        }
+    }
+
+    return view('dashboard', compact('classes', 'studyPacks', 'studyPackApprovals', 'studyPackPendings'));
 }
 
 

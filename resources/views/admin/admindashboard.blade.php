@@ -68,6 +68,9 @@
         <a href="{{ route('package.create') }}" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm">
             <i data-lucide="package" class="w-4 h-4"></i> Create Package
         </a>
+        <a href="{{ route('admin.studypack.create') }}" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm">
+            <i data-lucide="layers" class="w-4 h-4"></i> New Study Pack
+        </a>
         <a href="{{ route('paymentmanage') }}" class="px-4 py-2.5 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm">
             <i data-lucide="credit-card" class="w-4 h-4 text-blue-600"></i> View Payment Slips
         </a>

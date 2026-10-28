@@ -187,6 +187,11 @@
                         <i data-lucide="book-open" class="w-4 h-4 text-slate-400"></i> Courses
                     </a>
 
+                    <a href="{{ route('studypack.index') }}" 
+                       class="px-3.5 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-navy-900 hover:bg-slate-50 transition flex items-center gap-2">
+                        <i data-lucide="package" class="w-4 h-4 text-slate-400"></i> Study Packs
+                    </a>
+
                     <a href="{{ route('store') }}" 
                        class="px-3.5 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-navy-900 hover:bg-slate-50 transition flex items-center gap-2">
                         <i data-lucide="shopping-bag" class="w-4 h-4 text-slate-400"></i> Store
@@ -240,6 +245,10 @@
                                 <i data-lucide="graduation-cap" class="w-4 h-4 text-slate-400"></i> About Teacher
                             </a>
 
+                            <a href="{{ route('studypack.index') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-navy-900 transition">
+                                <i data-lucide="package" class="w-4 h-4 text-slate-400"></i> Study Packs
+                            </a>
+
                             <a href="{{ route('buyclass') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-navy-900 transition">
                                 <i data-lucide="plus-circle" class="w-4 h-4 text-slate-400"></i> Enroll in New Class
                             </a>
@@ -270,6 +279,9 @@
             </a>
             <a href="{{ route('buyclass') }}" class="block px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">
                 Courses & Packages
+            </a>
+            <a href="{{ route('studypack.index') }}" class="block px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                Study Packs
             </a>
             <a href="{{ route('store') }}" class="block px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">
                 Publications & Store
@@ -424,6 +436,121 @@
                 Enroll Today <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
             </a>
         </div>
+
+        <!-- ==============================================================
+             STUDY PACKS SECTION (වීඩියෝ පාඩම් මාලා)
+        ============================================================== -->
+        <section id="studypacks" class="space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 pb-4">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                        <h2 class="text-2xl font-extrabold text-navy-950 tracking-tight">Study Packs • වීඩියෝ පාඩම් මාලා</h2>
+                    </div>
+                    <p class="text-sm text-slate-500 mt-1">
+                        NIE විෂය නිර්දේශයට අනුකූලව නිපුණතා මට්ටම් අනුව සකසන ලද සම්පූර්ණ වීඩියෝ පාඩම් මාලාවන්.
+                    </p>
+                </div>
+                <div>
+                    <a href="{{ route('studypack.index') }}" class="text-xs font-bold text-blue-700 hover:underline flex items-center gap-1">
+                        View All Study Packs <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Study Pack Cards -->
+            <div class="space-y-4">
+                @forelse($studyPacks as $pack)
+                    @php
+                        $hasAccess = $studyPackApprovals[$pack->id] ?? false;
+                        $hasPending = $studyPackPendings[$pack->id] ?? false;
+                        $packPrice = $pack->price ?? ($pack->package->monthly_fee ?? 2500);
+                    @endphp
+                    <div class="bg-gradient-to-br from-white via-slate-50/50 to-amber-50/30 rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-sm hover:shadow-md hover:border-amber-500/40 transition-all flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                        <div class="flex items-start gap-5 max-w-2xl">
+                            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#1B2A4A] text-[#C99A3B] flex items-center justify-center flex-shrink-0 shadow-lg shadow-navy-950/10">
+                                <i data-lucide="video" class="w-7 h-7 sm:w-8 sm:h-8"></i>
+                            </div>
+
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-[#1B2A4A] text-[#F2EFE4] tracking-wider uppercase">
+                                        {{ $pack->grade ?? 'Grade 12 & 13' }} • NIE Syllabus
+                                    </span>
+                                    
+                                    @if($hasAccess)
+                                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1">
+                                            <i data-lucide="check-circle" class="w-3 h-3"></i> Enrolled &amp; Active
+                                        </span>
+                                    @elseif($hasPending)
+                                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-50 text-amber-700 border border-amber-200 flex items-center gap-1">
+                                            <i data-lucide="clock" class="w-3 h-3"></i> Payment Pending Approval
+                                        </span>
+                                    @else
+                                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-slate-100 text-slate-600 border border-slate-200 flex items-center gap-1">
+                                            <i data-lucide="lock" class="w-3 h-3 text-slate-400"></i> Locked
+                                        </span>
+                                    @endif
+                                </div>
+
+                                <h3 class="text-xl sm:text-2xl font-extrabold text-navy-950 leading-tight">
+                                    {{ $pack->title }}
+                                </h3>
+
+                                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                    {{ $pack->description ?? 'නිපුණතා මට්ටම් ආවරණය වන පරිදි සකසන ලද සම්පූර්ණ න්‍යායාත්මක වීඩියෝ පාඩම් එකතුව. Search කර කෙළින්ම අවශ්‍ය පාඩම නරඹන්න.' }}
+                                </p>
+
+                                <div class="flex items-center gap-4 pt-1 text-xs text-slate-500 font-semibold">
+                                    <span class="flex items-center gap-1">
+                                        <i data-lucide="layers" class="w-3.5 h-3.5 text-blue-600"></i> {{ $pack->topics_count }} මාතෘකා
+                                    </span>
+                                    <span class="flex items-center gap-1">
+                                        <i data-lucide="list-checks" class="w-3.5 h-3.5 text-emerald-600"></i> {{ $pack->subtopics_count }} වීඩියෝ පාඩම්
+                                    </span>
+                                    <span class="flex items-center gap-1">
+                                        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-600"></i> Full Series
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex-shrink-0 w-full md:w-auto flex flex-col sm:flex-row md:flex-col items-stretch md:items-end gap-3 pt-4 md:pt-0 border-t md:border-t-0 border-slate-100">
+                            @if(!$hasAccess)
+                                <div class="text-right hidden md:block">
+                                    <span class="text-[10px] uppercase font-bold text-slate-400 block">Course Fee</span>
+                                    <span class="text-xl font-extrabold text-navy-950">Rs. {{ number_format($packPrice) }}</span>
+                                </div>
+                            @endif
+
+                            @if($hasAccess)
+                                <a href="{{ route('studypack.show', $pack->id) }}" 
+                                   class="px-6 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-xl transition shadow-lg shadow-emerald-600/20 active:scale-[0.98] flex items-center justify-center gap-2">
+                                    <span>පාඩම් මාලාවට පිවිසෙන්න</span>
+                                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                </a>
+                            @elseif($hasPending)
+                                <a href="{{ route('studypack.show', $pack->id) }}" 
+                                   class="px-6 py-3.5 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs rounded-xl transition shadow-lg shadow-amber-500/20 active:scale-[0.98] flex items-center justify-center gap-2">
+                                    <i data-lucide="clock" class="w-4 h-4"></i>
+                                    <span>Verification Pending</span>
+                                </a>
+                            @else
+                                <a href="{{ route('studypack.show', $pack->id) }}" 
+                                   class="px-6 py-3.5 bg-[#1B2A4A] hover:bg-blue-800 text-white font-extrabold text-xs rounded-xl transition shadow-lg shadow-navy-950/20 active:scale-[0.98] flex items-center justify-center gap-2">
+                                    <i data-lucide="shopping-cart" class="w-4 h-4 text-amber-400"></i>
+                                    <span>Enroll &amp; Buy (Rs. {{ number_format($packPrice) }})</span>
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                @empty
+                    <div class="p-8 text-center bg-white rounded-3xl border border-slate-200 text-slate-400">
+                        <p class="font-bold">තවමත් Study Packs නොමැත.</p>
+                    </div>
+                @endforelse
+            </div>
+        </section>
 
         <!-- ==============================================================
              COURSE / LMS INFORMATION (Grouped by Month)

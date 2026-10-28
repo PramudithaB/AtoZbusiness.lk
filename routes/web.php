@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\adminController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\StudentFeedbackController;
+use App\Http\Controllers\StudyPackController;
+use App\Http\Controllers\AdminStudyPackController;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Response;
 
@@ -57,6 +59,22 @@ Route::get('/classvideo/{id}', [adminController::class, 'classvideo'])->name('cl
 Route::get('/classmanage', [ClassController::class, 'classmanage'])->name('classmanage');
 Route::post('/classstore', [ClassController::class, 'classstore'])->name('classstore');
 Route::get('/dashboard', [ClassController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
+
+// Study Packs (Student Portal)
+Route::get('/studypacks', [StudyPackController::class, 'index'])->name('studypack.index')->middleware('auth');
+Route::get('/studypack/{id?}', [StudyPackController::class, 'show'])->name('studypack.show')->middleware('auth');
+
+// Admin Study Packs Management
+Route::middleware(['auth', 'admin'])->prefix('admin/studypack')->name('admin.studypack.')->group(function () {
+    Route::get('/', [AdminStudyPackController::class, 'index'])->name('index');
+    Route::get('/create', [AdminStudyPackController::class, 'create'])->name('create');
+    Route::post('/store', [AdminStudyPackController::class, 'store'])->name('store');
+    Route::get('/edit/{id}', [AdminStudyPackController::class, 'edit'])->name('edit');
+    Route::put('/update/{id}', [AdminStudyPackController::class, 'update'])->name('update');
+    Route::get('/curriculum/{id}', [AdminStudyPackController::class, 'curriculum'])->name('curriculum');
+    Route::put('/curriculum/{id}', [AdminStudyPackController::class, 'updateCurriculum'])->name('curriculum.update');
+    Route::delete('/delete/{id}', [AdminStudyPackController::class, 'destroy'])->name('delete');
+});
 
 
 Route::post('/feedbackstore', [StudentFeedbackController::class, 'feedbackstore'])->name('feedbackstore');

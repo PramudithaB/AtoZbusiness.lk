@@ -191,6 +191,11 @@
                     <i data-lucide="package" class="w-4 h-4 text-slate-400"></i> Create Package
                 </a>
 
+                <a href="{{ route('admin.studypack.index') }}" 
+                   class="admin-nav-item {{ request()->routeIs('admin.studypack.*') ? 'active' : '' }} flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-navy-900 transition text-xs font-semibold">
+                    <i data-lucide="layers" class="w-4 h-4 text-slate-400"></i> Study Packs
+                </a>
+
                 <a href="{{ route('paymentmanage') }}" 
                    class="admin-nav-item {{ request()->routeIs('paymentmanage') ? 'active' : '' }} flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-navy-900 transition text-xs font-semibold">
                     <i data-lucide="credit-card" class="w-4 h-4 text-slate-400"></i> Payment Requests
