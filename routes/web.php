@@ -7,6 +7,7 @@ use App\Http\Controllers\ClassController;
 use App\Http\Controllers\StudentFeedbackController;
 use App\Http\Controllers\StudyPackController;
 use App\Http\Controllers\AdminStudyPackController;
+use App\Http\Controllers\ChatController;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Response;
 
@@ -52,6 +53,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Live Student & Admin Chat
+    Route::get('/chat/messages', [ChatController::class, 'getMessages'])->name('chat.messages');
+    Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');
+    Route::delete('/chat/delete/{id}', [ChatController::class, 'deleteMessage'])->name('chat.delete');
 });
 
 require __DIR__ . '/auth.php';

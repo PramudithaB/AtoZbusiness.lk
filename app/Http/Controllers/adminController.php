@@ -7,6 +7,7 @@ use App\Models\ClassModel;
 use App\Models\User;
 use App\Models\Package;
 use App\Models\Checkout;
+use App\Models\StudyPack;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Log;
 
@@ -15,11 +16,10 @@ class adminController extends Controller
 {
     public function admindashboard(){
         $classes = ClassModel::all();
-            $users = User::orderBy('id', 'desc')->get();
-                $packages = Package::orderBy('id','desc')->get(); // 👈 ADD THIS
-   // 👈 fetch all registered users
-   // or ->orderBy('id','desc')->get()
-    return view('admin.admindashboard', compact('classes','users','packages'));
+        $users = User::orderBy('id', 'desc')->get();
+        $packages = Package::orderBy('id','desc')->get();
+        $studyPacks = StudyPack::with(['classModel', 'package'])->orderBy('id', 'desc')->get();
+        return view('admin.admindashboard', compact('classes', 'users', 'packages', 'studyPacks'));
     }
   
   public function classvideo($lessonId)

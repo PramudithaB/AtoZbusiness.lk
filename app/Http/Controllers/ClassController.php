@@ -45,30 +45,31 @@ public function dashboard()
 
     if (auth()->check()) {
         $userId = auth()->id();
-        $userName = auth()->user()->name ?? null;
         $isAdmin = auth()->user()->usertype === 'admin';
 
         foreach ($studyPacks as $pack) {
             $classId = $pack->class_id;
-            $studyPackApprovals[$pack->id] = $isAdmin || Checkout::where('status', 'approved')
-                ->whereRaw("CONCAT(',', REPLACE(class_id, ' ', ''), ',') LIKE ?", ['%,' . $classId . ',%'])
-                ->where(function($q) use ($userId, $userName) {
-                    $q->where('user_id', $userId);
-                    if ($userName) {
-                        $q->orWhere('student_name', $userName);
-                    }
-                })
-                ->exists();
 
-            $studyPackPendings[$pack->id] = Checkout::where('status', 'pending')
-                ->whereRaw("CONCAT(',', REPLACE(class_id, ' ', ''), ',') LIKE ?", ['%,' . $classId . ',%'])
-                ->where(function($q) use ($userId, $userName) {
-                    $q->where('user_id', $userId);
-                    if ($userName) {
-                        $q->orWhere('student_name', $userName);
-                    }
-                })
-                ->exists();
+            // Strict payment check: only admins or students with approved checkout for this class_id
+            $hasApproved = false;
+            if ($isAdmin) {
+                $hasApproved = true;
+            } elseif ($userId && $classId) {
+                $hasApproved = Checkout::where('status', 'approved')
+                    ->where('user_id', $userId)
+                    ->whereRaw("CONCAT(',', REPLACE(class_id, ' ', ''), ',') LIKE ?", ['%,' . $classId . ',%'])
+                    ->exists();
+            }
+            $studyPackApprovals[$pack->id] = $hasApproved;
+
+            $hasPending = false;
+            if (!$hasApproved && $userId && $classId) {
+                $hasPending = Checkout::where('status', 'pending')
+                    ->where('user_id', $userId)
+                    ->whereRaw("CONCAT(',', REPLACE(class_id, ' ', ''), ',') LIKE ?", ['%,' . $classId . ',%'])
+                    ->exists();
+            }
+            $studyPackPendings[$pack->id] = $hasPending;
         }
     }
 

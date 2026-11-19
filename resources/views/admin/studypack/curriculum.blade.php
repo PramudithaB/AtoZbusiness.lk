@@ -8,6 +8,37 @@
 
     <div class="space-y-6">
 
+        <!-- Breadcrumb & Top Tabs -->
+        <div class="flex items-center gap-3">
+            <a href="{{ route('admin.studypack.index') }}" 
+               class="p-2 rounded-xl bg-white border border-slate-200 text-slate-500 hover:text-navy-900 hover:bg-slate-50 transition shadow-sm"
+               title="Back to Study Packs List">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            </a>
+            <div>
+                <h3 class="text-lg font-extrabold text-navy-950">Curriculum & Video Lessons: {{ $studyPack->title }}</h3>
+                <p class="text-xs text-slate-500">Target: {{ $studyPack->grade }} • Fee: Rs. {{ number_format($studyPack->price) }}</p>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs between Details and Videos -->
+        <div class="flex items-center gap-2 border-b border-slate-200 pb-2">
+            <a href="{{ route('admin.studypack.edit', $studyPack->id) }}" 
+               class="px-4 py-2.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 flex items-center gap-2 transition">
+                <i data-lucide="settings" class="w-4 h-4 text-slate-400"></i> 1. Basic Details &amp; Pricing
+            </a>
+
+            <span class="px-4 py-2.5 rounded-xl text-xs font-bold bg-navy-950 text-white flex items-center gap-2 shadow-sm">
+                <i data-lucide="video" class="w-4 h-4 text-indigo-400"></i> 2. Topics &amp; Video Lessons
+            </span>
+
+            <a href="{{ route('studypack.show', $studyPack->id) }}" 
+               target="_blank" 
+               class="px-4 py-2.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 flex items-center gap-2 transition ml-auto">
+                <i data-lucide="external-link" class="w-4 h-4 text-slate-400"></i> View as Student
+            </a>
+        </div>
+
         <!-- Top Header & Summary Bar -->
         <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>

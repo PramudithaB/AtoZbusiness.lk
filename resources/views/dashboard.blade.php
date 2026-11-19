@@ -3,11 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home | Lasindu Senarath LMS - AtoZ Business School</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Dashboard | Lasindu Senarath LMS - AtoZ Business School</title>
     <link rel="icon" type="image/jpeg" href="{{ asset('images/logo.jpeg') }}" />
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+Sinhala:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Sinhala:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS & Lucide Icons -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     
@@ -28,11 +33,6 @@
                             800: '#0f2b4c',
                             900: '#0a1d35',
                             950: '#061325',
-                        },
-                        brand: {
-                            blue: '#1d4ed8',
-                            dark: '#07152b',
-                            accent: '#38bdf8',
                         }
                     },
                     fontFamily: {
@@ -47,46 +47,13 @@
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #f8fafc;
-            color: #0f172a;
+            background-color: #fafbfc;
+            color: #0f2b4c;
         }
-
-        /* ---------------- Page Load Animation Styles ---------------- */
-        #lms-loader {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: #061325;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.5s;
-        }
-        #lms-loader.loaded {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-        .typewriter-cursor {
-            display: inline-block;
-            width: 3px;
-            height: 1.1em;
-            background: #38bdf8;
-            margin-left: 4px;
-            vertical-align: middle;
-            animation: blink 0.7s infinite;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        /* Accordion transition */
         .accordion-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.35s ease-out;
+            transition: max-height 0.3s ease-out;
         }
         .accordion-active .accordion-content {
             max-height: 3500px;
@@ -94,124 +61,86 @@
         .accordion-active .rotate-icon {
             transform: rotate(180deg);
         }
-
-        .hero-gradient {
-            background: radial-gradient(circle at 85% 15%, rgba(56, 189, 248, 0.2) 0%, transparent 60%),
-                        radial-gradient(circle at 15% 85%, rgba(29, 78, 216, 0.25) 0%, transparent 60%),
-                        #0a1d35;
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 999px;
         }
     </style>
 </head>
 
-<body class="antialiased min-h-screen flex flex-col">
+<body class="antialiased min-h-screen flex flex-col bg-[#fafbfc]">
 
-    <!-- ==============================================================
-         6. PAGE LOAD ANIMATION: "LASINDU SENARATH"
-         Displays letter-by-letter for ~2s on initial page load / refresh
-    ============================================================== -->
-    <div id="lms-loader" aria-hidden="true">
-        <div class="flex flex-col items-center text-center px-4 max-w-lg">
-            
-            <!-- Animated Brand Badge -->
-            <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 to-sky-400 p-0.5 shadow-xl shadow-blue-500/25 mb-6 animate-pulse">
-                <div class="w-full h-full bg-navy-950 rounded-[14px] flex items-center justify-center overflow-hidden">
-                    <img src="{{ asset('images/logo.jpeg') }}" alt="Logo" class="w-full h-full object-cover">
-                </div>
-            </div>
-
-            <p class="text-[11px] font-bold uppercase tracking-[0.3em] text-sky-400 mb-3">
-                AtoZ Business School LMS
-            </p>
-
-            <!-- Letter by letter display -->
-            <div class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-3 min-h-[50px] flex items-center justify-center">
-                <span id="loader-text" class="bg-gradient-to-r from-white via-blue-100 to-sky-300 bg-clip-text text-transparent"></span>
-                <span class="typewriter-cursor"></span>
-            </div>
-
-            <p id="loader-sub" class="text-xs sm:text-sm text-slate-400 opacity-0 transition-opacity duration-300 font-medium">
-                Advanced Level Business Studies • Loading Portal
-            </p>
-            
-            <div class="w-36 h-1 bg-white/10 rounded-full mt-6 overflow-hidden">
-                <div class="w-full h-full bg-gradient-to-r from-blue-500 to-sky-400 rounded-full origin-left animate-[loaderBar_1.8s_ease-in-out_forwards]"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Keyframe animation for progress bar -->
-    <style>
-        @keyframes loaderBar {
-            0% { transform: scaleX(0); }
-            50% { transform: scaleX(0.7); }
-            100% { transform: scaleX(1); }
-        }
-    </style>
-
-    <!-- ==============================================================
-         HEADER / NAVIGATION
-    ============================================================== -->
-    <nav class="bg-white/90 backdrop-blur-md border-b border-slate-200/80 sticky top-0 left-0 right-0 z-50 transition-all">
+    <!-- ==========================================
+         TOP NAVIGATION BAR (White & Navy Blue)
+    =========================================== -->
+    <nav class="bg-white border-b border-slate-200/90 sticky top-0 left-0 right-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 
-                <!-- LMS Brand Logo -->
+                <!-- Logo -->
                 <div class="flex items-center gap-3">
                     <a href="{{ route('dashboard') }}" class="flex items-center gap-3 group">
-                        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-navy-900 to-blue-700 p-0.5 shadow-md shadow-blue-900/10 transition group-hover:scale-105">
+                        <div class="w-11 h-11 rounded-xl bg-navy-900 p-0.5 shadow-sm group-hover:bg-navy-800 transition">
                             <div class="w-full h-full bg-white rounded-[10px] flex items-center justify-center overflow-hidden">
                                 <img src="{{ asset('images/logo.jpeg') }}" alt="AtoZ Logo" class="w-full h-full object-cover">
                             </div>
                         </div>
                         <div>
-                            <div class="flex items-center gap-1.5">
-                                <span class="text-[10px] font-extrabold text-blue-700 uppercase tracking-widest">AtoZ LMS</span>
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                            </div>
-                            <span class="text-lg font-extrabold text-navy-950 tracking-tight block leading-none">
+                            <span class="text-[10px] font-extrabold text-navy-600 uppercase tracking-widest block leading-tight">
+                                AtoZ LMS • Business School
+                            </span>
+                            <span class="text-base sm:text-lg font-extrabold text-navy-950 tracking-tight block leading-none">
                                 LASINDU SENARATH
                             </span>
                         </div>
                     </a>
                 </div>
 
-                <!-- Desktop Nav Links -->
+                <!-- Desktop Navigation Links -->
                 <div class="hidden md:flex items-center space-x-1 lg:space-x-2">
                     <a href="{{ route('dashboard') }}" 
-                       class="px-3.5 py-2 rounded-xl text-sm font-bold text-navy-900 bg-navy-50 flex items-center gap-2">
-                        <i data-lucide="layout-dashboard" class="w-4 h-4 text-blue-600"></i> Home
+                       class="px-3.5 py-2 rounded-xl text-sm font-bold text-navy-950 bg-navy-50 flex items-center gap-2">
+                        <i data-lucide="layout-dashboard" class="w-4 h-4 text-navy-700"></i> Home
                     </a>
                     
                     <a href="{{ route('buyclass') }}" 
-                       class="px-3.5 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-navy-900 hover:bg-slate-50 transition flex items-center gap-2">
+                       class="px-3.5 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-navy-950 hover:bg-slate-50 transition flex items-center gap-2">
                         <i data-lucide="book-open" class="w-4 h-4 text-slate-400"></i> Courses
                     </a>
 
                     <a href="{{ route('studypack.index') }}" 
-                       class="px-3.5 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-navy-900 hover:bg-slate-50 transition flex items-center gap-2">
+                       class="px-3.5 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-navy-950 hover:bg-slate-50 transition flex items-center gap-2">
                         <i data-lucide="package" class="w-4 h-4 text-slate-400"></i> Study Packs
                     </a>
 
+                    <a href="{{ route('pastpapers.index') }}" 
+                       class="px-3.5 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-navy-950 hover:bg-slate-50 transition flex items-center gap-2">
+                        <i data-lucide="file-text" class="w-4 h-4 text-slate-400"></i> Past Papers
+                    </a>
+
                     <a href="{{ route('store') }}" 
-                       class="px-3.5 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-navy-900 hover:bg-slate-50 transition flex items-center gap-2">
+                       class="px-3.5 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-navy-950 hover:bg-slate-50 transition flex items-center gap-2">
                         <i data-lucide="shopping-bag" class="w-4 h-4 text-slate-400"></i> Store
                     </a>
 
                     <a href="{{ route('about-teacher') }}" 
-                       class="px-3.5 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-navy-900 hover:bg-slate-50 transition flex items-center gap-2">
-                        <i data-lucide="user-check" class="w-4 h-4 text-slate-400"></i> About Teacher
+                       class="px-3.5 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-navy-950 hover:bg-slate-50 transition flex items-center gap-2">
+                        <i data-lucide="user" class="w-4 h-4 text-slate-400"></i> About Teacher
                     </a>
                 </div>
 
                 <!-- Right Header Actions -->
-                <div class="flex items-center gap-3">
+                <div class="flex items-center gap-2 sm:gap-3">
                     
                     <!-- Cart Button -->
                     <a href="{{ route('cart.view') }}" 
-                       class="relative p-2.5 text-slate-600 hover:text-navy-900 hover:bg-slate-100 rounded-xl transition"
+                       class="relative p-2.5 text-slate-600 hover:text-navy-950 hover:bg-slate-100 rounded-xl transition"
                        title="View Shopping Cart">
                         <i data-lucide="shopping-cart" class="w-5 h-5"></i>
-                        <span id="nav-cart-count" class="absolute -top-1 -right-1 bg-blue-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-sm">
+                        <span id="nav-cart-count" class="absolute top-1 right-1 bg-navy-900 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                             0
                         </span>
                     </a>
@@ -219,37 +148,39 @@
                     <!-- Profile Dropdown -->
                     <div class="relative">
                         <button id="profile-menu-button" 
-                                class="flex items-center gap-3 p-1.5 pr-2.5 hover:bg-slate-100 rounded-2xl transition border border-slate-200/80">
+                                class="flex items-center gap-2.5 p-1.5 pr-3 hover:bg-slate-50 rounded-2xl transition border border-slate-200">
                             <div class="w-9 h-9 rounded-xl bg-navy-900 flex items-center justify-center text-white font-bold text-xs shadow-sm">
                                 {{ strtoupper(substr(Auth::user()->name ?? 'ST', 0, 2)) }}
                             </div>
                             <div class="hidden sm:block text-left">
                                 <p class="text-xs font-bold text-navy-950 leading-none truncate max-w-[120px]">{{ Auth::user()->name }}</p>
-                                <p class="text-[10px] font-semibold text-slate-400 mt-1 uppercase">Student</p>
+                                <p class="text-[10px] font-semibold text-slate-400 mt-1 uppercase">{{ Auth::user()->usertype === 'admin' ? 'Admin' : 'Student' }}</p>
                             </div>
-                            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 ml-0.5"></i>
+                            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400"></i>
                         </button>
 
                         <div id="profile-dropdown" 
-                             class="absolute right-0 mt-2 w-60 bg-white rounded-2xl shadow-xl border border-slate-200/90 py-2 hidden z-50">
-                            <div class="px-4 py-3 border-b border-slate-100">
-                                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Signed in as</p>
-                                <p class="text-sm font-bold text-navy-950 truncate">{{ Auth::user()->email }}</p>
+                             class="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-lg border border-slate-200 py-2 hidden z-50">
+                            <div class="px-4 py-2.5 border-b border-slate-100">
+                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Signed in as</p>
+                                <p class="text-xs font-bold text-navy-950 truncate">{{ Auth::user()->email }}</p>
                             </div>
 
-                            <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-navy-900 transition">
+                            @if(Auth::user()->usertype === 'admin')
+                                <a href="{{ route('admindashboard') }}" class="flex items-center gap-2.5 px-4 py-2 text-xs font-bold text-indigo-700 hover:bg-indigo-50 transition">
+                                    <i data-lucide="shield" class="w-4 h-4"></i> Admin Panel
+                                </a>
+                            @endif
+
+                            <a href="{{ route('profile.edit') }}" class="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-navy-950 transition">
                                 <i data-lucide="user" class="w-4 h-4 text-slate-400"></i> My Profile
                             </a>
 
-                            <a href="{{ route('about-teacher') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-navy-900 transition">
-                                <i data-lucide="graduation-cap" class="w-4 h-4 text-slate-400"></i> About Teacher
+                            <a href="{{ route('studypack.index') }}" class="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-navy-950 transition">
+                                <i data-lucide="package" class="w-4 h-4 text-slate-400"></i> My Study Packs
                             </a>
 
-                            <a href="{{ route('studypack.index') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-navy-900 transition">
-                                <i data-lucide="package" class="w-4 h-4 text-slate-400"></i> Study Packs
-                            </a>
-
-                            <a href="{{ route('buyclass') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-navy-900 transition">
+                            <a href="{{ route('buyclass') }}" class="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-navy-950 transition">
                                 <i data-lucide="plus-circle" class="w-4 h-4 text-slate-400"></i> Enroll in New Class
                             </a>
 
@@ -257,14 +188,14 @@
 
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <button type="submit" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-rose-600 hover:bg-rose-50 transition">
+                                <button type="submit" class="w-full flex items-center gap-2.5 px-4 py-2 text-xs font-bold text-rose-600 hover:bg-rose-50 transition">
                                     <i data-lucide="log-out" class="w-4 h-4 text-rose-500"></i> Sign Out
                                 </button>
                             </form>
                         </div>
                     </div>
 
-                    <!-- Mobile Menu Hamburger -->
+                    <!-- Mobile Menu Toggle -->
                     <button id="mobile-toggle" class="md:hidden p-2 text-slate-600 hover:bg-slate-100 rounded-xl">
                         <i data-lucide="menu" class="w-6 h-6"></i>
                     </button>
@@ -274,7 +205,7 @@
 
         <!-- Mobile Drawer -->
         <div id="mobile-nav" class="hidden md:hidden border-t border-slate-100 px-4 pt-3 pb-5 bg-white space-y-1">
-            <a href="{{ route('dashboard') }}" class="block px-3 py-2.5 rounded-xl text-sm font-bold bg-navy-50 text-navy-900">
+            <a href="{{ route('dashboard') }}" class="block px-3 py-2.5 rounded-xl text-sm font-bold bg-navy-50 text-navy-950">
                 Home / Dashboard
             </a>
             <a href="{{ route('buyclass') }}" class="block px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">
@@ -283,11 +214,14 @@
             <a href="{{ route('studypack.index') }}" class="block px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">
                 Study Packs
             </a>
+            <a href="{{ route('pastpapers.index') }}" class="block px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                Past Papers
+            </a>
             <a href="{{ route('store') }}" class="block px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">
-                Publications & Store
+                Store & Publications
             </a>
             <a href="{{ route('about-teacher') }}" class="block px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">
-                About Lasindu Senarath
+                About Teacher
             </a>
             <a href="{{ route('cart.view') }}" class="block px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">
                 Shopping Cart
@@ -295,14 +229,14 @@
         </div>
     </nav>
 
-    <!-- ==============================================================
+    <!-- ==========================================
          MAIN CONTENT AREA
-    ============================================================== -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-10 flex-1 w-full space-y-10">
+    =========================================== -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full space-y-8">
 
         <!-- Flash messages -->
         @if(session('success'))
-            <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm flex items-center justify-between shadow-sm">
+            <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-sm flex items-center justify-between shadow-sm">
                 <div class="flex items-center gap-3">
                     <i data-lucide="check-circle" class="w-5 h-5 text-emerald-600"></i>
                     <span class="font-bold">{{ session('success') }}</span>
@@ -313,371 +247,263 @@
             </div>
         @endif
 
-        <!-- HERO SECTION -->
-        <div class="relative overflow-hidden hero-gradient rounded-3xl lg:rounded-[2.5rem] p-8 md:p-12 text-white shadow-2xl shadow-navy-950/20 border border-navy-800/40">
-            <!-- Background mesh accents -->
-            <div class="absolute -top-24 -right-24 w-96 h-96 bg-sky-500/20 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
+        <!-- ==========================================
+             CLEAN WELCOME CARD (White & Navy Blue)
+        =========================================== -->
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
+            
+            <!-- Left Info -->
+            <div class="space-y-2 max-w-xl">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-navy-50 text-navy-800 border border-navy-100">
+                    <span class="w-2 h-2 rounded-full bg-blue-600"></span>
+                    A/L Business Studies Student Portal
+                </span>
 
-            <div class="relative z-10 grid lg:grid-cols-12 gap-8 items-center">
-                <div class="lg:col-span-8 space-y-4">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-xs font-bold text-sky-300">
-                        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-sky-400"></i>
-                        Official Student Learning Platform
-                    </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-navy-950 tracking-tight">
+                    Welcome, {{ Auth::user()->name }} 👋
+                </h1>
 
-                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
-                        Welcome to <br/>
-                        <span class="bg-gradient-to-r from-sky-400 via-blue-200 to-white bg-clip-text text-transparent">
-                            LASINDU SENARATH LMS
-                        </span>
-                    </h1>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                    Access your monthly lecture recordings, course materials, and NIE curriculum video study packs.
+                </p>
 
-                    <p class="text-slate-300 text-base sm:text-lg max-w-2xl leading-relaxed">
-                        Hello, <strong class="text-white font-bold">{{ Auth::user()->name }}</strong>! Your personal gateway to A/L Business Studies excellence. Access your registered monthly classes, lecture recordings, notes, and study resources.
-                    </p>
-
-                    <!-- CTAs -->
-                    <div class="pt-2 flex flex-wrap gap-3 sm:gap-4 items-center">
-                        <a href="{{ route('buyclass') }}" 
-                           class="px-6 py-3.5 bg-white text-navy-950 hover:bg-sky-50 font-extrabold rounded-xl shadow-lg transition-all active:scale-[0.98] flex items-center gap-2 text-sm">
-                            <i data-lucide="book-open" class="w-4 h-4 text-blue-700"></i>
-                            Browse Available Courses
-                        </a>
-
-                        <a href="{{ route('about-teacher') }}" 
-                           class="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/20 backdrop-blur-md transition-all active:scale-[0.98] flex items-center gap-2 text-sm">
-                            <i data-lucide="user-check" class="w-4 h-4 text-sky-400"></i>
-                            Meet Your Teacher
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Teacher Mini Card in Hero -->
-                <div class="lg:col-span-4 hidden lg:flex justify-end">
-                    <div class="p-6 rounded-2xl bg-white/[0.07] backdrop-blur-md border border-white/10 shadow-xl max-w-xs w-full text-center">
-                        <img src="{{ asset('images/lasindu1.jpeg') }}" 
-                             alt="Lasindu Senarath" 
-                             class="w-24 h-24 rounded-2xl object-cover mx-auto mb-4 border-2 border-white/20 shadow-md">
-                        <h3 class="text-base font-extrabold text-white">Lasindu Senarath</h3>
-                        <p class="text-xs text-sky-300 font-semibold mb-2">Lecturer in Business Studies</p>
-                        <p class="text-[11px] text-slate-300 leading-snug">
-                            BBA (Hons) Marketing • MBA (PIM-SJP)<br>Ada Derana Education
-                        </p>
-                        <a href="{{ route('about-teacher') }}" 
-                           class="mt-4 block text-xs font-bold text-sky-300 hover:text-white underline underline-offset-4">
-                            View Full Biography & Credentials →
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- QUICK STATS BAR -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center flex-shrink-0">
-                    <i data-lucide="book" class="w-6 h-6"></i>
-                </div>
-                <div>
-                    <span class="text-2xl font-extrabold text-navy-950 block leading-tight">{{ $classes->count() }}</span>
-                    <span class="text-xs font-semibold text-slate-500">Active Courses</span>
-                </div>
-            </div>
-
-            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center flex-shrink-0">
-                    <i data-lucide="calendar" class="w-6 h-6"></i>
-                </div>
-                <div>
-                    <span class="text-2xl font-extrabold text-navy-950 block leading-tight">
-                        {{ $classes->pluck('month')->filter()->unique()->count() ?: 1 }}
-                    </span>
-                    <span class="text-xs font-semibold text-slate-500">Study Months</span>
-                </div>
-            </div>
-
-            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
-                    <i data-lucide="award" class="w-6 h-6"></i>
-                </div>
-                <div>
-                    <span class="text-2xl font-extrabold text-navy-950 block leading-tight">500+</span>
-                    <span class="text-xs font-semibold text-slate-500">A/B Pass Records</span>
-                </div>
-            </div>
-
-            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center flex-shrink-0">
-                    <i data-lucide="video" class="w-6 h-6"></i>
-                </div>
-                <div>
-                    <span class="text-2xl font-extrabold text-navy-950 block leading-tight">HD</span>
-                    <span class="text-xs font-semibold text-slate-500">Online Streaming</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- IMPORTANT ANNOUNCEMENT BANNER -->
-        <div class="p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-blue-900 to-navy-900 text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-blue-800 shadow-md">
-            <div class="flex items-start gap-4">
-                <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <i data-lucide="bell-ring" class="w-5 h-5 text-sky-400"></i>
-                </div>
-                <div>
-                    <h3 class="text-sm font-extrabold text-white">Live Classes & Video Library</h3>
-                    <p class="text-xs text-slate-300 mt-0.5">
-                        Students must complete monthly enrollments to unlock paid video lectures and tutorial materials.
-                    </p>
-                </div>
-            </div>
-            <a href="{{ route('buyclass') }}" 
-               class="px-4 py-2 bg-sky-400 hover:bg-sky-300 text-navy-950 font-extrabold text-xs rounded-xl transition flex-shrink-0 flex items-center gap-1.5">
-                Enroll Today <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-            </a>
-        </div>
-
-        <!-- ==============================================================
-             STUDY PACKS SECTION (වීඩියෝ පාඩම් මාලා)
-        ============================================================== -->
-        <section id="studypacks" class="space-y-6">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 pb-4">
-                <div>
-                    <div class="flex items-center gap-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
-                        <h2 class="text-2xl font-extrabold text-navy-950 tracking-tight">Study Packs • වීඩියෝ පාඩම් මාලා</h2>
-                    </div>
-                    <p class="text-sm text-slate-500 mt-1">
-                        NIE විෂය නිර්දේශයට අනුකූලව නිපුණතා මට්ටම් අනුව සකසන ලද සම්පූර්ණ වීඩියෝ පාඩම් මාලාවන්.
-                    </p>
-                </div>
-                <div>
-                    <a href="{{ route('studypack.index') }}" class="text-xs font-bold text-blue-700 hover:underline flex items-center gap-1">
-                        View All Study Packs <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                <!-- Action Buttons -->
+                <div class="pt-2 flex flex-wrap gap-3 items-center">
+                    <a href="{{ route('buyclass') }}" 
+                       class="px-4 py-2.5 bg-navy-900 hover:bg-navy-800 text-white font-bold rounded-xl text-xs sm:text-sm transition shadow-sm flex items-center gap-2">
+                        <i data-lucide="book-open" class="w-4 h-4"></i>
+                        Browse All Courses
+                    </a>
+                    <a href="#studypacks" 
+                       class="px-4 py-2.5 bg-white hover:bg-slate-50 text-navy-900 font-semibold rounded-xl text-xs sm:text-sm border border-slate-200 transition flex items-center gap-2">
+                        <i data-lucide="video" class="w-4 h-4 text-navy-700"></i>
+                        Study Packs
                     </a>
                 </div>
             </div>
 
+            <!-- Right Quick Stats -->
+            <div class="flex items-center gap-3 sm:gap-4 flex-shrink-0 pt-4 md:pt-0 border-t md:border-t-0 border-slate-100">
+                <div class="bg-navy-50/60 border border-navy-100 rounded-2xl p-4 text-center min-w-[110px]">
+                    <span class="text-2xl sm:text-3xl font-extrabold text-navy-950 block">{{ $classes->count() }}</span>
+                    <span class="text-[11px] font-bold text-navy-700 uppercase tracking-wider">Active Classes</span>
+                </div>
+                <div class="bg-navy-50/60 border border-navy-100 rounded-2xl p-4 text-center min-w-[110px]">
+                    <span class="text-2xl sm:text-3xl font-extrabold text-navy-950 block">{{ $studyPacks->count() }}</span>
+                    <span class="text-[11px] font-bold text-navy-700 uppercase tracking-wider">Study Packs</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ==========================================
+             SECTION 1: STUDY PACKS (වීඩියෝ පාඩම් මාලා)
+        =========================================== -->
+        <section id="studypacks" class="space-y-4">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-200">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-navy-900 text-white flex items-center justify-center shadow-sm">
+                        <i data-lucide="video" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg sm:text-xl font-extrabold text-navy-950">Study Packs • වීඩියෝ පාඩම් මාලා</h2>
+                    </div>
+                </div>
+                <a href="{{ route('studypack.index') }}" class="text-xs font-bold text-navy-800 hover:text-navy-950 hover:underline flex items-center gap-1">
+                    View All <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </a>
+            </div>
+
             <!-- Study Pack Cards -->
-            <div class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 @forelse($studyPacks as $pack)
                     @php
                         $hasAccess = $studyPackApprovals[$pack->id] ?? false;
                         $hasPending = $studyPackPendings[$pack->id] ?? false;
                         $packPrice = $pack->price ?? ($pack->package->monthly_fee ?? 2500);
                     @endphp
-                    <div class="bg-gradient-to-br from-white via-slate-50/50 to-amber-50/30 rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-sm hover:shadow-md hover:border-amber-500/40 transition-all flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                        <div class="flex items-start gap-5 max-w-2xl">
-                            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#1B2A4A] text-[#C99A3B] flex items-center justify-center flex-shrink-0 shadow-lg shadow-navy-950/10">
-                                <i data-lucide="video" class="w-7 h-7 sm:w-8 sm:h-8"></i>
+                    <div class="bg-white rounded-2xl p-6 border border-slate-200 hover:border-navy-400 shadow-sm hover:shadow transition-all flex flex-col justify-between gap-4">
+                        <div class="space-y-3">
+                            
+                            <!-- Badges -->
+                            <div class="flex items-center justify-between gap-2 flex-wrap">
+                                <span class="px-2.5 py-1 rounded-lg text-[10px] font-extrabold bg-navy-50 text-navy-900 border border-navy-100 uppercase tracking-wider">
+                                    {{ $pack->grade ?? 'Grade 12 & 13' }} • NIE Syllabus
+                                </span>
+                                
+                                @if($hasAccess)
+                                    <span class="px-2.5 py-1 rounded-lg text-[10px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1">
+                                        <i data-lucide="check-circle" class="w-3 h-3"></i> Enrolled & Active
+                                    </span>
+                                @elseif($hasPending)
+                                    <span class="px-2.5 py-1 rounded-lg text-[10px] font-extrabold bg-amber-50 text-amber-700 border border-amber-200 flex items-center gap-1">
+                                        <i data-lucide="clock" class="w-3 h-3"></i> Pending Approval
+                                    </span>
+                                @else
+                                    <span class="text-sm font-extrabold text-navy-950 flex items-center gap-1">
+                                        <i data-lucide="lock" class="w-3.5 h-3.5 text-slate-400"></i>
+                                        Rs. {{ number_format($packPrice) }}
+                                    </span>
+                                @endif
                             </div>
 
-                            <div class="space-y-2">
-                                <div class="flex items-center gap-2 flex-wrap">
-                                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-[#1B2A4A] text-[#F2EFE4] tracking-wider uppercase">
-                                        {{ $pack->grade ?? 'Grade 12 & 13' }} • NIE Syllabus
-                                    </span>
-                                    
-                                    @if($hasAccess)
-                                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1">
-                                            <i data-lucide="check-circle" class="w-3 h-3"></i> Enrolled &amp; Active
-                                        </span>
-                                    @elseif($hasPending)
-                                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-50 text-amber-700 border border-amber-200 flex items-center gap-1">
-                                            <i data-lucide="clock" class="w-3 h-3"></i> Payment Pending Approval
-                                        </span>
-                                    @else
-                                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-slate-100 text-slate-600 border border-slate-200 flex items-center gap-1">
-                                            <i data-lucide="lock" class="w-3 h-3 text-slate-400"></i> Locked
-                                        </span>
-                                    @endif
-                                </div>
+                            <!-- Title -->
+                            <h3 class="text-lg font-bold text-navy-950 leading-snug">
+                                {{ $pack->title }}
+                            </h3>
 
-                                <h3 class="text-xl sm:text-2xl font-extrabold text-navy-950 leading-tight">
-                                    {{ $pack->title }}
-                                </h3>
+                            <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                                {{ $pack->description ?? 'නිපුණතා මට්ටම් ආවරණය වන පරිදි සකසන ලද සම්පූර්ණ න්‍යායාත්මක වීඩියෝ පාඩම් එකතුව.' }}
+                            </p>
 
-                                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                                    {{ $pack->description ?? 'නිපුණතා මට්ටම් ආවරණය වන පරිදි සකසන ලද සම්පූර්ණ න්‍යායාත්මක වීඩියෝ පාඩම් එකතුව. Search කර කෙළින්ම අවශ්‍ය පාඩම නරඹන්න.' }}
-                                </p>
-
-                                <div class="flex items-center gap-4 pt-1 text-xs text-slate-500 font-semibold">
-                                    <span class="flex items-center gap-1">
-                                        <i data-lucide="layers" class="w-3.5 h-3.5 text-blue-600"></i> {{ $pack->topics_count }} මාතෘකා
-                                    </span>
-                                    <span class="flex items-center gap-1">
-                                        <i data-lucide="list-checks" class="w-3.5 h-3.5 text-emerald-600"></i> {{ $pack->subtopics_count }} වීඩියෝ පාඩම්
-                                    </span>
-                                    <span class="flex items-center gap-1">
-                                        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-600"></i> Full Series
-                                    </span>
-                                </div>
+                            <!-- Meta info -->
+                            <div class="flex items-center gap-4 text-xs text-slate-500 font-semibold pt-1">
+                                <span class="flex items-center gap-1.5">
+                                    <i data-lucide="layers" class="w-3.5 h-3.5 text-navy-600"></i> {{ $pack->topics_count }} Topics
+                                </span>
+                                <span class="flex items-center gap-1.5">
+                                    <i data-lucide="play-circle" class="w-3.5 h-3.5 text-navy-600"></i> {{ $pack->subtopics_count }} Video Lessons
+                                </span>
                             </div>
                         </div>
 
-                        <div class="flex-shrink-0 w-full md:w-auto flex flex-col sm:flex-row md:flex-col items-stretch md:items-end gap-3 pt-4 md:pt-0 border-t md:border-t-0 border-slate-100">
-                            @if(!$hasAccess)
-                                <div class="text-right hidden md:block">
-                                    <span class="text-[10px] uppercase font-bold text-slate-400 block">Course Fee</span>
-                                    <span class="text-xl font-extrabold text-navy-950">Rs. {{ number_format($packPrice) }}</span>
-                                </div>
-                            @endif
-
+                        <!-- Action Button -->
+                        <div class="pt-4 border-t border-slate-100">
                             @if($hasAccess)
                                 <a href="{{ route('studypack.show', $pack->id) }}" 
-                                   class="px-6 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-xl transition shadow-lg shadow-emerald-600/20 active:scale-[0.98] flex items-center justify-center gap-2">
-                                    <span>පාඩම් මාලාවට පිවිසෙන්න</span>
-                                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                   class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl transition shadow-sm flex items-center justify-center gap-2">
+                                    <span>Watch Lessons / පාඩම් නරඹන්න</span>
+                                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                                 </a>
                             @elseif($hasPending)
                                 <a href="{{ route('studypack.show', $pack->id) }}" 
-                                   class="px-6 py-3.5 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs rounded-xl transition shadow-lg shadow-amber-500/20 active:scale-[0.98] flex items-center justify-center gap-2">
-                                    <i data-lucide="clock" class="w-4 h-4"></i>
+                                   class="w-full py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl transition shadow-sm flex items-center justify-center gap-2">
+                                    <i data-lucide="clock" class="w-3.5 h-3.5"></i>
                                     <span>Verification Pending</span>
                                 </a>
                             @else
                                 <a href="{{ route('studypack.show', $pack->id) }}" 
-                                   class="px-6 py-3.5 bg-[#1B2A4A] hover:bg-blue-800 text-white font-extrabold text-xs rounded-xl transition shadow-lg shadow-navy-950/20 active:scale-[0.98] flex items-center justify-center gap-2">
-                                    <i data-lucide="shopping-cart" class="w-4 h-4 text-amber-400"></i>
-                                    <span>Enroll &amp; Buy (Rs. {{ number_format($packPrice) }})</span>
+                                   class="w-full py-2.5 bg-navy-900 hover:bg-navy-800 text-white font-bold text-xs rounded-xl transition shadow-sm flex items-center justify-center gap-2">
+                                    <i data-lucide="shopping-cart" class="w-3.5 h-3.5 text-amber-400"></i>
+                                    <span>Enroll & Buy (Rs. {{ number_format($packPrice) }})</span>
                                 </a>
                             @endif
                         </div>
                     </div>
                 @empty
-                    <div class="p-8 text-center bg-white rounded-3xl border border-slate-200 text-slate-400">
-                        <p class="font-bold">තවමත් Study Packs නොමැත.</p>
+                    <div class="col-span-full p-8 text-center bg-white rounded-2xl border border-dashed border-slate-200 text-slate-400">
+                        <p class="font-bold text-sm">තවමත් Study Packs නොමැත.</p>
                     </div>
                 @endforelse
             </div>
         </section>
 
-        <!-- ==============================================================
-             COURSE / LMS INFORMATION (Grouped by Month)
-        ============================================================== -->
-        <section class="space-y-6">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 pb-4">
-                <div>
-                    <div class="flex items-center gap-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
-                        <h2 class="text-2xl font-extrabold text-navy-950 tracking-tight">Your Course Curriculum</h2>
+        <!-- ==========================================
+             SECTION 2: COURSE CURRICULUM (මාසික පන්ති)
+        =========================================== -->
+        <section class="space-y-4">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-200">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-navy-900 text-white flex items-center justify-center shadow-sm">
+                        <i data-lucide="calendar" class="w-4 h-4"></i>
                     </div>
-                    <p class="text-sm text-slate-500 mt-1">
-                        Select a class below to enter your classroom, stream video lectures, and download tutorials.
-                    </p>
+                    <div>
+                        <h2 class="text-lg sm:text-xl font-extrabold text-navy-950">Your Course Curriculum • මාසික පන්ති</h2>
+                    </div>
                 </div>
-                <div class="flex items-center gap-2">
-                    <span class="px-3 py-1 bg-slate-100 text-slate-700 text-xs font-bold rounded-lg uppercase tracking-wider">
-                        {{ $classes->count() }} Class{{ $classes->count() === 1 ? '' : 'es' }} Published
-                    </span>
-                </div>
+                <span class="px-2.5 py-1 bg-navy-50 text-navy-900 border border-navy-100 text-xs font-bold rounded-lg">
+                    {{ $classes->count() }} Classes
+                </span>
             </div>
 
             @php
-                // Group classes by month
                 $groupedClasses = $classes->groupBy(function($item) {
                     return $item->month ?: 'General Modules';
                 });
             @endphp
 
             @if($classes->isEmpty())
-                <div class="text-center py-16 bg-white rounded-3xl border border-dashed border-slate-300 p-8">
-                    <div class="w-16 h-16 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-4">
-                        <i data-lucide="book-open" class="w-8 h-8"></i>
+                <div class="text-center py-12 bg-white rounded-2xl border border-dashed border-slate-200 p-6">
+                    <div class="w-12 h-12 rounded-xl bg-navy-50 text-navy-700 flex items-center justify-center mx-auto mb-3">
+                        <i data-lucide="book-open" class="w-6 h-6"></i>
                     </div>
-                    <h3 class="text-lg font-bold text-navy-950 mb-1">No Classes Available Yet</h3>
-                    <p class="text-sm text-slate-500 max-w-md mx-auto mb-6">
-                        Course modules will appear here as soon as they are published by the teacher.
+                    <h3 class="text-base font-bold text-navy-950 mb-1">No Classes Available Yet</h3>
+                    <p class="text-xs text-slate-500 max-w-sm mx-auto mb-4">
+                        Course modules will appear here as soon as they are published.
                     </p>
-                    <a href="{{ route('buyclass') }}" class="px-6 py-3 bg-navy-900 text-white font-bold rounded-xl text-sm hover:bg-navy-800 transition">
+                    <a href="{{ route('buyclass') }}" class="px-4 py-2 bg-navy-900 text-white font-bold rounded-xl text-xs hover:bg-navy-800 transition">
                         Check Available Packages
                     </a>
                 </div>
             @else
-                <div class="space-y-5">
+                <div class="space-y-4">
                     @foreach($groupedClasses as $month => $monthClasses)
-                    <div class="accordion-item accordion-active bg-white border border-slate-200/90 rounded-3xl shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md">
+                    <div class="accordion-item accordion-active bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden transition-all">
                         
                         <!-- Month Header Toggle -->
                         <button onclick="toggleAccordion(this)" 
-                                class="w-full flex items-center justify-between p-6 sm:p-7 text-left focus:outline-none hover:bg-slate-50/60 transition">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 bg-navy-50 rounded-2xl flex items-center justify-center text-navy-800 flex-shrink-0">
-                                    <i data-lucide="calendar-days" class="w-6 h-6 text-blue-700"></i>
+                                class="w-full flex items-center justify-between p-4 sm:p-5 text-left focus:outline-none hover:bg-slate-50/70 transition">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 bg-navy-50 rounded-xl flex items-center justify-center text-navy-800 flex-shrink-0">
+                                    <i data-lucide="calendar-days" class="w-4 h-4"></i>
                                 </div>
                                 <div>
                                     <div class="flex items-center gap-2">
-                                        <h3 class="text-xl font-bold text-navy-950">{{ $month }}</h3>
-                                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-100">
-                                            Active Month
+                                        <h3 class="text-base font-bold text-navy-950">{{ $month }}</h3>
+                                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-navy-50 text-navy-800 border border-navy-100">
+                                            {{ count($monthClasses) }} {{ count($monthClasses) === 1 ? 'Course' : 'Courses' }}
                                         </span>
                                     </div>
-                                    <p class="text-xs text-slate-500 mt-1">
-                                        {{ count($monthClasses) }} Course{{ count($monthClasses) > 1 ? 's' : '' }} ready for study
-                                    </p>
                                 </div>
                             </div>
                             
-                            <div class="w-9 h-9 rounded-xl bg-slate-100 flex items-center justify-center transition-transform duration-300 rotate-icon">
-                                <i data-lucide="chevron-down" class="w-5 h-5 text-slate-500"></i>
+                            <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center transition-transform duration-200 rotate-icon">
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500"></i>
                             </div>
                         </button>
 
                         <!-- Month Course Cards -->
                         <div class="accordion-content">
-                            <div class="p-6 sm:p-8 pt-2 border-t border-slate-100 bg-slate-50/40">
-                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div class="p-4 sm:p-5 pt-0 border-t border-slate-100 bg-[#fafcff]">
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-3">
                                     @foreach($monthClasses as $class)
-                                    <div class="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-sm hover:border-blue-600 transition-all group flex flex-col justify-between">
+                                    <div class="bg-white p-5 rounded-xl border border-slate-200 hover:border-navy-400 shadow-sm hover:shadow transition-all flex flex-col justify-between">
                                         
-                                        <div>
-                                            <!-- Card Header -->
-                                            <div class="flex justify-between items-start mb-4">
-                                                <div class="p-3 bg-navy-900 rounded-xl text-white shadow-md shadow-navy-900/10 group-hover:bg-blue-700 transition">
-                                                    <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+                                        <div class="space-y-3">
+                                            <div class="flex justify-between items-start">
+                                                <div class="p-2 bg-navy-900 rounded-lg text-white">
+                                                    <i data-lucide="graduation-cap" class="w-4 h-4"></i>
                                                 </div>
-                                                <div class="flex flex-col items-end">
-                                                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                                                        {{ $class->month ?: 'General' }}
-                                                    </span>
-                                                    @if($class->sessionCount)
-                                                    <span class="text-xs font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md mt-1">
-                                                        {{ $class->sessionCount }} Sessions
-                                                    </span>
-                                                    @endif
-                                                </div>
+                                                @if($class->sessionCount)
+                                                <span class="text-[10px] font-bold text-navy-800 bg-navy-50 border border-navy-100 px-2 py-0.5 rounded-md">
+                                                    {{ $class->sessionCount }} Sessions
+                                                </span>
+                                                @endif
                                             </div>
 
-                                            <!-- Class Title & Desc -->
-                                            <h4 class="text-lg font-bold text-navy-950 mb-2 group-hover:text-blue-700 transition line-clamp-2">
+                                            <h4 class="text-base font-bold text-navy-950 line-clamp-2">
                                                 {{ $class->className }}
                                             </h4>
 
-                                            <p class="text-slate-500 text-xs sm:text-sm mb-5 line-clamp-3 leading-relaxed">
-                                                {{ $class->description ?: 'Comprehensive lecture series and study materials for this academic unit.' }}
+                                            @if($class->description)
+                                            <p class="text-slate-500 text-xs line-clamp-2 leading-relaxed">
+                                                {{ $class->description }}
                                             </p>
+                                            @endif
 
-                                            <!-- Meta info -->
-                                            <div class="space-y-2 py-3 border-y border-slate-100 text-xs text-slate-600 mb-5">
-                                                <div class="flex items-center justify-between">
-                                                    <span class="text-slate-400">Teacher:</span>
-                                                    <span class="font-bold text-navy-900">{{ $class->teacherName ?: 'Lasindu Senarath' }}</span>
-                                                </div>
+                                            <div class="pt-2 text-xs text-slate-500 space-y-1 border-t border-slate-100">
+                                                <p><span class="text-slate-400">Teacher:</span> <strong class="text-navy-950">{{ $class->teacherName ?: 'Lasindu Senarath' }}</strong></p>
                                                 @if($class->classTime)
-                                                <div class="flex items-center justify-between">
-                                                    <span class="text-slate-400">Schedule:</span>
-                                                    <span class="font-semibold text-slate-700">{{ $class->classTime }}</span>
-                                                </div>
+                                                <p><span class="text-slate-400">Schedule:</span> {{ $class->classTime }}</p>
                                                 @endif
                                             </div>
                                         </div>
 
-                                        <!-- Enter Classroom Button -->
-                                        <div>
+                                        <div class="pt-4">
                                             <a href="{{ route('classview', $class->id) }}" 
-                                               class="w-full flex items-center justify-center py-3.5 bg-navy-900 hover:bg-blue-700 text-white text-xs font-bold rounded-xl transition shadow-md shadow-navy-950/10 active:scale-[0.98] gap-2">
-                                                Enter Classroom
-                                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                               class="w-full flex items-center justify-center py-2.5 bg-navy-900 hover:bg-navy-800 text-white text-xs font-bold rounded-xl transition gap-2 shadow-sm">
+                                                <span>Enter Classroom</span>
+                                                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                                             </a>
                                         </div>
 
@@ -693,182 +519,129 @@
             @endif
         </section>
 
-        <!-- LEARNING MATERIALS & RESOURCES SECTION -->
-        <section class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
-                <div>
-                    <h3 class="text-xl font-extrabold text-navy-950">Learning Materials & Publications</h3>
-                    <p class="text-xs text-slate-500 mt-1">Study materials, published books, and examination guides.</p>
-                </div>
-                <a href="{{ route('store') }}" class="text-xs font-bold text-blue-700 hover:underline flex items-center gap-1">
-                    Visit Store <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-                </a>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-blue-500 transition group">
-                    <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center mb-3">
-                        <i data-lucide="file-text" class="w-5 h-5"></i>
-                    </div>
-                    <h4 class="font-bold text-navy-950 text-sm mb-1">Business Studies Theory Tutes</h4>
-                    <p class="text-xs text-slate-500 mb-3">Structured theoretical notes and classroom handouts prepared for G.C.E. A/L.</p>
-                    <span class="text-xs font-bold text-blue-700 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                        Inside Classroom Modules →
-                    </span>
-                </div>
-
-                <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-blue-500 transition group">
-                    <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-3">
-                        <i data-lucide="book-marked" class="w-5 h-5"></i>
-                    </div>
-                    <h4 class="font-bold text-navy-950 text-sm mb-1">Published Study Books</h4>
-                    <p class="text-xs text-slate-500 mb-3">Official Business Studies Volumes and Exam Preparation Guides by Lasindu Senarath.</p>
-                    <a href="{{ route('store') }}" class="text-xs font-bold text-emerald-700 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                        Browse Books & Store →
-                    </a>
-                </div>
-
-                <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-blue-500 transition group">
-                    <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center mb-3">
-                        <i data-lucide="check-square" class="w-5 h-5"></i>
-                    </div>
-                    <h4 class="font-bold text-navy-950 text-sm mb-1">Past Paper & MCQ Banks</h4>
-                    <p class="text-xs text-slate-500 mb-3">Model questions, past paper analyses, and marking schemes for high A/L scoring.</p>
-                    <a href="{{ route('buyclass') }}" class="text-xs font-bold text-amber-700 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                        Enrolled Classes →
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- ==============================================================
-             5. HOME PAGE BUTTON FOR TEACHER DETAILS
-             "About the Teacher" / "Meet Your Teacher"
-             Navigates to dedicated /about-teacher page
-        ============================================================== -->
-        <section class="bg-gradient-to-br from-navy-950 via-navy-900 to-blue-950 rounded-3xl lg:rounded-[2.5rem] p-8 sm:p-12 text-white shadow-xl relative overflow-hidden border border-navy-800">
-            <!-- Glow circle -->
-            <div class="absolute -top-16 -right-16 w-72 h-72 bg-sky-500/15 rounded-full blur-3xl pointer-events-none"></div>
-
-            <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
-                <div class="flex flex-col md:flex-row items-center gap-6 max-w-2xl">
-                    <img src="{{ asset('images/lasindu1.jpeg') }}" 
-                         alt="Lasindu Senarath" 
-                         class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl object-cover border-2 border-white/20 shadow-xl flex-shrink-0">
-                    <div>
-                        <span class="text-xs font-bold uppercase tracking-widest text-sky-400">Educator Profile</span>
-                        <h3 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">About the Teacher</h3>
-                        <p class="text-slate-300 text-sm sm:text-base mt-2 leading-relaxed">
-                            Learn more about <strong>Lasindu Senarath</strong> — BBA (Hons), MBA (PIM-SJP), Ada Derana Education Lecturer, and founder of modern A/L Business Studies teaching methodologies.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="flex-shrink-0">
-                    <a href="{{ route('about-teacher') }}" 
-                       class="px-8 py-4 bg-sky-400 hover:bg-sky-300 text-navy-950 font-black rounded-2xl transition shadow-xl shadow-sky-500/20 active:scale-[0.98] inline-flex items-center gap-3 text-sm sm:text-base">
-                        <span>Meet Your Teacher</span>
-                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                    </a>
-                </div>
-            </div>
-        </section>
-
     </main>
 
-    <!-- ==============================================================
-         FOOTER
-    ============================================================== -->
-    <footer class="bg-navy-950 text-white border-t border-navy-900 mt-16 py-12 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 border-b border-white/10">
-            <div>
-                <div class="flex items-center gap-3 mb-4">
-                    <img src="{{ asset('images/logo.jpeg') }}" alt="Logo" class="w-8 h-8 rounded-lg object-cover">
-                    <span class="text-base font-extrabold text-white tracking-tight">LASINDU SENARATH LMS</span>
-                </div>
-                <p class="text-xs text-slate-400 leading-relaxed max-w-sm">
-                    Empowering students across Sri Lanka with comprehensive Advanced Level Business Studies knowledge, exam strategies, and digital learning tools.
-                </p>
+    <!-- ==========================================
+         CLEAN & COMPACT FOOTER (White & Navy Blue)
+    =========================================== -->
+    <footer class="bg-white border-t border-slate-200 py-6 px-4 sm:px-6 lg:px-8 mt-12 text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2.5">
+                <img src="{{ asset('images/logo.jpeg') }}" alt="Logo" class="w-6 h-6 rounded-md object-cover">
+                <span class="font-extrabold text-navy-950">LASINDU SENARATH LMS • AtoZ Business School</span>
             </div>
-
-            <div>
-                <h4 class="text-xs font-bold uppercase tracking-widest text-sky-400 mb-4">Quick Navigation</h4>
-                <ul class="space-y-2 text-xs text-slate-300">
-                    <li><a href="{{ route('dashboard') }}" class="hover:text-white transition">Home Dashboard</a></li>
-                    <li><a href="{{ route('buyclass') }}" class="hover:text-white transition">Course Enrollments</a></li>
-                    <li><a href="{{ route('store') }}" class="hover:text-white transition">Book Store & Publications</a></li>
-                    <li><a href="{{ route('about-teacher') }}" class="hover:text-white transition">About Lasindu Senarath</a></li>
-                </ul>
+            <div class="flex items-center gap-4 font-semibold text-slate-600">
+                <a href="{{ route('dashboard') }}" class="hover:text-navy-950 transition">Home</a>
+                <a href="{{ route('buyclass') }}" class="hover:text-navy-950 transition">Courses</a>
+                <a href="{{ route('studypack.index') }}" class="hover:text-navy-950 transition">Study Packs</a>
+                <a href="{{ route('about-teacher') }}" class="hover:text-navy-950 transition">About Teacher</a>
             </div>
-
-            <div>
-                <h4 class="text-xs font-bold uppercase tracking-widest text-sky-400 mb-4">Support & Contact</h4>
-                <div class="space-y-2 text-xs text-slate-300">
-                    <p class="flex items-center gap-2">
-                        <i data-lucide="phone" class="w-3.5 h-3.5 text-sky-400"></i> +94 70 487 0565
-                    </p>
-                    <p class="flex items-center gap-2">
-                        <i data-lucide="mail" class="w-3.5 h-3.5 text-sky-400"></i> info@atozbusiness.lk
-                    </p>
-                    <p class="flex items-center gap-2">
-                        <i data-lucide="map-pin" class="w-3.5 h-3.5 text-sky-400"></i> Nugegoda (Rotary) • Horana (Shilpa) • Online
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="max-w-7xl mx-auto pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
-            <p>&copy; 2026 AtoZ Business School • Lasindu Senarath. All rights reserved.</p>
-            <p>Designed for academic excellence.</p>
+            <p>&copy; 2026 AtoZ Business School. All rights reserved.</p>
         </div>
     </footer>
 
     <!-- ==============================================================
-         SCRIPTS: Lucide icons, Accordions, Profile Menu, 
-         Letter-by-Letter Loading Animation (2 Seconds Duration)
+         FLOATING LIVE CHAT WIDGET (Bottom Right)
+         - Click opens compact chat popup towards the left/bottom
+         - Chats with student's name
+         - Admin can delete any chat message right inside the chat box
     ============================================================== -->
+    <div id="chat-widget-root" class="fixed bottom-6 right-6 z-50">
+        
+        <!-- Floating Chat Icon Button -->
+        <button id="chat-toggle-btn" 
+                onclick="toggleChatBox()" 
+                class="w-14 h-14 rounded-full bg-navy-900 hover:bg-navy-800 text-white shadow-xl shadow-navy-950/25 flex items-center justify-center transition-all hover:scale-105 active:scale-95 relative group"
+                title="Live Chat & Inquiries">
+            <i data-lucide="message-circle" id="chat-icon-closed" class="w-6 h-6 text-white transition-transform"></i>
+            <i data-lucide="x" id="chat-icon-open" class="w-6 h-6 text-white hidden transition-transform"></i>
+            <!-- Active Notification Dot -->
+            <span class="absolute top-1 right-1 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full"></span>
+        </button>
+
+        <!-- Compact Chat Box Popup (Left/Above position) -->
+        <div id="chat-box" 
+             class="hidden fixed bottom-24 right-6 w-[92vw] sm:w-[380px] h-[520px] max-h-[82vh] bg-white rounded-3xl shadow-2xl border border-slate-200/90 flex flex-col overflow-hidden z-50 transition-all duration-300">
+            
+            <!-- Chat Header -->
+            <div class="p-4 bg-navy-950 text-white flex items-center justify-between border-b border-navy-900">
+                <div class="flex items-center gap-3 min-w-0">
+                    <div class="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center flex-shrink-0 text-white border border-white/10">
+                        <i data-lucide="messages-square" class="w-5 h-5 text-sky-300"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-1.5">
+                            <h4 class="text-xs font-extrabold uppercase tracking-wider text-white">Live Student Chat</h4>
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        </div>
+                        <p class="text-[11px] text-slate-300 truncate">
+                            Chatting as: <strong class="text-white">{{ Auth::user()->name }}</strong>
+                            @if(Auth::user()->usertype === 'admin')
+                                <span class="ml-1 text-[9px] bg-amber-500/30 text-amber-300 border border-amber-400/30 px-1.5 py-0.5 rounded font-mono font-bold uppercase">Admin Mode</span>
+                            @endif
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-1">
+                    <button onclick="fetchChatMessages()" class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition" title="Refresh">
+                        <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <button onclick="toggleChatBox()" class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition" title="Close">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Notice Sub-header -->
+            <div class="px-4 py-2 bg-navy-50/70 border-b border-slate-100 flex items-center justify-between text-[11px] text-slate-600">
+                <span class="flex items-center gap-1.5 font-medium">
+                    <i data-lucide="info" class="w-3.5 h-3.5 text-navy-700"></i>
+                    <span>පන්ති පිළිබඳ විමසීම් හා ගැටලු</span>
+                </span>
+                <span class="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                    Online
+                </span>
+            </div>
+
+            <!-- Messages Area -->
+            <div id="chat-messages-container" class="flex-1 p-4 overflow-y-auto space-y-3 bg-[#fafbfc] text-xs custom-scrollbar">
+                <div class="text-center py-10 text-slate-400">
+                    <i data-lucide="loader-2" class="w-5 h-5 animate-spin mx-auto mb-2 text-slate-400"></i>
+                    <p class="text-xs">Loading messages...</p>
+                </div>
+            </div>
+
+            <!-- Chat Input Footer -->
+            <form id="chat-form" onsubmit="sendChatMessage(event)" class="p-3 bg-white border-t border-slate-200/90 flex items-center gap-2">
+                <input type="text" 
+                       id="chat-input" 
+                       placeholder="Type a message as {{ strtok(Auth::user()->name, ' ') }}..." 
+                       maxlength="1000"
+                       required
+                       autocomplete="off"
+                       class="flex-1 px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-navy-950 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-navy-900 transition">
+                
+                <button type="submit" 
+                        id="chat-send-btn"
+                        class="p-2.5 bg-navy-900 hover:bg-navy-800 text-white rounded-xl transition shadow-sm active:scale-95 flex items-center justify-center flex-shrink-0"
+                        title="Send Message">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+         SCRIPTS
+    =========================================== -->
     <script>
-        // Initialize Lucide Icons
+        // Lucide Icons Initialization
         lucide.createIcons();
 
-        // -------------------------------------------------------------
-        // 6. LETTER-BY-LETTER BRAND LOADING ANIMATION ("LASINDU SENARATH")
-        // Duration: ~2 seconds total on page load
-        // -------------------------------------------------------------
-        (function() {
-            const loader = document.getElementById('lms-loader');
-            const targetText = 'LASINDU SENARATH';
-            const textElement = document.getElementById('loader-text');
-            const subElement = document.getElementById('loader-sub');
-            
-            if (!loader || !textElement) return;
-
-            let currentIndex = 0;
-            // 16 characters over 1400ms = ~85ms per character
-            const charInterval = 85; 
-
-            const interval = setInterval(() => {
-                if (currentIndex < targetText.length) {
-                    textElement.textContent += targetText[currentIndex];
-                    currentIndex++;
-                } else {
-                    clearInterval(interval);
-                    if (subElement) subElement.style.opacity = '1';
-                }
-            }, charInterval);
-
-            // After approximately 2 seconds (2000ms), fade out and remove loader
-            setTimeout(() => {
-                loader.classList.add('loaded');
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                }, 500);
-            }, 2000);
-        })();
-
-        // -------------------------------------------------------------
         // Profile Menu Dropdown
-        // -------------------------------------------------------------
         const profBtn = document.getElementById('profile-menu-button');
         const profDrop = document.getElementById('profile-dropdown');
         if (profBtn && profDrop) {
@@ -879,9 +652,7 @@
             window.addEventListener('click', () => profDrop.classList.add('hidden'));
         }
 
-        // -------------------------------------------------------------
         // Mobile Navigation Toggle
-        // -------------------------------------------------------------
         const mobileToggle = document.getElementById('mobile-toggle');
         const mobileNav = document.getElementById('mobile-nav');
         if (mobileToggle && mobileNav) {
@@ -890,22 +661,221 @@
             });
         }
 
-        // -------------------------------------------------------------
         // Accordion Toggle
-        // -------------------------------------------------------------
         function toggleAccordion(element) {
             const parent = element.parentElement;
             parent.classList.toggle('accordion-active');
         }
 
-        // -------------------------------------------------------------
         // Cart Badge Counter from LocalStorage
-        // -------------------------------------------------------------
         try {
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
             const badge = document.getElementById('nav-cart-count');
             if (badge) badge.textContent = cart.length;
         } catch(e) {}
+
+        // ==========================================
+        // LIVE CHAT SYSTEM JAVASCRIPT
+        // ==========================================
+        let isChatOpen = false;
+        let chatPollInterval = null;
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+        function toggleChatBox() {
+            const chatBox = document.getElementById('chat-box');
+            const iconClosed = document.getElementById('chat-icon-closed');
+            const iconOpen = document.getElementById('chat-icon-open');
+
+            isChatOpen = !isChatOpen;
+
+            if (isChatOpen) {
+                chatBox.classList.remove('hidden');
+                iconClosed.classList.add('hidden');
+                iconOpen.classList.remove('hidden');
+                fetchChatMessages();
+                // Focus input
+                setTimeout(() => {
+                    document.getElementById('chat-input')?.focus();
+                }, 100);
+                // Start polling every 5 seconds
+                if (!chatPollInterval) {
+                    chatPollInterval = setInterval(fetchChatMessages, 5000);
+                }
+            } else {
+                chatBox.classList.add('hidden');
+                iconClosed.classList.remove('hidden');
+                iconOpen.classList.add('hidden');
+                if (chatPollInterval) {
+                    clearInterval(chatPollInterval);
+                    chatPollInterval = null;
+                }
+            }
+        }
+
+        function fetchChatMessages() {
+            fetch("{{ route('chat.messages') }}", {
+                headers: {
+                    'Accept': 'application/json',
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    renderMessages(data.messages, data.is_admin);
+                }
+            })
+            .catch(err => {
+                console.error("Chat fetch error:", err);
+            });
+        }
+
+        function renderMessages(messages, isAdmin) {
+            const container = document.getElementById('chat-messages-container');
+            if (!container) return;
+
+            if (messages.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-slate-400">
+                        <i data-lucide="message-square" class="w-8 h-8 mx-auto mb-2 text-slate-300"></i>
+                        <p class="font-bold text-xs text-navy-950 mb-1">No messages yet</p>
+                        <p class="text-[11px] text-slate-400">Be the first to say hello or ask a question!</p>
+                    </div>`;
+                lucide.createIcons();
+                return;
+            }
+
+            const isScrolledToBottom = container.scrollHeight - container.clientHeight <= container.scrollTop + 60;
+
+            let html = '';
+            messages.forEach(msg => {
+                const isMe = msg.is_me;
+                const canDelete = msg.can_delete || isAdmin;
+
+                if (isMe) {
+                    // Right-aligned (Sent by current user)
+                    html += `
+                        <div class="flex flex-col items-end group" id="chat-msg-${msg.id}">
+                            <div class="flex items-center gap-1.5 mb-1 text-[10px] text-slate-400">
+                                <span>${escapeHtml(msg.time)}</span>
+                                <span class="font-bold text-navy-900">You</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 max-w-[85%]">
+                                ${canDelete ? `
+                                    <button type="button" 
+                                            onclick="deleteChatMessage(${msg.id})"
+                                            class="opacity-0 group-hover:opacity-100 p-1 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded transition" 
+                                            title="Delete message">
+                                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                                    </button>
+                                ` : ''}
+                                <div class="px-3.5 py-2.5 bg-navy-900 text-white rounded-2xl rounded-br-none shadow-sm leading-relaxed break-words text-xs">
+                                    ${escapeHtml(msg.message)}
+                                </div>
+                            </div>
+                        </div>`;
+                } else {
+                    // Left-aligned (Sent by other students or admin)
+                    html += `
+                        <div class="flex flex-col items-start group" id="chat-msg-${msg.id}">
+                            <div class="flex items-center gap-1.5 mb-1 text-[10px]">
+                                <span class="font-bold text-navy-950">${escapeHtml(msg.user_name)}</span>
+                                ${msg.is_admin ? '<span class="px-1.5 py-0.2 bg-blue-50 text-blue-700 font-extrabold text-[9px] rounded border border-blue-200 uppercase">Teacher</span>' : ''}
+                                <span class="text-slate-400">${escapeHtml(msg.time)}</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 max-w-[85%]">
+                                <div class="px-3.5 py-2.5 bg-white text-navy-950 border border-slate-200/90 rounded-2xl rounded-bl-none shadow-sm leading-relaxed break-words text-xs">
+                                    ${escapeHtml(msg.message)}
+                                </div>
+                                ${canDelete ? `
+                                    <button type="button" 
+                                            onclick="deleteChatMessage(${msg.id})"
+                                            class="opacity-0 group-hover:opacity-100 p-1 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded transition" 
+                                            title="Delete message">
+                                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>`;
+                }
+            });
+
+            container.innerHTML = html;
+            lucide.createIcons();
+
+            // Auto-scroll to bottom if user was already at bottom or on first load
+            if (isScrolledToBottom) {
+                container.scrollTop = container.scrollHeight;
+            }
+        }
+
+        function sendChatMessage(e) {
+            e.preventDefault();
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            if (!message) return;
+
+            const sendBtn = document.getElementById('chat-send-btn');
+            sendBtn.disabled = true;
+
+            fetch("{{ route('chat.send') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+                body: JSON.stringify({ message: message })
+            })
+            .then(res => res.json())
+            .then(data => {
+                sendBtn.disabled = false;
+                if (data.success) {
+                    input.value = '';
+                    fetchChatMessages();
+                    // Scroll to bottom
+                    const container = document.getElementById('chat-messages-container');
+                    if (container) {
+                        setTimeout(() => { container.scrollTop = container.scrollHeight; }, 100);
+                    }
+                } else {
+                    alert(data.error || 'Failed to send message.');
+                }
+            })
+            .catch(err => {
+                sendBtn.disabled = false;
+                console.error("Send error:", err);
+            });
+        }
+
+        function deleteChatMessage(id) {
+            if (!confirm('Delete this chat message? / මෙම පණිවිඩය ඉවත් කරන්නද?')) {
+                return;
+            }
+
+            fetch("{{ url('/chat/delete') }}/" + id, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const el = document.getElementById('chat-msg-' + id);
+                    if (el) el.remove();
+                } else {
+                    alert(data.error || 'Failed to delete message.');
+                }
+            })
+            .catch(err => {
+                console.error("Delete error:", err);
+            });
+        }
+
+        function escapeHtml(str) {
+            return String(str || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        }
     </script>
 </body>
 </html>

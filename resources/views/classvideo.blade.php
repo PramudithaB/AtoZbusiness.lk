@@ -48,6 +48,19 @@
             background-color: #f8fafc;
             color: #0f172a;
         }
+        #classVideoWrap:fullscreen,
+        #classVideoWrap:-webkit-full-screen {
+            width: 100vw !important;
+            height: 100vh !important;
+            padding-bottom: 0 !important;
+            border-radius: 0 !important;
+            background: #000 !important;
+        }
+        #classVideoWrap:fullscreen iframe,
+        #classVideoWrap:-webkit-full-screen iframe {
+            top: -62px !important;
+            height: calc(100% + 62px) !important;
+        }
     </style>
 </head>
 
@@ -79,38 +92,66 @@
             <!-- Video Player Card -->
             <div class="lg:col-span-8 space-y-6">
                 
-                <div class="bg-white rounded-3xl p-8 sm:p-12 shadow-xl border border-slate-200/90 relative overflow-hidden text-center">
-                    <div class="w-20 h-20 bg-blue-50 text-blue-700 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-sm">
-                        <i data-lucide="video" class="w-10 h-10"></i>
+                @php
+                    $ytUrl = $lesson->link ?? '';
+                    $ytEmbedUrl = '';
+                    if (preg_match('/(?:youtube(?:-nocookie)?\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=|(?:shorts\/))|youtu\.be\/)([a-zA-Z0-9_-]{11})/i', $ytUrl, $matches)) {
+                        $ytEmbedUrl = 'https://www.youtube-nocookie.com/embed/' . $matches[1] . '?autoplay=1&rel=0&modestbranding=1&playsinline=1&controls=1&fs=0&enablejsapi=1&origin=' . urlencode(url('/'));
+                    }
+                @endphp
+
+                <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-200/90 relative overflow-hidden">
+                    <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+                        <div class="flex items-center gap-3">
+                            <span class="px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-blue-50 text-blue-700">
+                                Lecture Hall Stream
+                            </span>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
+                                <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> In-Site Player
+                            </span>
+                        </div>
+                        @if($ytEmbedUrl)
+                        <button type="button" onclick="togglePlayerFullscreen()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition cursor-pointer">
+                            <i data-lucide="maximize" class="w-3.5 h-3.5"></i> Fullscreen
+                        </button>
+                        @endif
                     </div>
 
-                    <span class="px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-blue-50 text-blue-700 inline-block mb-3">
-                        Lecture Hall Stream
-                    </span>
-
-                    <h1 class="text-2xl sm:text-4xl font-extrabold text-navy-950 tracking-tight mb-4">
+                    <h1 class="text-xl sm:text-3xl font-extrabold text-navy-950 tracking-tight mb-6">
                         {{ $lesson->name }}
                     </h1>
 
-                    <p class="text-slate-500 text-sm sm:text-base max-w-lg mx-auto mb-8 leading-relaxed">
-                        Welcome to your online lecture session. Click the button below to launch the video player in high definition.
-                    </p>
-
-                    @if($lesson->link)
-                    <a href="{{ $lesson->link }}" target="_blank" 
-                       class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-navy-900 hover:bg-blue-700 text-white font-extrabold text-base rounded-2xl shadow-xl shadow-navy-950/20 active:scale-[0.98] transition">
-                        <i data-lucide="play-circle" class="w-6 h-6 text-sky-400"></i>
-                        <span>Launch Lecture Player</span>
-                    </a>
+                    @if($ytEmbedUrl)
+                    <!-- Secure In-Site Embedded Video Player (Cropped top bar to hide Copy Link icon) -->
+                    <div id="classVideoWrap" class="relative w-full rounded-2xl overflow-hidden bg-black shadow-2xl border border-navy-900/10 mb-6 select-none" style="padding-bottom: 56.25%;" oncontextmenu="return false;">
+                        <iframe src="{{ $ytEmbedUrl }}" 
+                                class="absolute left-0 w-full border-0" 
+                                style="top: -62px; height: calc(100% + 62px);"
+                                title="{{ $lesson->name }}" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                sandbox="allow-scripts allow-same-origin allow-presentation allow-forms"
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                    @elseif($lesson->link)
+                    <!-- Fallback Player Button -->
+                    <div class="text-center py-8">
+                        <a href="{{ $lesson->link }}" target="_blank" 
+                           class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-navy-900 hover:bg-blue-700 text-white font-extrabold text-base rounded-2xl shadow-xl shadow-navy-950/20 active:scale-[0.98] transition">
+                            <i data-lucide="play-circle" class="w-6 h-6 text-sky-400"></i>
+                            <span>Launch Video Stream</span>
+                        </a>
+                    </div>
                     @else
-                    <div class="p-4 rounded-xl bg-slate-100 text-slate-500 text-xs font-medium max-w-xs mx-auto">
-                        Video link is being processed by the teacher.
+                    <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 text-slate-500 text-sm font-medium text-center max-w-md mx-auto my-6">
+                        <i data-lucide="clock" class="w-8 h-8 text-slate-400 mx-auto mb-2"></i>
+                        වීඩියෝ පාඩම ඉක්මනින් සක්‍රීය කෙරේ. කරුණාකර රැඳී සිටින්න.
                     </div>
                     @endif
 
-                    <div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-center gap-6 text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                        <span class="flex items-center gap-1.5"><i data-lucide="shield-check" class="w-4 h-4 text-emerald-500"></i> Secure Stream</span>
-                        <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-4 h-4 text-blue-500"></i> Authenticated Access</span>
+                    <div class="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                        <span class="flex items-center gap-1.5"><i data-lucide="shield-check" class="w-4 h-4 text-emerald-500"></i> Secure LMS Player</span>
+                        <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-4 h-4 text-blue-500"></i> Authenticated Student Access</span>
                     </div>
                 </div>
 
@@ -187,6 +228,17 @@
     </footer>
 
     <script>
+        function togglePlayerFullscreen() {
+            const wrap = document.getElementById('classVideoWrap');
+            if (!wrap) return;
+            if (!document.fullscreenElement) {
+                if (wrap.requestFullscreen) wrap.requestFullscreen();
+                else if (wrap.webkitRequestFullscreen) wrap.webkitRequestFullscreen();
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+                else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+            }
+        }
         lucide.createIcons();
     </script>
 </body>

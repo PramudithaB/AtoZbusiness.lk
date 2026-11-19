@@ -7,51 +7,64 @@
 @section('content')
 
     <!-- SUMMARY CARDS -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         
-        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
                 <p class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Active Courses</p>
-                <h3 class="text-3xl font-extrabold text-navy-950">{{ $classes->count() }}</h3>
+                <h3 class="text-2xl font-extrabold text-navy-950">{{ $classes->count() }}</h3>
                 <p class="text-[11px] text-blue-600 font-semibold mt-1">Available in portal</p>
             </div>
-            <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-700 flex items-center justify-center">
-                <i data-lucide="book-open" class="w-6 h-6"></i>
+            <div class="w-11 h-11 rounded-2xl bg-blue-50 text-blue-700 flex items-center justify-center">
+                <i data-lucide="book-open" class="w-5 h-5"></i>
             </div>
         </div>
 
-        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
-            <div>
-                <p class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Registered Users</p>
-                <h3 class="text-3xl font-extrabold text-navy-950">{{ $users->count() }}</h3>
-                <p class="text-[11px] text-emerald-600 font-semibold mt-1">Student accounts</p>
-            </div>
-            <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
-                <i data-lucide="users" class="w-6 h-6"></i>
-            </div>
-        </div>
-
-        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
                 <p class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Course Packages</p>
-                <h3 class="text-3xl font-extrabold text-navy-950">{{ $packages->count() }}</h3>
+                <h3 class="text-2xl font-extrabold text-navy-950">{{ $packages->count() }}</h3>
                 <p class="text-[11px] text-indigo-600 font-semibold mt-1">Monthly subscriptions</p>
             </div>
-            <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-700 flex items-center justify-center">
-                <i data-lucide="package" class="w-6 h-6"></i>
+            <div class="w-11 h-11 rounded-2xl bg-indigo-50 text-indigo-700 flex items-center justify-center">
+                <i data-lucide="package" class="w-5 h-5"></i>
             </div>
         </div>
 
-        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+            <div>
+                <p class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Study Packs</p>
+                <h3 class="text-2xl font-extrabold text-navy-950">{{ $studyPacks->count() }}</h3>
+                <a href="{{ route('admin.studypack.index') }}" class="text-[11px] text-amber-600 font-bold hover:underline mt-1 inline-flex items-center gap-0.5">
+                    View Packs &rarr;
+                </a>
+            </div>
+            <div class="w-11 h-11 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center">
+                <i data-lucide="layers" class="w-5 h-5"></i>
+            </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
                 <p class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Total Lessons</p>
-                <h3 class="text-3xl font-extrabold text-navy-950">
+                <h3 class="text-2xl font-extrabold text-navy-950">
                     {{ $classes->sum(function($c) { return $c->lessons ? $c->lessons->count() : 0; }) }}
                 </h3>
-                <p class="text-[11px] text-amber-600 font-semibold mt-1">Video lectures</p>
+                <p class="text-[11px] text-emerald-600 font-semibold mt-1">Video lectures</p>
             </div>
-            <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center">
-                <i data-lucide="video" class="w-6 h-6"></i>
+            <div class="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
+                <i data-lucide="video" class="w-5 h-5"></i>
+            </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+            <div>
+                <p class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Registered Users</p>
+                <h3 class="text-2xl font-extrabold text-navy-950">{{ $users->count() }}</h3>
+                <p class="text-[11px] text-slate-500 font-semibold mt-1">Student accounts</p>
+            </div>
+            <div class="w-11 h-11 rounded-2xl bg-slate-100 text-slate-700 flex items-center justify-center">
+                <i data-lucide="users" class="w-5 h-5"></i>
             </div>
         </div>
 
@@ -59,17 +72,20 @@
 
     <!-- QUICK ACTIONS -->
     <div class="flex flex-wrap items-center gap-3">
+        <a href="{{ route('admin.studypack.index') }}" class="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm">
+            <i data-lucide="layers" class="w-4 h-4"></i> View Study Packs ({{ $studyPacks->count() }})
+        </a>
+        <a href="{{ route('admin.studypack.create') }}" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm">
+            <i data-lucide="plus-circle" class="w-4 h-4"></i> New Study Pack
+        </a>
         <a href="{{ route('classmanage') }}" class="px-4 py-2.5 bg-navy-900 hover:bg-navy-800 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm">
-            <i data-lucide="plus-circle" class="w-4 h-4"></i> New Course
+            <i data-lucide="folder-plus" class="w-4 h-4"></i> New Course
         </a>
         <a href="{{ route('lesson.lessoncreate') }}" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm">
             <i data-lucide="video" class="w-4 h-4"></i> Add Lesson
         </a>
         <a href="{{ route('package.create') }}" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm">
             <i data-lucide="package" class="w-4 h-4"></i> Create Package
-        </a>
-        <a href="{{ route('admin.studypack.create') }}" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm">
-            <i data-lucide="layers" class="w-4 h-4"></i> New Study Pack
         </a>
         <a href="{{ route('paymentmanage') }}" class="px-4 py-2.5 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm">
             <i data-lucide="credit-card" class="w-4 h-4 text-blue-600"></i> View Payment Slips
@@ -153,7 +169,119 @@
         </div>
     </section>
 
-    <!-- SECTION 2: SUBSCRIPTION PACKAGES -->
+    <!-- SECTION 2: CREATED STUDY PACKS (වීඩියෝ පාඩම් මාලා) -->
+    <section class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+        <div class="p-5 border-b border-slate-100 flex items-center justify-between flex-wrap gap-3">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center">
+                    <i data-lucide="layers" class="w-4 h-4"></i>
+                </div>
+                <div>
+                    <h2 class="text-base font-bold text-navy-950">Created Study Packs (වීඩියෝ පාඩම් මාලා)</h2>
+                    <p class="text-xs text-slate-400">Competency-based video modules, pricing, and curriculum syllabus.</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <a href="{{ route('admin.studypack.create') }}" class="px-3.5 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 font-bold rounded-xl text-xs transition flex items-center gap-1.5 border border-amber-200">
+                    <i data-lucide="plus" class="w-3.5 h-3.5"></i> New Study Pack
+                </a>
+                <a href="{{ route('admin.studypack.index') }}" class="px-3.5 py-1.5 bg-navy-900 hover:bg-navy-800 text-white font-bold rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
+                    View All Study Packs Page <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                    <tr class="bg-slate-50/75 text-slate-500 uppercase tracking-wider text-[10px] font-bold border-b border-slate-100">
+                        <th class="px-6 py-4">Study Pack Title</th>
+                        <th class="px-6 py-4">Grade</th>
+                        <th class="px-6 py-4">Curriculum Overview</th>
+                        <th class="px-6 py-4">Fee (Rs.)</th>
+                        <th class="px-6 py-4">Status</th>
+                        <th class="px-6 py-4 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    @forelse ($studyPacks as $pack)
+                    <tr class="hover:bg-slate-50/70 transition">
+                        <td class="px-6 py-4">
+                            <span class="font-bold text-navy-950 text-sm block">{{ $pack->title }}</span>
+                            <span class="text-[11px] text-slate-400 line-clamp-1">{{ $pack->subtitle ?: 'Video lecture series' }}</span>
+                        </td>
+                        <td class="px-6 py-4 text-slate-600 font-medium">
+                            <span class="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-lg text-xs font-semibold">
+                                {{ $pack->grade }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2.5 py-1 bg-blue-50 text-blue-700 rounded-lg text-xs font-bold">
+                                    {{ $pack->topics_count }} Topics
+                                </span>
+                                <span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 rounded-lg text-xs font-bold">
+                                    {{ $pack->subtopics_count }} Lessons
+                                </span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 font-extrabold text-navy-950 text-sm">
+                            Rs. {{ number_format($pack->price) }}
+                        </td>
+                        <td class="px-6 py-4">
+                            @if($pack->is_published)
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Active
+                                </span>
+                            @else
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> Draft
+                                </span>
+                            @endif
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-1.5">
+                                <a href="{{ route('admin.studypack.curriculum', $pack->id) }}" 
+                                   class="px-2.5 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 font-bold text-xs transition flex items-center gap-1" 
+                                   title="Manage Topics & YouTube Videos">
+                                    <i data-lucide="video" class="w-3.5 h-3.5"></i>
+                                    <span>Videos</span>
+                                </a>
+                                <a href="{{ route('admin.studypack.edit', $pack->id) }}" 
+                                   class="px-2.5 py-1.5 rounded-lg bg-amber-50 text-amber-800 hover:bg-amber-100 font-bold text-xs transition flex items-center gap-1 border border-amber-200" 
+                                   title="Edit Study Pack Details">
+                                    <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                                    <span>Edit</span>
+                                </a>
+                                <a href="{{ route('studypack.show', $pack->id) }}" 
+                                   target="_blank"
+                                   class="p-2 rounded-lg text-slate-500 hover:text-navy-900 hover:bg-slate-100 transition" 
+                                   title="Preview in Student Portal">
+                                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                                </a>
+                                <form action="{{ route('admin.studypack.delete', $pack->id) }}" method="POST" class="inline" onsubmit="return confirm('Permanently delete study pack \'{{ addslashes($pack->title) }}\'?');">
+                                    @csrf 
+                                    @method('DELETE')
+                                    <button type="submit" 
+                                            class="p-2 rounded-lg text-slate-500 hover:text-rose-600 hover:bg-rose-50 transition" 
+                                            title="Delete Study Pack">
+                                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="6" class="px-6 py-8 text-center text-slate-400 italic">No study packs created yet. Click "New Study Pack" above to create one.</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- SECTION 3: SUBSCRIPTION PACKAGES -->
     <section class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
         <div class="p-5 border-b border-slate-100 flex items-center justify-between">
             <div class="flex items-center gap-2.5">
@@ -223,7 +351,7 @@
         </div>
     </section>
 
-    <!-- SECTION 3: LESSONS BY COURSE -->
+    <!-- SECTION 4: LESSONS BY COURSE -->
     @foreach($classes as $class)
     <section class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
         <div class="p-5 border-b border-slate-100 flex items-center justify-between">

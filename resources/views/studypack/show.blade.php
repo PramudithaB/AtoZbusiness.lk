@@ -250,6 +250,8 @@
     padding:7px 13px; border-radius:7px; text-decoration:none;
     white-space:nowrap;
     cursor:pointer;
+    border:none;
+    outline:none;
     transition:background .15s, transform .1s;
   }
   .watch-btn:active{ transform:scale(0.97); }
@@ -318,29 +320,68 @@
     flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
   }
   .modal-actions{ display:flex; align-items:center; gap:8px; flex-shrink:0; }
-  .yt-link-btn{
-    font-family:'IBM Plex Mono',monospace; font-size:11.5px;
-    color:#CBD3E1; text-decoration:none;
-    padding:5px 10px; border-radius:6px;
-    background:rgba(255,255,255,0.07);
-    border:1px solid rgba(255,255,255,0.12);
-    transition:all .15s;
+  .player-tag{
+    font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600;
+    color:#38bdf8; background:rgba(56,189,248,0.12);
+    border:1px solid rgba(56,189,248,0.25);
+    padding:4px 9px; border-radius:6px;
+    display:flex; align-items:center; gap:5px;
+    letter-spacing:0.02em;
   }
-  .yt-link-btn:hover{ color:#fff; background:rgba(255,255,255,0.15); }
-  .modal-close-btn{
+  .modal-fs-btn, .modal-close-btn{
     background:rgba(255,255,255,0.1); border:none;
     color:#fff; width:30px; height:30px; border-radius:8px;
-    cursor:pointer; font-size:16px; line-height:1;
+    cursor:pointer; font-size:15px; line-height:1;
     display:flex; align-items:center; justify-content:center;
     transition:background .15s;
   }
-  .modal-close-btn:hover{ background:rgba(255,255,255,0.22); }
+  .modal-fs-btn:hover, .modal-close-btn:hover{ background:rgba(255,255,255,0.22); }
   .video-frame-wrap{
     position:relative; width:100%; padding-bottom:56.25%;
     background:#000;
+    overflow:hidden;
+    user-select:none;
+    -webkit-user-select:none;
   }
+  /* Shift iframe up so YouTube title, channel avatar, and "Copy link" / "Share" icon are completely cropped out */
   .video-frame-wrap iframe{
-    position:absolute; inset:0; width:100%; height:100%; border:none;
+    position:absolute;
+    top:-62px;
+    left:0;
+    width:100%;
+    height:calc(100% + 62px);
+    border:none;
+  }
+  @media (max-width:640px){
+    .video-frame-wrap iframe{
+      top:-50px;
+      height:calc(100% + 50px);
+    }
+  }
+
+  /* Fullscreen retaining cropped top bar */
+  .modal-card:fullscreen,
+  .modal-card:-webkit-full-screen{
+    width:100vw !important;
+    max-width:100vw !important;
+    height:100vh !important;
+    max-height:100vh !important;
+    border-radius:0 !important;
+    border:none !important;
+    background:#000 !important;
+    display:flex !important;
+    flex-direction:column !important;
+  }
+  .modal-card:fullscreen .video-frame-wrap,
+  .modal-card:-webkit-full-screen .video-frame-wrap{
+    flex:1;
+    height:calc(100vh - 54px);
+    padding-bottom:0;
+  }
+  .modal-card:fullscreen .video-frame-wrap iframe,
+  .modal-card:-webkit-full-screen .video-frame-wrap iframe{
+    top:-62px;
+    height:calc(100% + 62px);
   }
 
   @media (max-width:560px){
@@ -400,20 +441,32 @@
 <!-- ==========================================
      BUILT-IN RESPONSIVE VIDEO PLAYER MODAL
 ========================================== -->
-<div id="videoModal" class="modal-overlay" aria-hidden="true">
-  <div class="modal-card">
+<div id="videoModal" class="modal-overlay" aria-hidden="true" oncontextmenu="return false;">
+  <div class="modal-card" id="modalCard">
     <div class="modal-header">
-      <span id="modalNum" class="modal-badge">1.1</span>
-      <span id="modalTitle" class="modal-title">වීඩියෝ පාඩම</span>
+      <div style="display:flex; align-items:center; gap:10px; overflow:hidden;">
+        <span id="modalNum" class="modal-badge">1.1</span>
+        <span id="modalTitle" class="modal-title">වීඩියෝ පාඩම</span>
+      </div>
       <div class="modal-actions">
-        <a id="modalYtLink" href="#" target="_blank" rel="noopener" class="yt-link-btn">
-          YouTube වෙතින් ↗
-        </a>
-        <button onclick="closeVideoModal()" class="modal-close-btn" title="Close (Esc)">✕</button>
+        <span class="player-tag">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          In-Site Player
+        </span>
+        <button type="button" onclick="toggleModalFullscreen()" class="modal-fs-btn" title="Fullscreen (F)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+        </button>
+        <button type="button" onclick="closeVideoModal()" class="modal-close-btn" title="Close (Esc)">✕</button>
       </div>
     </div>
-    <div class="video-frame-wrap">
-      <iframe id="modalIframe" src="" title="Video Player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <div class="video-frame-wrap" oncontextmenu="return false;">
+      <iframe id="modalIframe" 
+              src="" 
+              title="Study Pack Video Player" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              sandbox="allow-scripts allow-same-origin allow-presentation allow-forms"
+              allowfullscreen>
+      </iframe>
     </div>
   </div>
 </div>
@@ -461,30 +514,52 @@ function highlight(text, q){
   return esc.slice(0,idx) + '<mark>' + esc.slice(idx, idx+escQ.length) + '</mark>' + esc.slice(idx+escQ.length);
 }
 
-// Convert normal YouTube URL (watch?v=, youtu.be/) to embeddable URL
+// Convert normal YouTube URL (watch?v=, youtu.be/, shorts/, embed/) to embeddable URL with anti-redirect parameters and hidden YouTube header
 function getYouTubeEmbedUrl(url) {
   if (!url) return '';
-  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  url = url.trim();
+  let videoId = '';
+  const regExp = /(?:youtube(?:-nocookie)?\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=|(?:shorts\/))|youtu\.be\/)([a-zA-Z0-9_-]{11})/i;
   const match = url.match(regExp);
-  if (match && match[2].length === 11) {
-    return 'https://www.youtube.com/embed/' + match[2] + '?autoplay=1&rel=0';
+  if (match && match[1]) {
+    videoId = match[1];
+  } else if (/^[a-zA-Z0-9_-]{11}$/.test(url)) {
+    videoId = url;
+  }
+
+  if (videoId) {
+    const origin = encodeURIComponent(window.location.origin);
+    return `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1&controls=1&fs=0&enablejsapi=1&origin=${origin}`;
   }
   return url;
 }
 
+function toggleModalFullscreen() {
+  const card = document.getElementById('modalCard') || document.querySelector('.modal-card');
+  if (!card) return;
+  if (!document.fullscreenElement) {
+    if (card.requestFullscreen) card.requestFullscreen();
+    else if (card.webkitRequestFullscreen) card.webkitRequestFullscreen();
+  } else {
+    if (document.exitFullscreen) document.exitFullscreen();
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+  }
+}
+
 function openVideoModal(e, url, num, desc) {
-  if (e) e.preventDefault();
+  if (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
   const modal = document.getElementById('videoModal');
   const iframe = document.getElementById('modalIframe');
   const title = document.getElementById('modalTitle');
   const numEl = document.getElementById('modalNum');
-  const ytLink = document.getElementById('modalYtLink');
 
   if (!modal || !iframe) return;
 
   numEl.textContent = num;
   title.textContent = desc;
-  ytLink.href = url;
   iframe.src = getYouTubeEmbedUrl(url);
 
   modal.classList.add('active');
@@ -496,13 +571,20 @@ function closeVideoModal() {
   const iframe = document.getElementById('modalIframe');
   if (!modal || !iframe) return;
 
-  iframe.src = '';
+  if (document.fullscreenElement) {
+    document.exitFullscreen?.();
+  }
+
+  iframe.src = 'about:blank';
   modal.classList.remove('active');
   document.body.style.overflow = '';
 }
 
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeVideoModal();
+  if ((e.key === 'f' || e.key === 'F') && document.getElementById('videoModal')?.classList.contains('active')) {
+    toggleModalFullscreen();
+  }
 });
 
 document.getElementById('videoModal')?.addEventListener('click', (e) => {
@@ -535,7 +617,7 @@ function render(){
       visibleSubsTotal++;
       if(isDone) visibleSubsDone++;
       const btn = s.url
-        ? `<a class="watch-btn ready" href="${escapeHtml(s.url)}" onclick="openVideoModal(event, '${escapeHtml(s.url)}', '${s.num}', '${escapeHtml(s.desc)}')" target="_blank" rel="noopener">▶ <span class="label">නරඹන්න</span></a>`
+        ? `<button type="button" class="watch-btn ready" onclick="openVideoModal(event, '${escapeHtml(s.url)}', '${s.num}', '${escapeHtml(s.desc)}')">▶ <span class="label">නරඹන්න</span></button>`
         : `<span class="watch-btn soon">⏱ <span class="label">ළඟදීම</span></span>`;
       subsHtml += `
         <div class="sub-row ${isDone ? 'done':''}">

@@ -17,7 +17,6 @@ class StudyPackController extends Controller
     {
         $studyPacks = StudyPack::where('is_published', true)->orderBy('id', 'asc')->get();
         $userId = auth()->id();
-        $userName = auth()->user()->name ?? null;
         $isAdmin = auth()->user()->usertype === 'admin';
 
         $userApprovals = [];
@@ -26,25 +25,27 @@ class StudyPackController extends Controller
         if (auth()->check()) {
             foreach ($studyPacks as $pack) {
                 $classId = $pack->class_id;
-                $userApprovals[$pack->id] = $isAdmin || Checkout::where('status', 'approved')
-                    ->whereRaw("CONCAT(',', REPLACE(class_id, ' ', ''), ',') LIKE ?", ['%,' . $classId . ',%'])
-                    ->where(function($q) use ($userId, $userName) {
-                        $q->where('user_id', $userId);
-                        if ($userName) {
-                            $q->orWhere('student_name', $userName);
-                        }
-                    })
-                    ->exists();
 
-                $userPendings[$pack->id] = Checkout::where('status', 'pending')
-                    ->whereRaw("CONCAT(',', REPLACE(class_id, ' ', ''), ',') LIKE ?", ['%,' . $classId . ',%'])
-                    ->where(function($q) use ($userId, $userName) {
-                        $q->where('user_id', $userId);
-                        if ($userName) {
-                            $q->orWhere('student_name', $userName);
-                        }
-                    })
-                    ->exists();
+                // Strict payment verification: Only Admin OR Student with approved checkout for this study pack's class_id
+                $hasApproved = false;
+                if ($isAdmin) {
+                    $hasApproved = true;
+                } elseif ($userId && $classId) {
+                    $hasApproved = Checkout::where('status', 'approved')
+                        ->where('user_id', $userId)
+                        ->whereRaw("CONCAT(',', REPLACE(class_id, ' ', ''), ',') LIKE ?", ['%,' . $classId . ',%'])
+                        ->exists();
+                }
+                $userApprovals[$pack->id] = $hasApproved;
+
+                $hasPending = false;
+                if (!$hasApproved && $userId && $classId) {
+                    $hasPending = Checkout::where('status', 'pending')
+                        ->where('user_id', $userId)
+                        ->whereRaw("CONCAT(',', REPLACE(class_id, ' ', ''), ',') LIKE ?", ['%,' . $classId . ',%'])
+                        ->exists();
+                }
+                $userPendings[$pack->id] = $hasPending;
             }
         }
 
@@ -66,32 +67,29 @@ class StudyPackController extends Controller
         }
 
         $userId = auth()->id();
-        $userName = auth()->user()->name ?? null;
         $classId = $studyPack->class_id;
         $isAdmin = auth()->user()->usertype === 'admin';
 
-        // Check if user has approved payment specifically for this study pack
-        $hasApproved = $isAdmin || Checkout::where('status', 'approved')
-            ->whereRaw("CONCAT(',', REPLACE(class_id, ' ', ''), ',') LIKE ?", ['%,' . $classId . ',%'])
-            ->where(function($q) use ($userId, $userName) {
-                $q->where('user_id', $userId);
-                if ($userName) {
-                    $q->orWhere('student_name', $userName);
-                }
-            })
-            ->exists();
-
-        // If not approved, show the restriction purchase page
-        if (!$hasApproved) {
-            $hasPending = Checkout::where('status', 'pending')
+        // Strict payment check: only admins or students who actually have an approved checkout
+        $hasApproved = false;
+        if ($isAdmin) {
+            $hasApproved = true;
+        } elseif ($userId && $classId) {
+            $hasApproved = Checkout::where('status', 'approved')
+                ->where('user_id', $userId)
                 ->whereRaw("CONCAT(',', REPLACE(class_id, ' ', ''), ',') LIKE ?", ['%,' . $classId . ',%'])
-                ->where(function($q) use ($userId, $userName) {
-                    $q->where('user_id', $userId);
-                    if ($userName) {
-                        $q->orWhere('student_name', $userName);
-                    }
-                })
                 ->exists();
+        }
+
+        // If not approved, strictly show the locked / restriction page
+        if (!$hasApproved) {
+            $hasPending = false;
+            if ($userId && $classId) {
+                $hasPending = Checkout::where('status', 'pending')
+                    ->where('user_id', $userId)
+                    ->whereRaw("CONCAT(',', REPLACE(class_id, ' ', ''), ',') LIKE ?", ['%,' . $classId . ',%'])
+                    ->exists();
+            }
 
             return view('studypack.restricted', compact('studyPack', 'hasPending'));
         }

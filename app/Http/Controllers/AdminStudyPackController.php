@@ -165,6 +165,11 @@ class AdminStudyPackController extends Controller
             }
         }
 
+        if ($request->input('action') === 'save_and_curriculum') {
+            return redirect()->route('admin.studypack.curriculum', $studyPack->id)
+                ->with('success', 'Study Pack details saved successfully! You can now manage video links and topics below.');
+        }
+
         return redirect()->route('admin.studypack.index')
             ->with('success', 'Study Pack details updated successfully!');
     }
