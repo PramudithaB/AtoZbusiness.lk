@@ -26,6 +26,7 @@ Route::middleware('guest')->group(function () {
         ->name('password.request');
 
     Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
+        ->middleware('throttle:3,10')
         ->name('password.email');
 
     // OTP-based password reset routes
@@ -33,12 +34,14 @@ Route::middleware('guest')->group(function () {
         ->name('password.verify.otp');
 
     Route::post('verify-otp', [PasswordResetLinkController::class, 'verifyOtp'])
+        ->middleware('throttle:6,10')
         ->name('password.verify.otp.post');
 
     Route::get('reset-password-form', [PasswordResetLinkController::class, 'showResetForm'])
         ->name('password.reset.form');
 
     Route::post('reset-password-form', [PasswordResetLinkController::class, 'resetPassword'])
+        ->middleware('throttle:3,10')
         ->name('password.reset.post');
 
     // Keep old token-based routes for backward compatibility

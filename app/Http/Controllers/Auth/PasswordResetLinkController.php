@@ -39,7 +39,7 @@ class PasswordResetLinkController extends Controller
         $user = User::where('email', $request->email)->first();
 
         // Generate a 6-digit OTP
-        $otp = rand(100000, 999999);
+        $otp = (string) random_int(100000, 999999);
 
         // Save OTP and expiration time (10 minutes from now)
         $user->otp = $otp;
@@ -49,7 +49,9 @@ class PasswordResetLinkController extends Controller
         // Send OTP via email
         try {
             Mail::to($user->email)->send(new OtpMail($otp, $user->name));
-            
+
+            session()->put('password_reset_email', $request->email);
+
             return redirect()->route('password.verify.otp')
                 ->with('email', $request->email)
                 ->with('status', 'An OTP has been sent to your email address. Please check your inbox.');
@@ -65,11 +67,13 @@ class PasswordResetLinkController extends Controller
      */
     public function showVerifyOtp()
     {
-        if (!session('email')) {
+        $email = session('password_reset_email', session('email'));
+        if (!$email) {
             return redirect()->route('password.request')
                 ->with('error', 'Please enter your email first.');
         }
-        
+
+        session()->put('password_reset_email', $email);
         return view('auth.verify-otp');
     }
 
@@ -80,13 +84,19 @@ class PasswordResetLinkController extends Controller
     {
         $request->validate([
             'email' => ['required', 'email'],
-            'otp' => ['required', 'string', 'size:6'],
+            'otp' => ['required', 'string', 'regex:/^[0-9]{6}$/'],
         ], [
             'otp.required' => 'Please enter the OTP code.',
-            'otp.size' => 'OTP must be exactly 6 digits.',
+            'otp.regex' => 'OTP must be exactly 6 digits.',
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $resetEmail = session('password_reset_email');
+        if (!$resetEmail || !hash_equals((string) $resetEmail, (string) $request->email)) {
+            return redirect()->route('password.request')
+                ->with('error', 'Please start the password reset process again.');
+        }
+
+        $user = User::where('email', $resetEmail)->first();
 
         if (!$user) {
             return back()
@@ -111,15 +121,15 @@ class PasswordResetLinkController extends Controller
         }
 
         // Check if OTP is correct
-        if ($user->otp !== $request->otp) {
-            $attemptsLeft = 3; // You can track this in session if needed
+        if (!hash_equals((string) $user->otp, (string) $request->otp)) {
             return back()
                 ->withInput()
                 ->withErrors(['otp' => 'Invalid OTP code. Please check your email and try again.'])
                 ->with('error', 'The OTP you entered is incorrect. Please double-check the code in your email and try again.');
         }
 
-        // OTP is valid, redirect to reset password form
+        session()->put('password_reset_verified', true);
+
         return redirect()->route('password.reset.form')
             ->with('email', $request->email)
             ->with('otp_verified', true);
@@ -130,11 +140,20 @@ class PasswordResetLinkController extends Controller
      */
     public function showResetForm()
     {
-        if (!session('otp_verified')) {
+        $resetEmail = session('password_reset_email');
+        if (!session('password_reset_verified') || !$resetEmail) {
             return redirect()->route('password.request')
                 ->with('error', 'Please verify your OTP first.');
         }
-        
+
+        $user = User::where('email', $resetEmail)->first();
+        if (!$user || !$user->otp || !$user->otp_expires_at
+            || Carbon::now()->isAfter($user->otp_expires_at)) {
+            session()->forget(['password_reset_verified', 'password_reset_email', 'otp_verified', 'email']);
+            return redirect()->route('password.request')
+                ->with('error', 'Your OTP has expired. Please request a new one.');
+        }
+
         return view('auth.reset-password-otp');
     }
 
@@ -152,6 +171,14 @@ class PasswordResetLinkController extends Controller
             'password.confirmed' => 'The password confirmation does not match. Please try again.',
         ]);
 
+        $resetEmail = session('password_reset_email');
+        if (!session('password_reset_verified')
+            || !$resetEmail
+            || !hash_equals((string) $resetEmail, (string) $request->email)) {
+            return redirect()->route('password.request')
+                ->with('error', 'Please verify your OTP before resetting your password.');
+        }
+
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
@@ -160,11 +187,20 @@ class PasswordResetLinkController extends Controller
                 ->withErrors(['email' => 'User not found. Please start the password reset process again.']);
         }
 
+        if (!$user->otp || !$user->otp_expires_at
+            || Carbon::now()->isAfter($user->otp_expires_at)) {
+            session()->forget(['password_reset_verified', 'password_reset_email', 'otp_verified', 'email']);
+            return redirect()->route('password.request')
+                ->with('error', 'Your OTP has expired. Please request a new one.');
+        }
+
         // Update password and clear OTP
         $user->password = Hash::make($request->password);
         $user->otp = null;
         $user->otp_expires_at = null;
         $user->save();
+
+        session()->forget(['password_reset_verified', 'password_reset_email', 'otp_verified', 'email']);
 
         return redirect()->route('login')
             ->with('status', 'Your password has been reset successfully! Please login with your new password.');

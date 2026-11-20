@@ -2,10 +2,11 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Mail\OtpMail;
 use App\Models\User;
-use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class PasswordResetTest extends TestCase
@@ -14,60 +15,57 @@ class PasswordResetTest extends TestCase
 
     public function test_reset_password_link_screen_can_be_rendered(): void
     {
-        $response = $this->get('/forgot-password');
-
-        $response->assertStatus(200);
+        $this->get('/forgot-password')->assertStatus(200);
     }
 
-    public function test_reset_password_link_can_be_requested(): void
+    public function test_otp_can_be_requested(): void
     {
-        Notification::fake();
-
+        Mail::fake();
         $user = User::factory()->create();
 
-        $this->post('/forgot-password', ['email' => $user->email]);
+        $response = $this->post('/forgot-password', ['email' => $user->email]);
 
-        Notification::assertSentTo($user, ResetPassword::class);
+        $response->assertRedirect(route('password.verify.otp'));
+        $this->assertNotNull($user->fresh()->otp);
+        Mail::assertSent(OtpMail::class, fn (OtpMail $mail) => $mail->hasTo($user->email));
     }
 
-    public function test_reset_password_screen_can_be_rendered(): void
+    public function test_valid_otp_opens_reset_form(): void
     {
-        Notification::fake();
+        $user = User::factory()->create([
+            'otp' => '123456',
+            'otp_expires_at' => Carbon::now()->addMinutes(10),
+        ]);
 
-        $user = User::factory()->create();
+        $this->withSession(['password_reset_email' => $user->email])
+            ->post('/verify-otp', ['email' => $user->email, 'otp' => '123456'])
+            ->assertRedirect(route('password.reset.form'));
 
-        $this->post('/forgot-password', ['email' => $user->email]);
-
-        Notification::assertSentTo($user, ResetPassword::class, function ($notification) {
-            $response = $this->get('/reset-password/'.$notification->token);
-
-            $response->assertStatus(200);
-
-            return true;
-        });
+        $this->withSession([
+            'password_reset_email' => $user->email,
+            'password_reset_verified' => true,
+        ])->get('/reset-password-form')->assertStatus(200);
     }
 
-    public function test_password_can_be_reset_with_valid_token(): void
+    public function test_password_can_be_reset_with_valid_otp(): void
     {
-        Notification::fake();
+        $user = User::factory()->create([
+            'otp' => '123456',
+            'otp_expires_at' => Carbon::now()->addMinutes(10),
+        ]);
 
-        $user = User::factory()->create();
+        $response = $this->withSession([
+            'password_reset_email' => $user->email,
+            'password_reset_verified' => true,
+        ])->post('/reset-password-form', [
+            'email' => $user->email,
+            'password' => 'new-password',
+            'password_confirmation' => 'new-password',
+        ]);
 
-        $this->post('/forgot-password', ['email' => $user->email]);
-
-        Notification::assertSentTo($user, ResetPassword::class, function ($notification) use ($user) {
-            $response = $this->post('/reset-password', [
-                'token' => $notification->token,
-                'email' => $user->email,
-                'password' => 'password',
-                'password_confirmation' => 'password',
-            ]);
-
-            $response
-                ->assertSessionHasNoErrors()
-                ->assertRedirect(route('login'));
-
-            return true;
-        });
+        $response->assertRedirect(route('login'));
+        $this->assertTrue(password_verify('new-password', $user->fresh()->password));
+        $this->assertNull($user->fresh()->otp);
+        $this->assertNull($user->fresh()->otp_expires_at);
     }
 }

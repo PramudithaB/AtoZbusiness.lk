@@ -74,7 +74,7 @@
         <div class="content">
             <p>Hello {{ $userName }},</p>
             
-            <p>We received a request to reset your password for your LT Bio LMS account. Please use the following One-Time Password (OTP) to proceed with resetting your password:</p>
+            <p>We received a request to reset your password for your Lasindu Senarath LMS account. Please use the following One-Time Password (OTP) to proceed with resetting your password:</p>
             
             <div class="otp-box">
                 <div style="font-size: 14px; color: #666; margin-bottom: 10px;">Your OTP Code</div>
@@ -94,12 +94,12 @@
             <p>If you didn't request a password reset, you can safely ignore this email. Your password will remain unchanged.</p>
             
             <p>Best regards,<br>
-            <strong>LT Bio LMS Team</strong></p>
+            <strong>Lasindu Senarath LMS Team</strong></p>
         </div>
         
         <div class="footer">
             <p>This is an automated message, please do not reply to this email.</p>
-            <p>&copy; {{ date('Y') }} LT Bio LMS. All rights reserved.</p>
+            <p>&copy; {{ date('Y') }} Lasindu Senarath LMS. All rights reserved.</p>
         </div>
     </div>
 </body>
