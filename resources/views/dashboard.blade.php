@@ -126,10 +126,7 @@
                         <i data-lucide="shopping-bag" class="w-4 h-4 text-slate-400"></i> Store
                     </a>
 
-                    <a href="{{ route('about-teacher') }}" 
-                       class="px-3.5 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-navy-950 hover:bg-slate-50 transition flex items-center gap-2">
-                        <i data-lucide="user" class="w-4 h-4 text-slate-400"></i> About Teacher
-                    </a>
+
                 </div>
 
                 <!-- Right Header Actions -->
@@ -220,9 +217,7 @@
             <a href="{{ route('store') }}" class="block px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">
                 Store & Publications
             </a>
-            <a href="{{ route('about-teacher') }}" class="block px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">
-                About Teacher
-            </a>
+
             <a href="{{ route('cart.view') }}" class="block px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">
                 Shopping Cart
             </a>
@@ -534,7 +529,7 @@
                 <a href="{{ route('dashboard') }}" class="hover:text-navy-950 transition">Home</a>
                 <a href="{{ route('buyclass') }}" class="hover:text-navy-950 transition">Courses</a>
                 <a href="{{ route('studypack.index') }}" class="hover:text-navy-950 transition">Study Packs</a>
-                <a href="{{ route('about-teacher') }}" class="hover:text-navy-950 transition">About Teacher</a>
+
             </div>
             <p>&copy; 2026 AtoZ Business School. All rights reserved.</p>
         </div>
