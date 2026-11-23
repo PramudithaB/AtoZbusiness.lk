@@ -18,8 +18,10 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('packages', function (Blueprint $table) {
-            $table->dropUnique(['class_id']);
+            // MySQL requires the foreign key to be removed before dropping
+            // the unique index that backs its constraint.
             $table->dropForeign(['class_id']);
+            $table->dropUnique(['class_id']);
             $table->dropColumn('class_id');
         });
     }
